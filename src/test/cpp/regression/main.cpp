@@ -1,10 +1,10 @@
-#include "VVexRiscv.h"
-#include "VVexRiscv_VexRiscv.h"
+#include "/home/linh/KLTN/VexRiscv/src/test/cpp/regression/obj_dir/VVexRiscv.h"
+#include "/home/linh/KLTN/VexRiscv/src/test/cpp/regression/obj_dir/VVexRiscv_VexRiscv.h"
 #ifdef REF
 #include "VVexRiscv_RiscvCore.h"
 #endif
-#include "verilated.h"
-#include "verilated_vcd_c.h"
+#include "/home/linh/KLTN/VexRiscv/scripts/regression/verilator/include/verilated.h"
+#include "/home/linh/KLTN/VexRiscv/scripts/regression/verilator/include/verilated_vcd_c.h"
 #include <stdio.h>
 #include <iostream>
 #include <stdlib.h>
@@ -3907,3 +3907,4 @@ int main(int argc, char **argv, char **env) {
 
 	exit(0);
 }
+

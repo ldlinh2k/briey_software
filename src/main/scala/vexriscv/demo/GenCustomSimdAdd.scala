@@ -11,7 +11,7 @@ object GenCustomSimdAdd extends App{
   def cpu() = new VexRiscv(
     config = VexRiscvConfig(
       plugins = List(
-        new SimdAddPlugin,
+        new SimdAddPlugin,	
         new IBusSimplePlugin(
           resetVector = 0x00000000l,
           cmdForkOnSecondStage = false,

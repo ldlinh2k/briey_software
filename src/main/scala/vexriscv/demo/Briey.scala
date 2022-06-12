@@ -17,6 +17,7 @@ import spinal.lib.memory.sdram._
 import spinal.lib.misc.HexTools
 import spinal.lib.soc.pinsec.{PinsecTimerCtrl, PinsecTimerCtrlExternal}
 import spinal.lib.system.debugger.{JtagAxi4SharedDebugger, JtagBridge, SystemDebugger, SystemDebuggerConfig}
+import vexriscv.{VexRiscv, VexRiscvConfig, plugin} //fix
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -106,6 +107,12 @@ object BrieyConfig{
           zeroBoot = false
         ),
         new IntAluPlugin,
+        //new AES128_Plugin_test_1,
+        //new AES128_Plugin,
+        //new AES128_Plugin_VexriscV,
+        new Con_Cate_Bits_Plugin,
+        new Con_Cate_Bits_With_Clock_Plugin,
+        new mySubPlugin,
         new SrcPlugin(
           separatedAddSub = false,
           executeInsertion = true
