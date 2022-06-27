@@ -43,15 +43,17 @@ case class Con_Cate_Bits_With_Clock_Plugin(encoding : MaskedLiteral = M"0001001-
     //FIX - New variable 
       val numberA = input(RS1).asUInt
       val numberB = input(RS2).asUInt
-      
-      val Con_Cate_DUT = new Con_Cate_Bits_With_Clock_Module
-	Con_Cate_DUT.io.numA := numberA
-	Con_Cate_DUT.io.numB := numberB
-      val output = Con_Cate_DUT.io.res
-
-      insert(CON_CATE_WITH_CLOCK_CALC) := output.asBits
     }
-
+    memory plug new Area{
+      import memory._
+      val Con_Cate_Area = new Area {
+        val Con_Cate_DUT = new Con_Cate_Bits_With_Clock_Module
+        Con_Cate_DUT.io.numA := onExecute.numberA
+        Con_Cate_DUT.io.numB := onExecute.numberB
+        val output = Con_Cate_DUT.io.res
+      }
+      insert(CON_CATE_WITH_CLOCK_CALC) := Con_Cate_Area.output.asBits
+    }
 
 
 

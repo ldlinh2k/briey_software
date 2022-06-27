@@ -111,7 +111,7 @@ case class AES128_Plugin_test_1(encoding : MaskedLiteral = M"-----------------01
 
     writeBack plug new Area {
       import writeBack._
-
+      
       when(input(IS_AES)) {
         output(REGFILE_WRITE_DATA) := input(AES_CALC)
       }

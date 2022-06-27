@@ -107,12 +107,10 @@ object BrieyConfig{
           zeroBoot = false
         ),
         new IntAluPlugin,
-        //new AES128_Plugin_test_1,
-        //new AES128_Plugin,
-        //new AES128_Plugin_VexriscV,
-        new Con_Cate_Bits_Plugin,
+        new Memory16x32Plugin,
         new Con_Cate_Bits_With_Clock_Plugin,
         new mySubPlugin,
+        new Avalon_test_plugin,
         new SrcPlugin(
           separatedAddSub = false,
           executeInsertion = true
