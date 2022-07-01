@@ -86,7 +86,7 @@ case class Avalon_test_plugin(encoding : MaskedLiteral = M"000101-----------001-
   }
 }
 
-class Avalon_test_module extends BlackBox {
+/*class Avalon_test_module extends BlackBox {
   val io = new Bundle {
   
     val iClk = in Bool()
@@ -104,6 +104,6 @@ class Avalon_test_module extends BlackBox {
   noIoPrefix()
 
   addRTLPath("/home/linh/KLTN/Library/Avalon_test_module.v")
-}
+}*/
 
 // 
