@@ -107,10 +107,7 @@ object BrieyConfig{
           zeroBoot = false
         ),
         new IntAluPlugin,
-        new Memory16x32Plugin,
-        new Con_Cate_Bits_With_Clock_Plugin,
-        new mySubPlugin,
-        new Avalon_test_plugin,
+	new Con_Cate_Bits_Plugin,
         new SrcPlugin(
           separatedAddSub = false,
           executeInsertion = true
@@ -187,6 +184,16 @@ class Briey(config: BrieyConfig) extends Component{
     //Peripherals IO
     val gpioA         = master(TriStateArray(32 bits))
     val gpioB         = master(TriStateArray(32 bits))
+    
+    //config---------------------------------------------------------
+    val gpioChipselect_n       = master(TriStateArray(1 bits))
+    val gpioWrite_n         	= master(TriStateArray(1 bits))
+    val gpioRead_n         	= master(TriStateArray(1 bits))
+    val gpioAddress         	= master(TriStateArray(5 bits))
+    val gpioData         	= master(TriStateArray(32 bits))
+    val gpioOutputData         = master(TriStateArray(32 bits))
+    
+    //config---------------------------------------------------------
     val uart          = master(Uart())
     val vga           = master(Vga(vgaRgbConfig))
     val timerExternal = in(PinsecTimerCtrlExternal())
@@ -268,6 +275,32 @@ class Briey(config: BrieyConfig) extends Component{
       gpioWidth = 32,
       withReadSync = true
     )
+    //Config-------------------------
+    val gpioChipselect_nCtrl = Apb3Gpio(
+      gpioWidth = 1,
+      withReadSync = true
+    )
+    val gpioWrite_nCtrl = Apb3Gpio(
+      gpioWidth = 1,
+      withReadSync = true
+    )
+    val gpioRead_nCtrl = Apb3Gpio(
+      gpioWidth = 1,
+      withReadSync = true
+    )
+    val gpioAddressCtrl = Apb3Gpio(
+      gpioWidth = 5,
+      withReadSync = true
+    )
+    val gpioDataCtrl = Apb3Gpio(
+      gpioWidth = 32,
+      withReadSync = true
+    )
+    val gpioOutputDataCtrl = Apb3Gpio(
+      gpioWidth = 32,
+      withReadSync = true
+    )
+    //-----------------------------
     val timerCtrl = PinsecTimerCtrl()
 
 
@@ -369,6 +402,15 @@ class Briey(config: BrieyConfig) extends Component{
       slaves = List(
         gpioACtrl.io.apb -> (0x00000, 4 kB),
         gpioBCtrl.io.apb -> (0x01000, 4 kB),
+        //Config-----------------------------------
+        gpioChipselect_nCtrl.io.apb ->(0x2000,4 kB),
+        gpioRead_nCtrl.io.apb ->(0x3000,4 kB),
+        gpioWrite_nCtrl.io.apb ->(0x4000,4 kB),
+        gpioAddressCtrl.io.apb ->(0x5000,4 kB),
+        gpioDataCtrl.io.apb ->(0x6000,4 kB),
+        gpioOutputDataCtrl.io.apb ->(0x7000,4 kB),
+        //---------------------------------------------
+        
         uartCtrl.io.apb  -> (0x10000, 4 kB),
         timerCtrl.io.apb -> (0x20000, 4 kB),
         vgaCtrl.io.apb   -> (0x30000, 4 kB)
@@ -382,6 +424,15 @@ class Briey(config: BrieyConfig) extends Component{
   io.uart           <> axi.uartCtrl.io.uart
   io.sdram          <> axi.sdramCtrl.io.sdram
   io.vga            <> axi.vgaCtrl.io.vga
+  
+  //Config
+  io.gpioChipselect_n <>axi.gpioChipselect_nCtrl.io.gpio
+  io.gpioRead_n <>axi.gpioRead_nCtrl.io.gpio
+  io.gpioWrite_n <>axi.gpioWrite_nCtrl.io.gpio
+  io.gpioAddress<>axi.gpioAddressCtrl.io.gpio
+  io.gpioData<>axi.gpioDataCtrl.io.gpio
+  io.gpioOutputData <>axi.gpioOutputDataCtrl.io.gpio
+  
 }
 
 //DE1-SoC
