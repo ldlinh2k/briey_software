@@ -21,7 +21,23 @@ import vexriscv.{VexRiscv, VexRiscvConfig, plugin} //fix
 
 import scala.collection.mutable.ArrayBuffer
 
+class Avalon_test_module() extends BlackBox {
+   val io = new Bundle {
+  
+     val iClk = in Bool()
+     val iReset = in Bool()
+     val iChipselect = in Bool()
+     val iWrite_n = in Bool()
+     val iRead_n = in Bool()
+     val iAddress = in UInt (2 bits)
+     val iData = in UInt (32 bits)
+     val oData = out Bits (32 bits)
+   }
 
+   mapCurrentClockDomain(clock=io.iClk, reset = io.iReset)
+   // Remove io_ prefix
+   noIoPrefix()
+ }
 case class BrieyConfig(axiFrequency : HertzNumber,
                        onChipRamSize : BigInt,
                        sdramLayout: SdramLayout,
@@ -107,7 +123,7 @@ object BrieyConfig{
           zeroBoot = false
         ),
         new IntAluPlugin,
-	new Con_Cate_Bits_Plugin,
+        //new Con_Cate_Bits_Plugin,
         new SrcPlugin(
           separatedAddSub = false,
           executeInsertion = true
@@ -184,12 +200,13 @@ class Briey(config: BrieyConfig) extends Component{
     //Peripherals IO
     val gpioA         = master(TriStateArray(32 bits))
     val gpioB         = master(TriStateArray(32 bits))
+    //val result        = master(TriStateArray(32 bits))
     
     //config---------------------------------------------------------
-    val gpioChipselect_n       = master(TriStateArray(1 bits))
+    val gpioChipselect       = master(TriStateArray(1 bits))
     val gpioWrite_n         	= master(TriStateArray(1 bits))
     val gpioRead_n         	= master(TriStateArray(1 bits))
-    val gpioAddress         	= master(TriStateArray(5 bits))
+    val gpioAddress         	= master(TriStateArray(2 bits))
     val gpioData         	= master(TriStateArray(32 bits))
     val gpioOutputData         = master(TriStateArray(32 bits))
     
@@ -276,7 +293,7 @@ class Briey(config: BrieyConfig) extends Component{
       withReadSync = true
     )
     //Config-------------------------
-    val gpioChipselect_nCtrl = Apb3Gpio(
+    val gpioChipselectCtrl = Apb3Gpio(
       gpioWidth = 1,
       withReadSync = true
     )
@@ -289,7 +306,7 @@ class Briey(config: BrieyConfig) extends Component{
       withReadSync = true
     )
     val gpioAddressCtrl = Apb3Gpio(
-      gpioWidth = 5,
+      gpioWidth = 2,
       withReadSync = true
     )
     val gpioDataCtrl = Apb3Gpio(
@@ -403,7 +420,7 @@ class Briey(config: BrieyConfig) extends Component{
         gpioACtrl.io.apb -> (0x00000, 4 kB),
         gpioBCtrl.io.apb -> (0x01000, 4 kB),
         //Config-----------------------------------
-        gpioChipselect_nCtrl.io.apb ->(0x2000,4 kB),
+        gpioChipselectCtrl.io.apb ->(0x2000,4 kB),
         gpioRead_nCtrl.io.apb ->(0x3000,4 kB),
         gpioWrite_nCtrl.io.apb ->(0x4000,4 kB),
         gpioAddressCtrl.io.apb ->(0x5000,4 kB),
@@ -420,19 +437,29 @@ class Briey(config: BrieyConfig) extends Component{
 
   io.gpioA          <> axi.gpioACtrl.io.gpio
   io.gpioB          <> axi.gpioBCtrl.io.gpio
+  //config------------------
   io.timerExternal  <> axi.timerCtrl.io.external
   io.uart           <> axi.uartCtrl.io.uart
   io.sdram          <> axi.sdramCtrl.io.sdram
   io.vga            <> axi.vgaCtrl.io.vga
   
   //Config
-  io.gpioChipselect_n <>axi.gpioChipselect_nCtrl.io.gpio
-  io.gpioRead_n <>axi.gpioRead_nCtrl.io.gpio
-  io.gpioWrite_n <>axi.gpioWrite_nCtrl.io.gpio
-  io.gpioAddress<>axi.gpioAddressCtrl.io.gpio
-  io.gpioData<>axi.gpioDataCtrl.io.gpio
-  io.gpioOutputData <>axi.gpioOutputDataCtrl.io.gpio
-  
+  val AVL_Area = new Area {
+    val AVL_module = new Avalon_test_module
+      AVL_module.io.iChipselect := axi.gpioChipselectCtrl.io.gpio.read.asBools(0)
+      AVL_module.io.iWrite_n := axi.gpioWrite_nCtrl.io.gpio.read.asBools(0)
+      AVL_module.io.iRead_n := axi.gpioRead_nCtrl.io.gpio.read.asBools(0)
+      AVL_module.io.iAddress := axi.gpioAddressCtrl.io.gpio.read.asUInt
+      AVL_module.io.iData := axi.gpioDataCtrl.io.gpio.read.asUInt
+      io.gpioOutputData.write.asBits :=axi.gpioDataCtrl.io.gpio.read.asBits
+  }
+  io.gpioChipselect   <> axi.gpioChipselectCtrl.io.gpio
+  io.gpioWrite_n      <> axi.gpioWrite_nCtrl.io.gpio
+  io.gpioRead_n       <> axi.gpioRead_nCtrl.io.gpio
+  io.gpioAddress      <> axi.gpioAddressCtrl.io.gpio
+  io.gpioData         <> axi.gpioDataCtrl.io.gpio
+  io.gpioOutputData   <> axi.gpioOutputDataCtrl.io.gpio
+  //axi.gpioOutputDataCtrl.io.gpio.write := AVL_Area.output
 }
 
 //DE1-SoC
