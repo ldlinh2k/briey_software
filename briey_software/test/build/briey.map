@@ -1,0 +1,230 @@
+
+Discarded input sections
+
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+ .group         0x0000000000000000        0xc build/src/briey_main.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+onChipRam        0x0000000080000000 0x0000000000001000 w !xr
+sdram            0x0000000040000000 0x0000000004000000 w !xr
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD build/src/briey_main.o
+LOAD build/src/briey_crt.o
+LOAD /opt/riscv/bin/../lib/gcc/riscv64-unknown-elf/10.2.0/libgcc.a
+                0x0000000000000800                _stack_size = 0x800
+                0x0000000000000000                _heap_size = 0x0
+
+.vector         0x0000000080000000      0x13c
+ *crt.o(.text)
+ .text          0x0000000080000000      0x13c build/src/briey_crt.o
+                0x0000000080000000                crtStart
+                0x0000000080000020                trap_entry
+
+.memory         0x0000000040000000      0x3f8
+ *(.text)
+ .text          0x0000000040000000      0x3f8 build/src/briey_main.o
+                0x000000004000023c                print
+                0x0000000040000294                main
+                0x00000000400003dc                irqCallback
+                0x00000000400003f8                end = .
+
+.rodata         0x00000000400003f8       0x86
+ *(.rdata)
+ *(.rodata .rodata.*)
+ .rodata        0x00000000400003f8       0x86 build/src/briey_main.o
+ *(.gnu.linkonce.r.*)
+
+.rela.dyn       0x0000000040000480        0x0
+ .rela.text     0x0000000040000480        0x0 build/src/briey_main.o
+
+.ctors          0x000000004000047e        0x2
+                0x0000000040000480                . = ALIGN (0x4)
+ *fill*         0x000000004000047e        0x2 
+                0x0000000040000480                _ctors_start = .
+ *(.init_array*)
+ *(SORT_BY_NAME(.ctors.*))
+ *(.ctors)
+                0x0000000040000480                . = ALIGN (0x4)
+                0x0000000040000480                _ctors_end = .
+
+.data           0x0000000040000480        0x0
+ *(.rdata)
+ *(.rodata .rodata.*)
+ *(.gnu.linkonce.r.*)
+ *(.data .data.*)
+ .data          0x0000000040000480        0x0 build/src/briey_main.o
+ .data          0x0000000040000480        0x0 build/src/briey_crt.o
+ *(.gnu.linkonce.d.*)
+                0x0000000040000480                . = ALIGN (0x8)
+ *fill*         0x0000000040000480        0x0 
+                0x0000000040000c80                PROVIDE (__global_pointer$ = (. + 0x800))
+ *(.sdata .sdata.*)
+ *(.gnu.linkonce.s.*)
+                0x0000000040000480                . = ALIGN (0x8)
+ *(.srodata.cst16)
+ *(.srodata.cst8)
+ *(.srodata.cst4)
+ *(.srodata.cst2)
+ *(.srodata .srodata.*)
+
+.bss            0x0000000040000480        0x0
+                0x0000000040000480                . = ALIGN (0x4)
+                0x0000000040000480                _bss_start = .
+ *(.sbss*)
+ *(.gnu.linkonce.sb.*)
+ *(.bss .bss.*)
+ .bss           0x0000000040000480        0x0 build/src/briey_main.o
+ .bss           0x0000000040000480        0x0 build/src/briey_crt.o
+ *(.gnu.linkonce.b.*)
+ *(COMMON)
+                0x0000000040000480                . = ALIGN (0x4)
+                0x0000000040000480                _bss_end = .
+
+.noinit         0x0000000040000480        0x0
+                0x0000000040000480                . = ALIGN (0x4)
+ *(.noinit .noinit.*)
+                0x0000000040000480                . = ALIGN (0x4)
+
+._user_heap     0x0000000040000480        0x0
+                0x0000000040000480                . = ALIGN (0x8)
+                [!provide]                        PROVIDE (end = .)
+                [!provide]                        PROVIDE (_end = .)
+                [!provide]                        PROVIDE (_heap_start = .)
+                0x0000000040000480                . = (. + _heap_size)
+                0x0000000040000480                . = ALIGN (0x8)
+                [!provide]                        PROVIDE (_heap_end = .)
+
+._stack         0x000000008000013c      0x804
+                0x0000000080000140                . = ALIGN (0x10)
+ *fill*         0x000000008000013c        0x4 
+                [!provide]                        PROVIDE (_stack_end = .)
+                0x0000000080000940                . = (. + _stack_size)
+ *fill*         0x0000000080000140      0x800 
+                0x0000000080000940                . = ALIGN (0x10)
+                0x0000000080000940                PROVIDE (_stack_start = .)
+OUTPUT(build/briey.elf elf32-littleriscv)
+
+.debug_info     0x0000000000000000      0x677
+ .debug_info    0x0000000000000000      0x651 build/src/briey_main.o
+ .debug_info    0x0000000000000651       0x26 build/src/briey_crt.o
+
+.debug_abbrev   0x0000000000000000      0x1b8
+ .debug_abbrev  0x0000000000000000      0x1a4 build/src/briey_main.o
+ .debug_abbrev  0x00000000000001a4       0x14 build/src/briey_crt.o
+
+.debug_aranges  0x0000000000000000       0x40
+ .debug_aranges
+                0x0000000000000000       0x20 build/src/briey_main.o
+ .debug_aranges
+                0x0000000000000020       0x20 build/src/briey_crt.o
+
+.debug_macro    0x0000000000000000     0x1cfc
+ .debug_macro   0x0000000000000000      0x274 build/src/briey_main.o
+ .debug_macro   0x0000000000000274      0x766 build/src/briey_main.o
+ .debug_macro   0x00000000000009da       0x22 build/src/briey_main.o
+ .debug_macro   0x00000000000009fc       0x52 build/src/briey_main.o
+ .debug_macro   0x0000000000000a4e       0x19 build/src/briey_main.o
+ .debug_macro   0x0000000000000a67       0x94 build/src/briey_main.o
+ .debug_macro   0x0000000000000afb       0x34 build/src/briey_main.o
+ .debug_macro   0x0000000000000b2f       0x34 build/src/briey_main.o
+ .debug_macro   0x0000000000000b63       0x16 build/src/briey_main.o
+ .debug_macro   0x0000000000000b79       0x57 build/src/briey_main.o
+ .debug_macro   0x0000000000000bd0       0x97 build/src/briey_main.o
+ .debug_macro   0x0000000000000c67      0x341 build/src/briey_main.o
+ .debug_macro   0x0000000000000fa8       0xfd build/src/briey_main.o
+ .debug_macro   0x00000000000010a5       0x10 build/src/briey_main.o
+ .debug_macro   0x00000000000010b5       0x16 build/src/briey_main.o
+ .debug_macro   0x00000000000010cb       0x43 build/src/briey_main.o
+ .debug_macro   0x000000000000110e       0x34 build/src/briey_main.o
+ .debug_macro   0x0000000000001142       0x10 build/src/briey_main.o
+ .debug_macro   0x0000000000001152       0x52 build/src/briey_main.o
+ .debug_macro   0x00000000000011a4      0x182 build/src/briey_main.o
+ .debug_macro   0x0000000000001326       0x10 build/src/briey_main.o
+ .debug_macro   0x0000000000001336       0x6a build/src/briey_main.o
+ .debug_macro   0x00000000000013a0       0x1c build/src/briey_main.o
+ .debug_macro   0x00000000000013bc       0x52 build/src/briey_main.o
+ .debug_macro   0x000000000000140e       0x22 build/src/briey_main.o
+ .debug_macro   0x0000000000001430       0x10 build/src/briey_main.o
+ .debug_macro   0x0000000000001440       0x52 build/src/briey_main.o
+ .debug_macro   0x0000000000001492       0xd5 build/src/briey_main.o
+ .debug_macro   0x0000000000001567       0x1c build/src/briey_main.o
+ .debug_macro   0x0000000000001583       0x3d build/src/briey_main.o
+ .debug_macro   0x00000000000015c0       0x16 build/src/briey_main.o
+ .debug_macro   0x00000000000015d6      0x16f build/src/briey_main.o
+ .debug_macro   0x0000000000001745       0x16 build/src/briey_main.o
+ .debug_macro   0x000000000000175b       0x35 build/src/briey_main.o
+ .debug_macro   0x0000000000001790      0x103 build/src/briey_main.o
+ .debug_macro   0x0000000000001893      0x1df build/src/briey_main.o
+ .debug_macro   0x0000000000001a72       0x16 build/src/briey_main.o
+ .debug_macro   0x0000000000001a88       0x16 build/src/briey_main.o
+ .debug_macro   0x0000000000001a9e       0x29 build/src/briey_main.o
+ .debug_macro   0x0000000000001ac7       0x64 build/src/briey_main.o
+ .debug_macro   0x0000000000001b2b      0x1b5 build/src/briey_main.o
+ .debug_macro   0x0000000000001ce0       0x1c build/src/briey_main.o
+
+.debug_line     0x0000000000000000      0x82f
+ .debug_line    0x0000000000000000      0x659 build/src/briey_main.o
+ .debug_line    0x0000000000000659      0x1d6 build/src/briey_crt.o
+
+.debug_str      0x0000000000000000     0x7f0b
+ .debug_str     0x0000000000000000     0x7ec2 build/src/briey_main.o
+                                       0x80b6 (size before relaxing)
+ .debug_str     0x0000000000007ec2       0x49 build/src/briey_crt.o
+
+.comment        0x0000000000000000       0x30
+ .comment       0x0000000000000000       0x30 build/src/briey_main.o
+                                         0x31 (size before relaxing)
+
+.riscv.attributes
+                0x0000000000000000       0x25
+ .riscv.attributes
+                0x0000000000000000       0x21 build/src/briey_main.o
+ .riscv.attributes
+                0x0000000000000021       0x23 build/src/briey_crt.o
+
+.debug_frame    0x0000000000000000      0x1e8
+ .debug_frame   0x0000000000000000      0x1e8 build/src/briey_main.o
