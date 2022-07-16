@@ -21,15 +21,15 @@ import vexriscv.{VexRiscv, VexRiscvConfig, plugin} //fix
 
 import scala.collection.mutable.ArrayBuffer
 
-class Avalon_test_module() extends BlackBox {
+class AES128_wrapper() extends BlackBox {
    val io = new Bundle {
   
      val iClk = in Bool()
      val iReset = in Bool()
-     val iChipselect = in Bool()
+     val iChipselect_n = in Bool()
      val iWrite_n = in Bool()
      val iRead_n = in Bool()
-     val iAddress = in UInt (2 bits)
+     val iAddress = in UInt (5 bits)
      val iData = in UInt (32 bits)
      val oData = out Bits (32 bits)
    }
@@ -203,10 +203,10 @@ class Briey(config: BrieyConfig) extends Component{
     //val result        = master(TriStateArray(32 bits))
     
     //config---------------------------------------------------------
-    val gpioChipselect       = master(TriStateArray(1 bits))
+    val gpioChipselect_n       = master(TriStateArray(1 bits))
     val gpioWrite_n         	= master(TriStateArray(1 bits))
     val gpioRead_n         	= master(TriStateArray(1 bits))
-    val gpioAddress         	= master(TriStateArray(2 bits))
+    val gpioAddress         	= master(TriStateArray(5 bits))
     val gpioData         	= master(TriStateArray(32 bits))
     //val gpioOutputData         = master(TriStateArray(32 bits))
     
@@ -293,7 +293,7 @@ class Briey(config: BrieyConfig) extends Component{
       withReadSync = true
     )
     //Config-------------------------
-    val gpioChipselectCtrl = Apb3Gpio(
+    val gpioChipselect_nCtrl = Apb3Gpio(
       gpioWidth = 1,
       withReadSync = true
     )
@@ -306,7 +306,7 @@ class Briey(config: BrieyConfig) extends Component{
       withReadSync = true
     )
     val gpioAddressCtrl = Apb3Gpio(
-      gpioWidth = 2,
+      gpioWidth = 5,
       withReadSync = true
     )
     val gpioDataCtrl = Apb3Gpio(
@@ -420,7 +420,7 @@ class Briey(config: BrieyConfig) extends Component{
         gpioACtrl.io.apb -> (0x00000, 4 kB),
         gpioBCtrl.io.apb -> (0x01000, 4 kB),
         //Config-----------------------------------
-        gpioChipselectCtrl.io.apb ->(0x02000,4 kB),
+        gpioChipselect_nCtrl.io.apb ->(0x02000,4 kB),
         gpioRead_nCtrl.io.apb ->(0x03000,4 kB),
         gpioWrite_nCtrl.io.apb ->(0x04000,4 kB),
         gpioAddressCtrl.io.apb ->(0x05000,4 kB),
@@ -444,16 +444,16 @@ class Briey(config: BrieyConfig) extends Component{
   io.vga            <> axi.vgaCtrl.io.vga
   
   //Config
-  val AVL_module = new Avalon_test_module
-  val AVL_Area = new Area {
-      AVL_module.io.iChipselect <> axi.gpioChipselectCtrl.io.gpio.write.asBools(0)
-      AVL_module.io.iWrite_n <> axi.gpioWrite_nCtrl.io.gpio.write.asBools(0)
-      AVL_module.io.iRead_n <> axi.gpioRead_nCtrl.io.gpio.write.asBools(0)
-      AVL_module.io.iAddress <> axi.gpioAddressCtrl.io.gpio.write.asUInt
-      AVL_module.io.iData <> axi.gpioDataCtrl.io.gpio.write.asUInt
-      axi.gpioACtrl.io.gpio.read <> AVL_module.io.oData 
+  val AES_module = new AES128_wrapper
+  val AES_Area = new Area {
+      AES_module.io.iChipselect_n <> axi.gpioChipselect_nCtrl.io.gpio.write.asBools(0)
+      AES_module.io.iWrite_n <> axi.gpioWrite_nCtrl.io.gpio.write.asBools(0)
+      AES_module.io.iRead_n <> axi.gpioRead_nCtrl.io.gpio.write.asBools(0)
+      AES_module.io.iAddress <> axi.gpioAddressCtrl.io.gpio.write.asUInt
+      AES_module.io.iData <> axi.gpioDataCtrl.io.gpio.write.asUInt
+      axi.gpioACtrl.io.gpio.read <> AES_module.io.oData 
   }
-  io.gpioChipselect   <> axi.gpioChipselectCtrl.io.gpio
+  io.gpioChipselect_n   <> axi.gpioChipselect_nCtrl.io.gpio
   io.gpioWrite_n      <> axi.gpioWrite_nCtrl.io.gpio
   io.gpioRead_n       <> axi.gpioRead_nCtrl.io.gpio
   io.gpioAddress      <> axi.gpioAddressCtrl.io.gpio
