@@ -3,8 +3,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <briey.h>
-#include "aes_custom.h"
-#include "aes_custom_riscv.h"
 
 uint32_t gcd(uint32_t a, uint32_t b){
 	GCD->A = a;

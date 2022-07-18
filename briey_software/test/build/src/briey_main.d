@@ -39,4 +39,4 @@ build/src/briey_main.o: src/briey_main.c \
  /opt/riscv/riscv64-unknown-elf/include/machine/stdlib.h \
  /opt/riscv/riscv64-unknown-elf/include/alloca.h libs/briey.h libs/gcd.h \
  libs/timer.h libs/prescaler.h libs/interrupt.h libs/uart.h libs/vga.h \
- libs/gpio.h src/aes_custom.h src/riscv.h src/aes_custom_riscv.h
+ libs/gpio.h
