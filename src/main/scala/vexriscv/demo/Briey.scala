@@ -2,6 +2,7 @@ package vexriscv.demo
 
 
 import vexriscv.plugin._
+import vexriscv.periph.gcd._
 import vexriscv._
 import vexriscv.ip.{DataCacheConfig, InstructionCacheConfig}
 import spinal.core._
@@ -21,23 +22,33 @@ import vexriscv.{VexRiscv, VexRiscvConfig, plugin} //fix
 
 import scala.collection.mutable.ArrayBuffer
 
-class AES128_wrapper() extends BlackBox {
-   val io = new Bundle {
-  
-     val iClk = in Bool()
-     val iReset = in Bool()
-     val iChipselect_n = in Bool()
-     val iWrite_n = in Bool()
-     val iRead_n = in Bool()
-     val iAddress = in UInt (5 bits)
-     val iData = in UInt (32 bits)
-     val oData = out Bits (32 bits)
-   }
+// in Apb3GCDCtrl.scala
+object Apb3GCDCtrl {
+  def getApb3Config = Apb3Config(
+    addressWidth = 5,
+    dataWidth = 32,
+    selWidth = 1,
+    useSlaveError = false
+  )
+}
 
-   mapCurrentClockDomain(clock=io.iClk, reset = io.iReset)
-   // Remove io_ prefix
-   noIoPrefix()
- }
+class Apb3GCDCtrl(apb3Config : Apb3Config) extends Component {
+  val io = new Bundle {
+      val apb = slave(Apb3(Apb3GCDCtrl.getApb3Config))
+  }
+  val gcdCtrl = new GCDTop()
+  val apbCtrl = Apb3SlaveFactory(io.apb)
+  apbCtrl.driveAndRead(gcdCtrl.io.a, address=0)
+  apbCtrl.driveAndRead(gcdCtrl.io.b, address=4)
+  val resSyncBuf = RegNextWhen(gcdCtrl.io.res, gcdCtrl.io.ready)
+  apbCtrl.read(resSyncBuf, address=8)
+  apbCtrl.onRead(8)(resSyncBuf := 0)
+  apbCtrl.onRead(8)(rdySyncBuf := False)
+  val rdySyncBuf = RegNextWhen(gcdCtrl.io.ready, gcdCtrl.io.ready)
+  apbCtrl.read(rdySyncBuf, address=12)
+  gcdCtrl.io.valid := apbCtrl.setOnSet(RegNext(False) init(False), address=16, 0)
+}
+
 case class BrieyConfig(axiFrequency : HertzNumber,
                        onChipRamSize : BigInt,
                        sdramLayout: SdramLayout,
@@ -198,19 +209,11 @@ class Briey(config: BrieyConfig) extends Component{
     val sdram      = master(SdramInterface(sdramLayout))
 
     //Peripherals IO
-    //val gpioA         = master(TriStateArray(32 bits))
+    val gpioA         = master(TriStateArray(32 bits))
     val gpioB         = master(TriStateArray(32 bits))
     //val result        = master(TriStateArray(32 bits))
     
-    //config---------------------------------------------------------
-    val gpioChipselect_n       = master(TriStateArray(1 bits))
-    val gpioWrite_n         	= master(TriStateArray(1 bits))
-    val gpioRead_n         	= master(TriStateArray(1 bits))
-    val gpioAddress         	= master(TriStateArray(5 bits))
-    val gpioData         	= master(TriStateArray(32 bits))
-    //val gpioOutputData         = master(TriStateArray(32 bits))
-    
-    //config---------------------------------------------------------
+
     val uart          = master(Uart())
     val vga           = master(Vga(vgaRgbConfig))
     val timerExternal = in(PinsecTimerCtrlExternal())
@@ -283,7 +286,12 @@ class Briey(config: BrieyConfig) extends Component{
       dataWidth    = 32,
       idWidth      = 4
     )
-
+    val gcd = new Apb3GCDCtrl(
+      apb3Config = Apb3Config(
+        addressWidth = 20,
+        dataWidth = 32
+      )
+    )
     val gpioACtrl = Apb3Gpio(
       gpioWidth = 32,
       withReadSync = true
@@ -292,32 +300,7 @@ class Briey(config: BrieyConfig) extends Component{
       gpioWidth = 32,
       withReadSync = true
     )
-    //Config-------------------------
-    val gpioChipselect_nCtrl = Apb3Gpio(
-      gpioWidth = 1,
-      withReadSync = true
-    )
-    val gpioWrite_nCtrl = Apb3Gpio(
-      gpioWidth = 1,
-      withReadSync = true
-    )
-    val gpioRead_nCtrl = Apb3Gpio(
-      gpioWidth = 1,
-      withReadSync = true
-    )
-    val gpioAddressCtrl = Apb3Gpio(
-      gpioWidth = 5,
-      withReadSync = true
-    )
-    val gpioDataCtrl = Apb3Gpio(
-      gpioWidth = 32,
-      withReadSync = true
-    )
-    // val gpioOutputDataCtrl = Apb3Gpio(
-    //   gpioWidth = 32,
-    //   withReadSync = true
-    // )
-    //-----------------------------
+
     val timerCtrl = PinsecTimerCtrl()
 
 
@@ -419,15 +402,7 @@ class Briey(config: BrieyConfig) extends Component{
       slaves = List(
         gpioACtrl.io.apb -> (0x00000, 4 kB),
         gpioBCtrl.io.apb -> (0x01000, 4 kB),
-        //Config-----------------------------------
-        gpioChipselect_nCtrl.io.apb ->(0x02000,4 kB),
-        gpioRead_nCtrl.io.apb ->(0x03000,4 kB),
-        gpioWrite_nCtrl.io.apb ->(0x04000,4 kB),
-        gpioAddressCtrl.io.apb ->(0x05000,4 kB),
-        gpioDataCtrl.io.apb ->(0x06000,4 kB),
-        //gpioOutputDataCtrl.io.apb ->(0x07000,4 kB),
-        //---------------------------------------------
-        
+        gcd.io.apb ->       (0x02000, 1 kB),
         uartCtrl.io.apb  -> (0x10000, 4 kB),
         timerCtrl.io.apb -> (0x20000, 4 kB),
         vgaCtrl.io.apb   -> (0x30000, 4 kB)
@@ -435,7 +410,7 @@ class Briey(config: BrieyConfig) extends Component{
     )
   }
 
-  //io.gpioA          <> axi.gpioACtrl.io.gpio
+  io.gpioA          <> axi.gpioACtrl.io.gpio
   io.gpioB          <> axi.gpioBCtrl.io.gpio
   //config------------------
   io.timerExternal  <> axi.timerCtrl.io.external
@@ -443,22 +418,6 @@ class Briey(config: BrieyConfig) extends Component{
   io.sdram          <> axi.sdramCtrl.io.sdram
   io.vga            <> axi.vgaCtrl.io.vga
   
-  //Config
-  val AES_module = new AES128_wrapper
-  val AES_Area = new Area {
-      AES_module.io.iChipselect_n <> axi.gpioChipselect_nCtrl.io.gpio.write.asBools(0)
-      AES_module.io.iWrite_n <> axi.gpioWrite_nCtrl.io.gpio.write.asBools(0)
-      AES_module.io.iRead_n <> axi.gpioRead_nCtrl.io.gpio.write.asBools(0)
-      AES_module.io.iAddress <> axi.gpioAddressCtrl.io.gpio.write.asUInt
-      AES_module.io.iData <> axi.gpioDataCtrl.io.gpio.write.asUInt
-      axi.gpioACtrl.io.gpio.read <> AES_module.io.oData 
-  }
-  io.gpioChipselect_n   <> axi.gpioChipselect_nCtrl.io.gpio
-  io.gpioWrite_n      <> axi.gpioWrite_nCtrl.io.gpio
-  io.gpioRead_n       <> axi.gpioRead_nCtrl.io.gpio
-  io.gpioAddress      <> axi.gpioAddressCtrl.io.gpio
-  io.gpioData         <> axi.gpioDataCtrl.io.gpio
-  //axi.gpioOutputDataCtrl.io.gpio.write := AVL_Area.output
 }
 
 //DE1-SoC
