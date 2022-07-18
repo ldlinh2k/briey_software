@@ -8,20 +8,21 @@
 #ifndef BRIEY_H_
 #define BRIEY_H_
 
-#include "gcd.h"
 #include "timer.h"
 #include "prescaler.h"
 #include "interrupt.h"
 #include "uart.h"
 #include "vga.h"
 #include "gpio.h"
+#include "myRom.h"
+#include "gcd.h"
 
 #define CORE_HZ 50000000
 
 #define GPIO_A_BASE    ((Gpio_Reg*)(0xF0000000))
 #define GPIO_B_BASE    ((Gpio_Reg*)(0xF0001000))
 #define GCD       		((Gcd_Reg*)(0xF0002000))
-
+#define MYROM       		((myRom_Reg*)(0xF0002400))
 #define UART      ((Uart_Reg*)(0xF0010000))
 #define VGA_BASE       ((Vga_Reg*)(0xF0030000))
 

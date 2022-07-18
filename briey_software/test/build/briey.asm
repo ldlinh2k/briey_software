@@ -67,7 +67,7 @@ trap_entry:
 80000060:	fc010113          	addi	sp,sp,-64
   call irqCallback
 80000064:	c0000097          	auipc	ra,0xc0000
-80000068:	350080e7          	jalr	848(ra) # 400003b4 <irqCallback>
+80000068:	600080e7          	jalr	1536(ra) # 40000664 <irqCallback>
   lw x1 , 15*4(sp)
 8000006c:	03c12083          	lw	ra,60(sp)
   lw x5,  14*4(sp)
@@ -113,7 +113,7 @@ crtInit:
   .option norelax
   la gp, __global_pointer$
 800000b4:	c0001197          	auipc	gp,0xc0001
-800000b8:	ba418193          	addi	gp,gp,-1116 # 40000c58 <__global_pointer$>
+800000b8:	e5418193          	addi	gp,gp,-428 # 40000f08 <__global_pointer$>
   .option pop
   la sp, _stack_start
 800000bc:	00001117          	auipc	sp,0x1
@@ -124,9 +124,9 @@ crtInit:
 bss_init:
   la a0, _bss_start
 800000c4:	c0000517          	auipc	a0,0xc0000
-800000c8:	39450513          	addi	a0,a0,916 # 40000458 <data>
+800000c8:	64450513          	addi	a0,a0,1604 # 40000708 <data>
   la a1, _bss_end
-800000cc:	80818593          	addi	a1,gp,-2040 # 40000460 <_bss_end>
+800000cc:	80818593          	addi	a1,gp,-2040 # 40000710 <_bss_end>
 
 800000d0 <bss_loop>:
 bss_loop:
@@ -145,7 +145,7 @@ bss_done:
 ctors_init:
   la a0, _ctors_start
 800000e0:	c0000517          	auipc	a0,0xc0000
-800000e4:	37450513          	addi	a0,a0,884 # 40000454 <_ctors_end>
+800000e4:	62450513          	addi	a0,a0,1572 # 40000704 <_ctors_end>
   addi sp,sp,-4
 800000e8:	ffc10113          	addi	sp,sp,-4
 
@@ -153,7 +153,7 @@ ctors_init:
 ctors_loop:
   la a1, _ctors_end
 800000ec:	c0000597          	auipc	a1,0xc0000
-800000f0:	36858593          	addi	a1,a1,872 # 40000454 <_ctors_end>
+800000f0:	61858593          	addi	a1,a1,1560 # 40000704 <_ctors_end>
   beq a0,a1,ctors_done
 800000f4:	00b50e63          	beq	a0,a1,80000110 <ctors_done>
   lw a3,0(a0)
@@ -188,7 +188,7 @@ ctors_done:
 
   call main
 8000012c:	c0000097          	auipc	ra,0xc0000
-80000130:	1d0080e7          	jalr	464(ra) # 400002fc <main>
+80000130:	2c8080e7          	jalr	712(ra) # 400003f4 <main>
 
 80000134 <infinitLoop>:
 infinitLoop:
@@ -425,11 +425,11 @@ static void vga_stop(Vga_Reg *reg){
 40000238:	00008067          	ret
 
 4000023c <gcd>:
+#include <stdio.h>
 #include <string.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <briey.h>
-
 uint32_t gcd(uint32_t a, uint32_t b){
 4000023c:	fd010113          	addi	sp,sp,-48
 40000240:	02812623          	sw	s0,44(sp)
@@ -467,117 +467,350 @@ uint32_t gcd(uint32_t a, uint32_t b){
 4000029c:	03010113          	addi	sp,sp,48
 400002a0:	00008067          	ret
 
-400002a4 <print>:
-
-void print(char *str){
+400002a4 <avalon_write>:
+void avalon_write(uint32_t iData, uint32_t iAddress)
+{
 400002a4:	fe010113          	addi	sp,sp,-32
-400002a8:	00112e23          	sw	ra,28(sp)
-400002ac:	00812c23          	sw	s0,24(sp)
-400002b0:	02010413          	addi	s0,sp,32
-400002b4:	fea42623          	sw	a0,-20(s0)
+400002a8:	00812e23          	sw	s0,28(sp)
+400002ac:	02010413          	addi	s0,sp,32
+400002b0:	fea42623          	sw	a0,-20(s0)
+400002b4:	feb42423          	sw	a1,-24(s0)
+	MYROM->ADDRESS=iAddress;
+400002b8:	f00027b7          	lui	a5,0xf0002
+400002bc:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+400002c0:	fe842703          	lw	a4,-24(s0)
+400002c4:	00e7a623          	sw	a4,12(a5)
+	MYROM->READ_N=1;
+400002c8:	f00027b7          	lui	a5,0xf0002
+400002cc:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+400002d0:	00100713          	li	a4,1
+400002d4:	00e7a423          	sw	a4,8(a5)
+	MYROM->WRITE_N=0;
+400002d8:	f00027b7          	lui	a5,0xf0002
+400002dc:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+400002e0:	0007a223          	sw	zero,4(a5)
+	MYROM->IDATA=iData;
+400002e4:	f00027b7          	lui	a5,0xf0002
+400002e8:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+400002ec:	fec42703          	lw	a4,-20(s0)
+400002f0:	00e7a823          	sw	a4,16(a5)
+	MYROM->CHIP_SELECT=1;
+400002f4:	f00027b7          	lui	a5,0xf0002
+400002f8:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+400002fc:	00100713          	li	a4,1
+40000300:	00e7a023          	sw	a4,0(a5)
+	MYROM->CHIP_SELECT=0;
+40000304:	f00027b7          	lui	a5,0xf0002
+40000308:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+4000030c:	0007a023          	sw	zero,0(a5)
+}
+40000310:	00000013          	nop
+40000314:	01c12403          	lw	s0,28(sp)
+40000318:	02010113          	addi	sp,sp,32
+4000031c:	00008067          	ret
+
+40000320 <avalon_read>:
+
+uint32_t avalon_read(uint32_t iAddress)
+{
+40000320:	fd010113          	addi	sp,sp,-48
+40000324:	02812623          	sw	s0,44(sp)
+40000328:	03010413          	addi	s0,sp,48
+4000032c:	fca42e23          	sw	a0,-36(s0)
+	MYROM->ADDRESS=iAddress;
+40000330:	f00027b7          	lui	a5,0xf0002
+40000334:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000338:	fdc42703          	lw	a4,-36(s0)
+4000033c:	00e7a623          	sw	a4,12(a5)
+	MYROM->READ_N=0;
+40000340:	f00027b7          	lui	a5,0xf0002
+40000344:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000348:	0007a423          	sw	zero,8(a5)
+	MYROM->WRITE_N=1;
+4000034c:	f00027b7          	lui	a5,0xf0002
+40000350:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000354:	00100713          	li	a4,1
+40000358:	00e7a223          	sw	a4,4(a5)
+	MYROM->CHIP_SELECT=1;
+4000035c:	f00027b7          	lui	a5,0xf0002
+40000360:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000364:	00100713          	li	a4,1
+40000368:	00e7a023          	sw	a4,0(a5)
+	uint32_t res = MYROM->ODATA;
+4000036c:	f00027b7          	lui	a5,0xf0002
+40000370:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000374:	0147a783          	lw	a5,20(a5)
+40000378:	fef42623          	sw	a5,-20(s0)
+	MYROM->CHIP_SELECT=0;
+4000037c:	f00027b7          	lui	a5,0xf0002
+40000380:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000384:	0007a023          	sw	zero,0(a5)
+	return res;
+40000388:	fec42783          	lw	a5,-20(s0)
+}
+4000038c:	00078513          	mv	a0,a5
+40000390:	02c12403          	lw	s0,44(sp)
+40000394:	03010113          	addi	sp,sp,48
+40000398:	00008067          	ret
+
+4000039c <print>:
+void print(char *str){
+4000039c:	fe010113          	addi	sp,sp,-32
+400003a0:	00112e23          	sw	ra,28(sp)
+400003a4:	00812c23          	sw	s0,24(sp)
+400003a8:	02010413          	addi	s0,sp,32
+400003ac:	fea42623          	sw	a0,-20(s0)
 	while(*str){
-400002b8:	0200006f          	j	400002d8 <print+0x34>
+400003b0:	0200006f          	j	400003d0 <print+0x34>
 		uart_write(UART,*(str++));
-400002bc:	fec42783          	lw	a5,-20(s0)
-400002c0:	00178713          	addi	a4,a5,1
-400002c4:	fee42623          	sw	a4,-20(s0)
-400002c8:	0007c783          	lbu	a5,0(a5)
-400002cc:	00078593          	mv	a1,a5
-400002d0:	f0010537          	lui	a0,0xf0010
-400002d4:	e0dff0ef          	jal	ra,400000e0 <uart_write>
+400003b4:	fec42783          	lw	a5,-20(s0)
+400003b8:	00178713          	addi	a4,a5,1
+400003bc:	fee42623          	sw	a4,-20(s0)
+400003c0:	0007c783          	lbu	a5,0(a5)
+400003c4:	00078593          	mv	a1,a5
+400003c8:	f0010537          	lui	a0,0xf0010
+400003cc:	d15ff0ef          	jal	ra,400000e0 <uart_write>
 	while(*str){
-400002d8:	fec42783          	lw	a5,-20(s0)
-400002dc:	0007c783          	lbu	a5,0(a5)
-400002e0:	fc079ee3          	bnez	a5,400002bc <print+0x18>
+400003d0:	fec42783          	lw	a5,-20(s0)
+400003d4:	0007c783          	lbu	a5,0(a5)
+400003d8:	fc079ee3          	bnez	a5,400003b4 <print+0x18>
 	}
 }
-400002e4:	00000013          	nop
-400002e8:	00000013          	nop
-400002ec:	01c12083          	lw	ra,28(sp)
-400002f0:	01812403          	lw	s0,24(sp)
-400002f4:	02010113          	addi	sp,sp,32
-400002f8:	00008067          	ret
+400003dc:	00000013          	nop
+400003e0:	00000013          	nop
+400003e4:	01c12083          	lw	ra,28(sp)
+400003e8:	01812403          	lw	s0,24(sp)
+400003ec:	02010113          	addi	sp,sp,32
+400003f0:	00008067          	ret
 
-400002fc <main>:
+400003f4 <main>:
 unsigned int data;
 unsigned int address;
 int main() {
-400002fc:	fd010113          	addi	sp,sp,-48
-40000300:	02112623          	sw	ra,44(sp)
-40000304:	02812423          	sw	s0,40(sp)
-40000308:	03010413          	addi	s0,sp,48
+400003f4:	fd010113          	addi	sp,sp,-48
+400003f8:	02112623          	sw	ra,44(sp)
+400003fc:	02812423          	sw	s0,40(sp)
+40000400:	03010413          	addi	s0,sp,48
 	Uart_Config uartConfig;
 	uartConfig.dataLength = 8;
-4000030c:	00800793          	li	a5,8
-40000310:	fcf42e23          	sw	a5,-36(s0)
+40000404:	00800793          	li	a5,8
+40000408:	fcf42c23          	sw	a5,-40(s0)
 	uartConfig.parity = NONE;
-40000314:	fe042023          	sw	zero,-32(s0)
+4000040c:	fc042e23          	sw	zero,-36(s0)
 	uartConfig.stop = ONE;
-40000318:	fe042223          	sw	zero,-28(s0)
+40000410:	fe042023          	sw	zero,-32(s0)
 	uartConfig.clockDivider = (CORE_HZ / 8 / 115200) - 1;
-4000031c:	03500793          	li	a5,53
-40000320:	fef42423          	sw	a5,-24(s0)
+40000414:	03500793          	li	a5,53
+40000418:	fef42223          	sw	a5,-28(s0)
 	uart_applyConfig(UART,&uartConfig);
-40000324:	fdc40793          	addi	a5,s0,-36
-40000328:	00078593          	mv	a1,a5
-4000032c:	f0010537          	lui	a0,0xf0010
-40000330:	dfdff0ef          	jal	ra,4000012c <uart_applyConfig>
+4000041c:	fd840793          	addi	a5,s0,-40
+40000420:	00078593          	mv	a1,a5
+40000424:	f0010537          	lui	a0,0xf0010
+40000428:	d05ff0ef          	jal	ra,4000012c <uart_applyConfig>
 
 	print("Add GCD Peripheral to Briey-SoC\r\n");
-40000334:	400007b7          	lui	a5,0x40000
-40000338:	43078513          	addi	a0,a5,1072 # 40000430 <vga_simRes_h160_v120+0x20>
-4000033c:	f69ff0ef          	jal	ra,400002a4 <print>
+4000042c:	400007b7          	lui	a5,0x40000
+40000430:	6e078513          	addi	a0,a5,1760 # 400006e0 <vga_simRes_h160_v120+0x20>
+40000434:	f69ff0ef          	jal	ra,4000039c <print>
 	
 
 	uint32_t myGCD=0;
-40000340:	fe042623          	sw	zero,-20(s0)
-	myGCD=gcd(1, 123913);
-40000344:	0001e7b7          	lui	a5,0x1e
-40000348:	40978593          	addi	a1,a5,1033 # 1e409 <_stack_size+0x1dc09>
-4000034c:	00100513          	li	a0,1
-40000350:	eedff0ef          	jal	ra,4000023c <gcd>
-40000354:	fea42623          	sw	a0,-20(s0)
+40000438:	fe042623          	sw	zero,-20(s0)
+	myGCD=gcd(16, 8);
+4000043c:	00800593          	li	a1,8
+40000440:	01000513          	li	a0,16
+40000444:	df9ff0ef          	jal	ra,4000023c <gcd>
+40000448:	fea42623          	sw	a0,-20(s0)
 	myGCD=	gcd(461952, 116298);
-40000358:	0001c7b7          	lui	a5,0x1c
-4000035c:	64a78593          	addi	a1,a5,1610 # 1c64a <_stack_size+0x1be4a>
-40000360:	000717b7          	lui	a5,0x71
-40000364:	c8078513          	addi	a0,a5,-896 # 70c80 <_stack_size+0x70480>
-40000368:	ed5ff0ef          	jal	ra,4000023c <gcd>
-4000036c:	fea42623          	sw	a0,-20(s0)
+4000044c:	0001c7b7          	lui	a5,0x1c
+40000450:	64a78593          	addi	a1,a5,1610 # 1c64a <_stack_size+0x1be4a>
+40000454:	000717b7          	lui	a5,0x71
+40000458:	c8078513          	addi	a0,a5,-896 # 70c80 <_stack_size+0x70480>
+4000045c:	de1ff0ef          	jal	ra,4000023c <gcd>
+40000460:	fea42623          	sw	a0,-20(s0)
 	myGCD=	gcd(461952, 1162);
-40000370:	48a00593          	li	a1,1162
-40000374:	000717b7          	lui	a5,0x71
-40000378:	c8078513          	addi	a0,a5,-896 # 70c80 <_stack_size+0x70480>
-4000037c:	ec1ff0ef          	jal	ra,4000023c <gcd>
-40000380:	fea42623          	sw	a0,-20(s0)
+40000464:	48a00593          	li	a1,1162
+40000468:	000717b7          	lui	a5,0x71
+4000046c:	c8078513          	addi	a0,a5,-896 # 70c80 <_stack_size+0x70480>
+40000470:	dcdff0ef          	jal	ra,4000023c <gcd>
+40000474:	fea42623          	sw	a0,-20(s0)
 	myGCD=	gcd(461952, 11623);
-40000384:	000037b7          	lui	a5,0x3
-40000388:	d6778593          	addi	a1,a5,-665 # 2d67 <_stack_size+0x2567>
-4000038c:	000717b7          	lui	a5,0x71
-40000390:	c8078513          	addi	a0,a5,-896 # 70c80 <_stack_size+0x70480>
-40000394:	ea9ff0ef          	jal	ra,4000023c <gcd>
-40000398:	fea42623          	sw	a0,-20(s0)
+40000478:	000037b7          	lui	a5,0x3
+4000047c:	d6778593          	addi	a1,a5,-665 # 2d67 <_stack_size+0x2567>
+40000480:	000717b7          	lui	a5,0x71
+40000484:	c8078513          	addi	a0,a5,-896 # 70c80 <_stack_size+0x70480>
+40000488:	db5ff0ef          	jal	ra,4000023c <gcd>
+4000048c:	fea42623          	sw	a0,-20(s0)
 
+	unsigned int res=0;
+40000490:	fe042423          	sw	zero,-24(s0)
+	avalon_write(0x35,0);
+40000494:	00000593          	li	a1,0
+40000498:	03500513          	li	a0,53
+4000049c:	e09ff0ef          	jal	ra,400002a4 <avalon_write>
+	avalon_write(0x69,3);
+400004a0:	00300593          	li	a1,3
+400004a4:	06900513          	li	a0,105
+400004a8:	dfdff0ef          	jal	ra,400002a4 <avalon_write>
+	avalon_write(0x456,2);
+400004ac:	00200593          	li	a1,2
+400004b0:	45600513          	li	a0,1110
+400004b4:	df1ff0ef          	jal	ra,400002a4 <avalon_write>
+	avalon_write(0x78,1);
+400004b8:	00100593          	li	a1,1
+400004bc:	07800513          	li	a0,120
+400004c0:	de5ff0ef          	jal	ra,400002a4 <avalon_write>
 
+	res=avalon_read(3);
+400004c4:	00300513          	li	a0,3
+400004c8:	e59ff0ef          	jal	ra,40000320 <avalon_read>
+400004cc:	fea42423          	sw	a0,-24(s0)
+	res=avalon_read(2);
+400004d0:	00200513          	li	a0,2
+400004d4:	e4dff0ef          	jal	ra,40000320 <avalon_read>
+400004d8:	fea42423          	sw	a0,-24(s0)
+	res=avalon_read(1);
+400004dc:	00100513          	li	a0,1
+400004e0:	e41ff0ef          	jal	ra,40000320 <avalon_read>
+400004e4:	fea42423          	sw	a0,-24(s0)
+	res=avalon_read(0);
+400004e8:	00000513          	li	a0,0
+400004ec:	e35ff0ef          	jal	ra,40000320 <avalon_read>
+400004f0:	fea42423          	sw	a0,-24(s0)
+
+	MYROM->ADDRESS=0;
+400004f4:	f00027b7          	lui	a5,0xf0002
+400004f8:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+400004fc:	0007a623          	sw	zero,12(a5)
+	MYROM->READ_N=1;
+40000500:	f00027b7          	lui	a5,0xf0002
+40000504:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000508:	00100713          	li	a4,1
+4000050c:	00e7a423          	sw	a4,8(a5)
+	MYROM->WRITE_N=0;
+40000510:	f00027b7          	lui	a5,0xf0002
+40000514:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000518:	0007a223          	sw	zero,4(a5)
+	MYROM->IDATA=69;
+4000051c:	f00027b7          	lui	a5,0xf0002
+40000520:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000524:	04500713          	li	a4,69
+40000528:	00e7a823          	sw	a4,16(a5)
+	MYROM->CHIP_SELECT=1;
+4000052c:	f00027b7          	lui	a5,0xf0002
+40000530:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000534:	00100713          	li	a4,1
+40000538:	00e7a023          	sw	a4,0(a5)
+	MYROM->CHIP_SELECT=0;
+4000053c:	f00027b7          	lui	a5,0xf0002
+40000540:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000544:	0007a023          	sw	zero,0(a5)
+
+	MYROM->ADDRESS=1;
+40000548:	f00027b7          	lui	a5,0xf0002
+4000054c:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000550:	00100713          	li	a4,1
+40000554:	00e7a623          	sw	a4,12(a5)
+	MYROM->READ_N=1;
+40000558:	f00027b7          	lui	a5,0xf0002
+4000055c:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000560:	00100713          	li	a4,1
+40000564:	00e7a423          	sw	a4,8(a5)
+	MYROM->WRITE_N=0;
+40000568:	f00027b7          	lui	a5,0xf0002
+4000056c:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000570:	0007a223          	sw	zero,4(a5)
+	MYROM->IDATA=96;
+40000574:	f00027b7          	lui	a5,0xf0002
+40000578:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+4000057c:	06000713          	li	a4,96
+40000580:	00e7a823          	sw	a4,16(a5)
+	MYROM->CHIP_SELECT=1;
+40000584:	f00027b7          	lui	a5,0xf0002
+40000588:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+4000058c:	00100713          	li	a4,1
+40000590:	00e7a023          	sw	a4,0(a5)
+	MYROM->CHIP_SELECT=0;
+40000594:	f00027b7          	lui	a5,0xf0002
+40000598:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+4000059c:	0007a023          	sw	zero,0(a5)
+
+	//read
+	MYROM->ADDRESS=0;
+400005a0:	f00027b7          	lui	a5,0xf0002
+400005a4:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+400005a8:	0007a623          	sw	zero,12(a5)
+	MYROM->READ_N=0;
+400005ac:	f00027b7          	lui	a5,0xf0002
+400005b0:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+400005b4:	0007a423          	sw	zero,8(a5)
+	MYROM->WRITE_N=1;
+400005b8:	f00027b7          	lui	a5,0xf0002
+400005bc:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+400005c0:	00100713          	li	a4,1
+400005c4:	00e7a223          	sw	a4,4(a5)
+	MYROM->CHIP_SELECT=1;
+400005c8:	f00027b7          	lui	a5,0xf0002
+400005cc:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+400005d0:	00100713          	li	a4,1
+400005d4:	00e7a023          	sw	a4,0(a5)
+	res = MYROM->ODATA;
+400005d8:	f00027b7          	lui	a5,0xf0002
+400005dc:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+400005e0:	0147a783          	lw	a5,20(a5)
+400005e4:	fef42423          	sw	a5,-24(s0)
+	MYROM->CHIP_SELECT=0;
+400005e8:	f00027b7          	lui	a5,0xf0002
+400005ec:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+400005f0:	0007a023          	sw	zero,0(a5)
+
+	MYROM->ADDRESS=1;
+400005f4:	f00027b7          	lui	a5,0xf0002
+400005f8:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+400005fc:	00100713          	li	a4,1
+40000600:	00e7a623          	sw	a4,12(a5)
+	MYROM->READ_N=0;
+40000604:	f00027b7          	lui	a5,0xf0002
+40000608:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+4000060c:	0007a423          	sw	zero,8(a5)
+	MYROM->WRITE_N=1;
+40000610:	f00027b7          	lui	a5,0xf0002
+40000614:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000618:	00100713          	li	a4,1
+4000061c:	00e7a223          	sw	a4,4(a5)
+	MYROM->CHIP_SELECT=1;
+40000620:	f00027b7          	lui	a5,0xf0002
+40000624:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000628:	00100713          	li	a4,1
+4000062c:	00e7a023          	sw	a4,0(a5)
+	res = MYROM->ODATA;
+40000630:	f00027b7          	lui	a5,0xf0002
+40000634:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000638:	0147a783          	lw	a5,20(a5)
+4000063c:	fef42423          	sw	a5,-24(s0)
+	MYROM->CHIP_SELECT=0;
+40000640:	f00027b7          	lui	a5,0xf0002
+40000644:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000648:	0007a023          	sw	zero,0(a5)
 	return 0;	
-4000039c:	00000793          	li	a5,0
+4000064c:	00000793          	li	a5,0
 }
-400003a0:	00078513          	mv	a0,a5
-400003a4:	02c12083          	lw	ra,44(sp)
-400003a8:	02812403          	lw	s0,40(sp)
-400003ac:	03010113          	addi	sp,sp,48
-400003b0:	00008067          	ret
+40000650:	00078513          	mv	a0,a5
+40000654:	02c12083          	lw	ra,44(sp)
+40000658:	02812403          	lw	s0,40(sp)
+4000065c:	03010113          	addi	sp,sp,48
+40000660:	00008067          	ret
 
-400003b4 <irqCallback>:
+40000664 <irqCallback>:
 
 
 void irqCallback(){
-400003b4:	ff010113          	addi	sp,sp,-16
-400003b8:	00812623          	sw	s0,12(sp)
-400003bc:	01010413          	addi	s0,sp,16
+40000664:	ff010113          	addi	sp,sp,-16
+40000668:	00812623          	sw	s0,12(sp)
+4000066c:	01010413          	addi	s0,sp,16
 
 }
-400003c0:	00000013          	nop
-400003c4:	00c12403          	lw	s0,12(sp)
-400003c8:	01010113          	addi	sp,sp,16
-400003cc:	00008067          	ret
+40000670:	00000013          	nop
+40000674:	00c12403          	lw	s0,12(sp)
+40000678:	01010113          	addi	sp,sp,16
+4000067c:	00008067          	ret

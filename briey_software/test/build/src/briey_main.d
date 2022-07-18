@@ -37,6 +37,6 @@ build/src/briey_main.o: src/briey_main.c \
  /opt/riscv/riscv64-unknown-elf/include/sys/_intsup.h \
  /opt/riscv/riscv64-unknown-elf/include/stdlib.h \
  /opt/riscv/riscv64-unknown-elf/include/machine/stdlib.h \
- /opt/riscv/riscv64-unknown-elf/include/alloca.h libs/briey.h libs/gcd.h \
+ /opt/riscv/riscv64-unknown-elf/include/alloca.h libs/briey.h \
  libs/timer.h libs/prescaler.h libs/interrupt.h libs/uart.h libs/vga.h \
- libs/gpio.h
+ libs/gpio.h libs/myRom.h libs/gcd.h

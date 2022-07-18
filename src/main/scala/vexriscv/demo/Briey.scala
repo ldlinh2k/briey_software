@@ -3,6 +3,7 @@ package vexriscv.demo
 
 import vexriscv.plugin._
 import vexriscv.periph.gcd._
+import vexriscv.periph.memory._
 import vexriscv._
 import vexriscv.ip.{DataCacheConfig, InstructionCacheConfig}
 import spinal.core._
@@ -22,32 +23,9 @@ import vexriscv.{VexRiscv, VexRiscvConfig, plugin} //fix
 
 import scala.collection.mutable.ArrayBuffer
 
-// in Apb3GCDCtrl.scala
-object Apb3GCDCtrl {
-  def getApb3Config = Apb3Config(
-    addressWidth = 5,
-    dataWidth = 32,
-    selWidth = 1,
-    useSlaveError = false
-  )
-}
 
-class Apb3GCDCtrl(apb3Config : Apb3Config) extends Component {
-  val io = new Bundle {
-      val apb = slave(Apb3(Apb3GCDCtrl.getApb3Config))
-  }
-  val gcdCtrl = new GCDTop()
-  val apbCtrl = Apb3SlaveFactory(io.apb)
-  apbCtrl.driveAndRead(gcdCtrl.io.a, address=0)
-  apbCtrl.driveAndRead(gcdCtrl.io.b, address=4)
-  val resSyncBuf = RegNextWhen(gcdCtrl.io.res, gcdCtrl.io.ready)
-  apbCtrl.read(resSyncBuf, address=8)
-  apbCtrl.onRead(8)(resSyncBuf := 0)
-  apbCtrl.onRead(8)(rdySyncBuf := False)
-  val rdySyncBuf = RegNextWhen(gcdCtrl.io.ready, gcdCtrl.io.ready)
-  apbCtrl.read(rdySyncBuf, address=12)
-  gcdCtrl.io.valid := apbCtrl.setOnSet(RegNext(False) init(False), address=16, 0)
-}
+
+ // in Apb3GCDCtrl.scala
 
 case class BrieyConfig(axiFrequency : HertzNumber,
                        onChipRamSize : BigInt,
@@ -300,6 +278,13 @@ class Briey(config: BrieyConfig) extends Component{
       gpioWidth = 32,
       withReadSync = true
     )
+    //--config--
+    val apbAVLBridge = new Apb3AVLCtrl(
+      apb3Config = Apb3Config(
+        addressWidth = 20,
+        dataWidth = 32
+      )
+    )
 
     val timerCtrl = PinsecTimerCtrl()
 
@@ -403,6 +388,7 @@ class Briey(config: BrieyConfig) extends Component{
         gpioACtrl.io.apb -> (0x00000, 4 kB),
         gpioBCtrl.io.apb -> (0x01000, 4 kB),
         gcd.io.apb ->       (0x02000, 1 kB),
+        apbAVLBridge.io.apb ->(0x02400, 1 kB),
         uartCtrl.io.apb  -> (0x10000, 4 kB),
         timerCtrl.io.apb -> (0x20000, 4 kB),
         vgaCtrl.io.apb   -> (0x30000, 4 kB)
