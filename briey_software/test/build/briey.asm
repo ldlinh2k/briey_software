@@ -67,7 +67,7 @@ trap_entry:
 80000060:	fc010113          	addi	sp,sp,-64
   call irqCallback
 80000064:	c0000097          	auipc	ra,0xc0000
-80000068:	378080e7          	jalr	888(ra) # 400003dc <irqCallback>
+80000068:	3c8080e7          	jalr	968(ra) # 4000042c <irqCallback>
   lw x1 , 15*4(sp)
 8000006c:	03c12083          	lw	ra,60(sp)
   lw x5,  14*4(sp)
@@ -113,7 +113,7 @@ crtInit:
   .option norelax
   la gp, __global_pointer$
 800000b4:	c0001197          	auipc	gp,0xc0001
-800000b8:	bcc18193          	addi	gp,gp,-1076 # 40000c80 <__global_pointer$>
+800000b8:	cd418193          	addi	gp,gp,-812 # 40000d88 <__global_pointer$>
   .option pop
   la sp, _stack_start
 800000bc:	00001117          	auipc	sp,0x1
@@ -124,77 +124,76 @@ crtInit:
 bss_init:
   la a0, _bss_start
 800000c4:	c0000517          	auipc	a0,0xc0000
-800000c8:	3bc50513          	addi	a0,a0,956 # 40000480 <_bss_end>
+800000c8:	4c450513          	addi	a0,a0,1220 # 40000588 <data>
   la a1, _bss_end
-800000cc:	c0000597          	auipc	a1,0xc0000
-800000d0:	3b458593          	addi	a1,a1,948 # 40000480 <_bss_end>
+800000cc:	80818593          	addi	a1,gp,-2040 # 40000590 <_bss_end>
 
-800000d4 <bss_loop>:
+800000d0 <bss_loop>:
 bss_loop:
   beq a0,a1,bss_done
-800000d4:	00b50863          	beq	a0,a1,800000e4 <bss_done>
+800000d0:	00b50863          	beq	a0,a1,800000e0 <bss_done>
   sw zero,0(a0)
-800000d8:	00052023          	sw	zero,0(a0)
+800000d4:	00052023          	sw	zero,0(a0)
   add a0,a0,4
-800000dc:	00450513          	addi	a0,a0,4
+800000d8:	00450513          	addi	a0,a0,4
   j bss_loop
-800000e0:	ff5ff06f          	j	800000d4 <bss_loop>
+800000dc:	ff5ff06f          	j	800000d0 <bss_loop>
 
-800000e4 <bss_done>:
+800000e0 <bss_done>:
 bss_done:
 
 ctors_init:
   la a0, _ctors_start
-800000e4:	c0000517          	auipc	a0,0xc0000
-800000e8:	39c50513          	addi	a0,a0,924 # 40000480 <_bss_end>
+800000e0:	c0000517          	auipc	a0,0xc0000
+800000e4:	4a450513          	addi	a0,a0,1188 # 40000584 <_ctors_end>
   addi sp,sp,-4
-800000ec:	ffc10113          	addi	sp,sp,-4
+800000e8:	ffc10113          	addi	sp,sp,-4
 
-800000f0 <ctors_loop>:
+800000ec <ctors_loop>:
 ctors_loop:
   la a1, _ctors_end
-800000f0:	c0000597          	auipc	a1,0xc0000
-800000f4:	39058593          	addi	a1,a1,912 # 40000480 <_bss_end>
+800000ec:	c0000597          	auipc	a1,0xc0000
+800000f0:	49858593          	addi	a1,a1,1176 # 40000584 <_ctors_end>
   beq a0,a1,ctors_done
-800000f8:	00b50e63          	beq	a0,a1,80000114 <ctors_done>
+800000f4:	00b50e63          	beq	a0,a1,80000110 <ctors_done>
   lw a3,0(a0)
-800000fc:	00052683          	lw	a3,0(a0)
+800000f8:	00052683          	lw	a3,0(a0)
   add a0,a0,4
-80000100:	00450513          	addi	a0,a0,4
+800000fc:	00450513          	addi	a0,a0,4
   sw a0,0(sp)
-80000104:	00a12023          	sw	a0,0(sp)
+80000100:	00a12023          	sw	a0,0(sp)
   jalr  a3
-80000108:	000680e7          	jalr	a3
+80000104:	000680e7          	jalr	a3
   lw a0,0(sp)
-8000010c:	00012503          	lw	a0,0(sp)
+80000108:	00012503          	lw	a0,0(sp)
   j ctors_loop
-80000110:	fe1ff06f          	j	800000f0 <ctors_loop>
+8000010c:	fe1ff06f          	j	800000ec <ctors_loop>
 
-80000114 <ctors_done>:
+80000110 <ctors_done>:
 ctors_done:
   addi sp,sp,4
-80000114:	00410113          	addi	sp,sp,4
+80000110:	00410113          	addi	sp,sp,4
 
 
   li a0, 0x880     //880 enable timer + external interrupts
-80000118:	00001537          	lui	a0,0x1
-8000011c:	88050513          	addi	a0,a0,-1920 # 880 <_stack_size+0x80>
+80000114:	00001537          	lui	a0,0x1
+80000118:	88050513          	addi	a0,a0,-1920 # 880 <_stack_size+0x80>
   csrw mie,a0
-80000120:	30451073          	csrw	mie,a0
+8000011c:	30451073          	csrw	mie,a0
   li a0, 0x1808     //1808 enable interrupts
-80000124:	00002537          	lui	a0,0x2
-80000128:	80850513          	addi	a0,a0,-2040 # 1808 <_stack_size+0x1008>
+80000120:	00002537          	lui	a0,0x2
+80000124:	80850513          	addi	a0,a0,-2040 # 1808 <_stack_size+0x1008>
   csrw mstatus,a0
-8000012c:	30051073          	csrw	mstatus,a0
+80000128:	30051073          	csrw	mstatus,a0
 
   call main
-80000130:	c0000097          	auipc	ra,0xc0000
-80000134:	164080e7          	jalr	356(ra) # 40000294 <main>
+8000012c:	c0000097          	auipc	ra,0xc0000
+80000130:	1d0080e7          	jalr	464(ra) # 400002fc <main>
 
-80000138 <infinitLoop>:
+80000134 <infinitLoop>:
 infinitLoop:
   j infinitLoop
-80000138:	0000006f          	j	80000138 <infinitLoop>
+80000134:	0000006f          	j	80000134 <infinitLoop>
 
 Disassembly of section .memory:
 
@@ -425,168 +424,203 @@ static void vga_stop(Vga_Reg *reg){
 40000234:	02010113          	addi	sp,sp,32
 40000238:	00008067          	ret
 
-4000023c <print>:
-#include <stdint.h>
-#include <stdlib.h>
-#include <briey.h>
-#include "ALU_custom.h"
+4000023c <gcd>:
+#define START_BASE_ADDRESS 0x01
+#define DATA_BASE_ADDRESS 0x10
+#define DATA_READY_ADDRESS 0x14
+#define RESET_EXTERNAL_ADDRESS 0x18
+
+uint32_t gcd(uint32_t a, uint32_t b){
+4000023c:	fd010113          	addi	sp,sp,-48
+40000240:	02812623          	sw	s0,44(sp)
+40000244:	03010413          	addi	s0,sp,48
+40000248:	fca42e23          	sw	a0,-36(s0)
+4000024c:	fcb42c23          	sw	a1,-40(s0)
+	GCD->A = a;
+40000250:	f00027b7          	lui	a5,0xf0002
+40000254:	fdc42703          	lw	a4,-36(s0)
+40000258:	00e7a023          	sw	a4,0(a5) # f0002000 <_stack_start+0x700016c0>
+	GCD->B = b;
+4000025c:	f00027b7          	lui	a5,0xf0002
+40000260:	fd842703          	lw	a4,-40(s0)
+40000264:	00e7a223          	sw	a4,4(a5) # f0002004 <_stack_start+0x700016c4>
+	GCD->VALID = 0x00000001;
+40000268:	f00027b7          	lui	a5,0xf0002
+4000026c:	00100713          	li	a4,1
+40000270:	00e7a823          	sw	a4,16(a5) # f0002010 <_stack_start+0x700016d0>
+	uint32_t rdyFlag = 0;
+40000274:	fe042623          	sw	zero,-20(s0)
+	do{
+		rdyFlag = GCD->READY;
+40000278:	f00027b7          	lui	a5,0xf0002
+4000027c:	00c7a783          	lw	a5,12(a5) # f000200c <_stack_start+0x700016cc>
+40000280:	fef42623          	sw	a5,-20(s0)
+	}while(!rdyFlag);
+40000284:	fec42783          	lw	a5,-20(s0)
+40000288:	fe0788e3          	beqz	a5,40000278 <gcd+0x3c>
+	return GCD->RES;
+4000028c:	f00027b7          	lui	a5,0xf0002
+40000290:	0087a783          	lw	a5,8(a5) # f0002008 <_stack_start+0x700016c8>
+}
+40000294:	00078513          	mv	a0,a5
+40000298:	02c12403          	lw	s0,44(sp)
+4000029c:	03010113          	addi	sp,sp,48
+400002a0:	00008067          	ret
+
+400002a4 <print>:
 
 void print(char *str){
-4000023c:	fe010113          	addi	sp,sp,-32
-40000240:	00112e23          	sw	ra,28(sp)
-40000244:	00812c23          	sw	s0,24(sp)
-40000248:	02010413          	addi	s0,sp,32
-4000024c:	fea42623          	sw	a0,-20(s0)
+400002a4:	fe010113          	addi	sp,sp,-32
+400002a8:	00112e23          	sw	ra,28(sp)
+400002ac:	00812c23          	sw	s0,24(sp)
+400002b0:	02010413          	addi	s0,sp,32
+400002b4:	fea42623          	sw	a0,-20(s0)
 	while(*str){
-40000250:	0200006f          	j	40000270 <print+0x34>
+400002b8:	0200006f          	j	400002d8 <print+0x34>
 		uart_write(UART,*(str++));
-40000254:	fec42783          	lw	a5,-20(s0)
-40000258:	00178713          	addi	a4,a5,1
-4000025c:	fee42623          	sw	a4,-20(s0)
-40000260:	0007c783          	lbu	a5,0(a5)
-40000264:	00078593          	mv	a1,a5
-40000268:	f0010537          	lui	a0,0xf0010
-4000026c:	e75ff0ef          	jal	ra,400000e0 <uart_write>
+400002bc:	fec42783          	lw	a5,-20(s0)
+400002c0:	00178713          	addi	a4,a5,1
+400002c4:	fee42623          	sw	a4,-20(s0)
+400002c8:	0007c783          	lbu	a5,0(a5)
+400002cc:	00078593          	mv	a1,a5
+400002d0:	f0010537          	lui	a0,0xf0010
+400002d4:	e0dff0ef          	jal	ra,400000e0 <uart_write>
 	while(*str){
-40000270:	fec42783          	lw	a5,-20(s0)
-40000274:	0007c783          	lbu	a5,0(a5)
-40000278:	fc079ee3          	bnez	a5,40000254 <print+0x18>
+400002d8:	fec42783          	lw	a5,-20(s0)
+400002dc:	0007c783          	lbu	a5,0(a5)
+400002e0:	fc079ee3          	bnez	a5,400002bc <print+0x18>
 	}
 }
-4000027c:	00000013          	nop
-40000280:	00000013          	nop
-40000284:	01c12083          	lw	ra,28(sp)
-40000288:	01812403          	lw	s0,24(sp)
-4000028c:	02010113          	addi	sp,sp,32
-40000290:	00008067          	ret
+400002e4:	00000013          	nop
+400002e8:	00000013          	nop
+400002ec:	01c12083          	lw	ra,28(sp)
+400002f0:	01812403          	lw	s0,24(sp)
+400002f4:	02010113          	addi	sp,sp,32
+400002f8:	00008067          	ret
 
-40000294 <main>:
-
+400002fc <main>:
+unsigned int data;
+unsigned int address;
 int main() {
-40000294:	fc010113          	addi	sp,sp,-64
-40000298:	02112e23          	sw	ra,60(sp)
-4000029c:	02812c23          	sw	s0,56(sp)
-400002a0:	04010413          	addi	s0,sp,64
+400002fc:	fd010113          	addi	sp,sp,-48
+40000300:	02112623          	sw	ra,44(sp)
+40000304:	02812423          	sw	s0,40(sp)
+40000308:	03010413          	addi	s0,sp,48
 	Uart_Config uartConfig;
 	uartConfig.dataLength = 8;
-400002a4:	00800793          	li	a5,8
-400002a8:	fcf42623          	sw	a5,-52(s0)
+4000030c:	00800793          	li	a5,8
+40000310:	fcf42a23          	sw	a5,-44(s0)
 	uartConfig.parity = NONE;
-400002ac:	fc042823          	sw	zero,-48(s0)
+40000314:	fc042c23          	sw	zero,-40(s0)
 	uartConfig.stop = ONE;
-400002b0:	fc042a23          	sw	zero,-44(s0)
+40000318:	fc042e23          	sw	zero,-36(s0)
 	uartConfig.clockDivider = (CORE_HZ / 8 / 115200) - 1;
-400002b4:	03500793          	li	a5,53
-400002b8:	fcf42c23          	sw	a5,-40(s0)
+4000031c:	03500793          	li	a5,53
+40000320:	fef42023          	sw	a5,-32(s0)
 	uart_applyConfig(UART,&uartConfig);
-400002bc:	fcc40793          	addi	a5,s0,-52
-400002c0:	00078593          	mv	a1,a5
-400002c4:	f0010537          	lui	a0,0xf0010
-400002c8:	e65ff0ef          	jal	ra,4000012c <uart_applyConfig>
+40000324:	fd440793          	addi	a5,s0,-44
+40000328:	00078593          	mv	a1,a5
+4000032c:	f0010537          	lui	a0,0xf0010
+40000330:	dfdff0ef          	jal	ra,4000012c <uart_applyConfig>
 
-	print("ALU_Custom - Le Duy Linh - 18200157\r\n");
-400002cc:	400007b7          	lui	a5,0x40000
-400002d0:	45878513          	addi	a0,a5,1112 # 40000458 <vga_simRes_h160_v120+0x20>
-400002d4:	f69ff0ef          	jal	ra,4000023c <print>
-	GPIO_ALU_RD_BASE->OUTPUT=0xFF;
-400002d8:	f000b7b7          	lui	a5,0xf000b
-400002dc:	0ff00713          	li	a4,255
-400002e0:	00e7a223          	sw	a4,4(a5) # f000b004 <_stack_start+0x7000a6c4>
-	unsigned int ALU_op,ALU_rs1,ALU_rs2,result;
-	int a=6;
-400002e4:	00600793          	li	a5,6
-400002e8:	fef42423          	sw	a5,-24(s0)
-	while(1)
-	{
-		result=0;
-400002ec:	fe042623          	sw	zero,-20(s0)
-		ALU_op = GPIO_ALU_OP_BASE->INPUT;
-400002f0:	f00087b7          	lui	a5,0xf0008
-400002f4:	0007a783          	lw	a5,0(a5) # f0008000 <_stack_start+0x700076c0>
-400002f8:	fef42223          	sw	a5,-28(s0)
-		ALU_rs1 = GPIO_ALU_RS1_BASE->INPUT;
-400002fc:	f00097b7          	lui	a5,0xf0009
-40000300:	0007a783          	lw	a5,0(a5) # f0009000 <_stack_start+0x700086c0>
-40000304:	fef42023          	sw	a5,-32(s0)
-		ALU_rs2 = GPIO_ALU_RS2_BASE->INPUT;
-40000308:	f000a7b7          	lui	a5,0xf000a
-4000030c:	0007a783          	lw	a5,0(a5) # f000a000 <_stack_start+0x700096c0>
-40000310:	fcf42e23          	sw	a5,-36(s0)
-		//int x = GPIO_B_BASE->INPUT;
-		switch(ALU_op)
-40000314:	fe442703          	lw	a4,-28(s0)
-40000318:	00300793          	li	a5,3
-4000031c:	08f70a63          	beq	a4,a5,400003b0 <main+0x11c>
-40000320:	fe442703          	lw	a4,-28(s0)
-40000324:	00300793          	li	a5,3
-40000328:	0ae7e263          	bltu	a5,a4,400003cc <main+0x138>
-4000032c:	fe442703          	lw	a4,-28(s0)
-40000330:	00200793          	li	a5,2
-40000334:	06f70063          	beq	a4,a5,40000394 <main+0x100>
-40000338:	fe442703          	lw	a4,-28(s0)
-4000033c:	00200793          	li	a5,2
-40000340:	08e7e663          	bltu	a5,a4,400003cc <main+0x138>
-40000344:	fe442783          	lw	a5,-28(s0)
-40000348:	00078a63          	beqz	a5,4000035c <main+0xc8>
-4000034c:	fe442703          	lw	a4,-28(s0)
-40000350:	00100793          	li	a5,1
-40000354:	02f70263          	beq	a4,a5,40000378 <main+0xe4>
-40000358:	0740006f          	j	400003cc <main+0x138>
-		{
-			case 0: { result = ALU_custom_add(ALU_rs1,ALU_rs2); break;}
-4000035c:	fe042783          	lw	a5,-32(s0)
-40000360:	fdc42703          	lw	a4,-36(s0)
-40000364:	00e787ab          	0xe787ab
-40000368:	00078093          	mv	ra,a5
-4000036c:	00008793          	mv	a5,ra
-40000370:	fef42623          	sw	a5,-20(s0)
-40000374:	0580006f          	j	400003cc <main+0x138>
-			case 1: { result = ALU_custom_sub(ALU_rs1,ALU_rs2); break;}
-40000378:	fe042783          	lw	a5,-32(s0)
-4000037c:	fdc42703          	lw	a4,-36(s0)
-40000380:	00e797ab          	0xe797ab
-40000384:	00078093          	mv	ra,a5
-40000388:	00008793          	mv	a5,ra
-4000038c:	fef42623          	sw	a5,-20(s0)
-40000390:	03c0006f          	j	400003cc <main+0x138>
-			case 2: { result = ALU_custom_sll(ALU_rs1,ALU_rs2); break;}
-40000394:	fe042783          	lw	a5,-32(s0)
-40000398:	fdc42703          	lw	a4,-36(s0)
-4000039c:	00e7a7ab          	0xe7a7ab
-400003a0:	00078093          	mv	ra,a5
-400003a4:	00008793          	mv	a5,ra
-400003a8:	fef42623          	sw	a5,-20(s0)
-400003ac:	0200006f          	j	400003cc <main+0x138>
-			case 3: { result = ALU_custom_srl(ALU_rs1,ALU_rs2); break;}
-400003b0:	fe042783          	lw	a5,-32(s0)
-400003b4:	fdc42703          	lw	a4,-36(s0)
-400003b8:	00e7b7ab          	0xe7b7ab
-400003bc:	00078093          	mv	ra,a5
-400003c0:	00008793          	mv	a5,ra
-400003c4:	fef42623          	sw	a5,-20(s0)
-400003c8:	00000013          	nop
-		}
-		//GPIO_ALU_RD_BASE->OUTPUT=result;
-		GPIO_A_BASE->OUTPUT=result;
-400003cc:	f00007b7          	lui	a5,0xf0000
-400003d0:	fec42703          	lw	a4,-20(s0)
-400003d4:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
-		result=0;
-400003d8:	f15ff06f          	j	400002ec <main+0x58>
+	print("Well, hello there ! こんにちは。\r\n");
+40000334:	400007b7          	lui	a5,0x40000
+40000338:	4a878513          	addi	a0,a5,1192 # 400004a8 <vga_simRes_h160_v120+0x20>
+4000033c:	f69ff0ef          	jal	ra,400002a4 <print>
+	print("University of Electro-Communications (UEC), Tokyo, Japan\r\n");
+40000340:	400007b7          	lui	a5,0x40000
+40000344:	4d478513          	addi	a0,a5,1236 # 400004d4 <vga_simRes_h160_v120+0x4c>
+40000348:	f5dff0ef          	jal	ra,400002a4 <print>
+	print("電気通信大学、東京都、日本\r\n");
+4000034c:	400007b7          	lui	a5,0x40000
+40000350:	51078513          	addi	a0,a5,1296 # 40000510 <vga_simRes_h160_v120+0x88>
+40000354:	f51ff0ef          	jal	ra,400002a4 <print>
+	print("AES Accelerator - Duy Linh Le K18\r\n");
+40000358:	400007b7          	lui	a5,0x40000
+4000035c:	53c78513          	addi	a0,a5,1340 # 4000053c <vga_simRes_h160_v120+0xb4>
+40000360:	f45ff0ef          	jal	ra,400002a4 <print>
+	print("Briey SoC on FPGA\r\n");
+40000364:	400007b7          	lui	a5,0x40000
+40000368:	56078513          	addi	a0,a5,1376 # 40000560 <vga_simRes_h160_v120+0xd8>
+4000036c:	f39ff0ef          	jal	ra,400002a4 <print>
+	
+    GPIO_A_BASE->OUTPUT_ENABLE = 0x0000000F;
+40000370:	f00007b7          	lui	a5,0xf0000
+40000374:	00f00713          	li	a4,15
+40000378:	00e7a423          	sw	a4,8(a5) # f0000008 <_stack_start+0x6ffff6c8>
+	GPIO_A_BASE->OUTPUT = 0x00000001;
+4000037c:	f00007b7          	lui	a5,0xf0000
+40000380:	00100713          	li	a4,1
+40000384:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
+    print("hello gcd world");
+40000388:	400007b7          	lui	a5,0x40000
+4000038c:	57478513          	addi	a0,a5,1396 # 40000574 <vga_simRes_h160_v120+0xec>
+40000390:	f15ff0ef          	jal	ra,400002a4 <print>
+    const int nleds = 4;
+40000394:	00400793          	li	a5,4
+40000398:	fef42623          	sw	a5,-20(s0)
+	const int nloops = 2000000;
+4000039c:	001e87b7          	lui	a5,0x1e8
+400003a0:	48078793          	addi	a5,a5,1152 # 1e8480 <_stack_size+0x1e7c80>
+400003a4:	fef42423          	sw	a5,-24(s0)
+	uint32_t myGCD=0;
+400003a8:	fe042223          	sw	zero,-28(s0)
+	myGCD=gcd(1, 123913);
+400003ac:	0001e7b7          	lui	a5,0x1e
+400003b0:	40978593          	addi	a1,a5,1033 # 1e409 <_stack_size+0x1dc09>
+400003b4:	00100513          	li	a0,1
+400003b8:	e85ff0ef          	jal	ra,4000023c <gcd>
+400003bc:	fea42223          	sw	a0,-28(s0)
+	myGCD=	gcd(461952, 116298);
+400003c0:	0001c7b7          	lui	a5,0x1c
+400003c4:	64a78593          	addi	a1,a5,1610 # 1c64a <_stack_size+0x1be4a>
+400003c8:	000717b7          	lui	a5,0x71
+400003cc:	c8078513          	addi	a0,a5,-896 # 70c80 <_stack_size+0x70480>
+400003d0:	e6dff0ef          	jal	ra,4000023c <gcd>
+400003d4:	fea42223          	sw	a0,-28(s0)
+	myGCD=	gcd(461952, 1162);
+400003d8:	48a00593          	li	a1,1162
+400003dc:	000717b7          	lui	a5,0x71
+400003e0:	c8078513          	addi	a0,a5,-896 # 70c80 <_stack_size+0x70480>
+400003e4:	e59ff0ef          	jal	ra,4000023c <gcd>
+400003e8:	fea42223          	sw	a0,-28(s0)
+	myGCD=	gcd(461952, 11623);
+400003ec:	000037b7          	lui	a5,0x3
+400003f0:	d6778593          	addi	a1,a5,-665 # 2d67 <_stack_size+0x2567>
+400003f4:	000717b7          	lui	a5,0x71
+400003f8:	c8078513          	addi	a0,a5,-896 # 70c80 <_stack_size+0x70480>
+400003fc:	e41ff0ef          	jal	ra,4000023c <gcd>
+40000400:	fea42223          	sw	a0,-28(s0)
+	//GCD->VALID = 0x00000000;
+	while(GCD->READY);
+40000404:	00000013          	nop
+40000408:	f00027b7          	lui	a5,0xf0002
+4000040c:	00c7a783          	lw	a5,12(a5) # f000200c <_stack_start+0x700016cc>
+40000410:	fe079ce3          	bnez	a5,40000408 <main+0x10c>
+	result[1]= vexriscv_aes_read(DATA_BASE_ADDRESS + 1);
+	result[2]= vexriscv_aes_read(DATA_BASE_ADDRESS + 2);
+	result[3]= vexriscv_aes_read(DATA_BASE_ADDRESS + 3);
 
-400003dc <irqCallback>:
-	}
-
+	print("\r\n Result: \r\n");*/
+	return 0;	
+40000414:	00000793          	li	a5,0
 }
+40000418:	00078513          	mv	a0,a5
+4000041c:	02c12083          	lw	ra,44(sp)
+40000420:	02812403          	lw	s0,40(sp)
+40000424:	03010113          	addi	sp,sp,48
+40000428:	00008067          	ret
+
+4000042c <irqCallback>:
 
 
 void irqCallback(){
-400003dc:	ff010113          	addi	sp,sp,-16
-400003e0:	00812623          	sw	s0,12(sp)
-400003e4:	01010413          	addi	s0,sp,16
+4000042c:	ff010113          	addi	sp,sp,-16
+40000430:	00812623          	sw	s0,12(sp)
+40000434:	01010413          	addi	s0,sp,16
 
 }
-400003e8:	00000013          	nop
-400003ec:	00c12403          	lw	s0,12(sp)
-400003f0:	01010113          	addi	sp,sp,16
-400003f4:	00008067          	ret
+40000438:	00000013          	nop
+4000043c:	00c12403          	lw	s0,12(sp)
+40000440:	01010113          	addi	sp,sp,16
+40000444:	00008067          	ret

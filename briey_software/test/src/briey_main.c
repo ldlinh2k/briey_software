@@ -3,14 +3,27 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <briey.h>
-#include "ALU_custom.h"
+#include "aes_custom.h"
+#include "aes_custom_riscv.h"
+
+uint32_t gcd(uint32_t a, uint32_t b){
+	GCD->A = a;
+	GCD->B = b;
+	GCD->VALID = 0x00000001;
+	uint32_t rdyFlag = 0;
+	do{
+		rdyFlag = GCD->READY;
+	}while(!rdyFlag);
+	return GCD->RES;
+}
 
 void print(char *str){
 	while(*str){
 		uart_write(UART,*(str++));
 	}
 }
-
+unsigned int data;
+unsigned int address;
 int main() {
 	Uart_Config uartConfig;
 	uartConfig.dataLength = 8;
@@ -19,28 +32,17 @@ int main() {
 	uartConfig.clockDivider = (CORE_HZ / 8 / 115200) - 1;
 	uart_applyConfig(UART,&uartConfig);
 
-	print("ALU_Custom - Le Duy Linh - 18200157\r\n");
-	GPIO_ALU_RD_BASE->OUTPUT=0xFF;
-	unsigned int ALU_op,ALU_rs1,ALU_rs2,result;
-	int a=6;
-	while(1)
-	{
-		result=0;
-		ALU_op = GPIO_ALU_OP_BASE->INPUT;
-		ALU_rs1 = GPIO_ALU_RS1_BASE->INPUT;
-		ALU_rs2 = GPIO_ALU_RS2_BASE->INPUT;
-		//int x = GPIO_B_BASE->INPUT;
-		switch(ALU_op)
-		{
-			case 0: { result = ALU_custom_add(ALU_rs1,ALU_rs2); break;}
-			case 1: { result = ALU_custom_sub(ALU_rs1,ALU_rs2); break;}
-			case 2: { result = ALU_custom_sll(ALU_rs1,ALU_rs2); break;}
-			case 3: { result = ALU_custom_srl(ALU_rs1,ALU_rs2); break;}
-		}
-		//GPIO_ALU_RD_BASE->OUTPUT=result;
-		GPIO_A_BASE->OUTPUT=result;
-	}
+	print("Add GCD Peripheral to Briey-SoC\r\n");
+	
 
+	uint32_t myGCD=0;
+	myGCD=gcd(1, 123913);
+	myGCD=	gcd(461952, 116298);
+	myGCD=	gcd(461952, 1162);
+	myGCD=	gcd(461952, 11623);
+
+
+	return 0;	
 }
 
 
