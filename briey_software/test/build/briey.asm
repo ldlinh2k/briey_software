@@ -66,8 +66,8 @@ trap_entry:
   addi sp,sp,-16*4
 80000060:	fc010113          	addi	sp,sp,-64
   call irqCallback
-80000064:	c0000097          	auipc	ra,0xc0000
-80000068:	66c080e7          	jalr	1644(ra) # 400006d0 <irqCallback>
+80000064:	c0001097          	auipc	ra,0xc0001
+80000068:	8a8080e7          	jalr	-1880(ra) # 4000090c <irqCallback>
   lw x1 , 15*4(sp)
 8000006c:	03c12083          	lw	ra,60(sp)
   lw x5,  14*4(sp)
@@ -113,7 +113,7 @@ crtInit:
   .option norelax
   la gp, __global_pointer$
 800000b4:	c0001197          	auipc	gp,0xc0001
-800000b8:	f7c18193          	addi	gp,gp,-132 # 40001030 <__global_pointer$>
+800000b8:	58c18193          	addi	gp,gp,1420 # 40001640 <__global_pointer$>
   .option pop
   la sp, _stack_start
 800000bc:	00001117          	auipc	sp,0x1
@@ -123,10 +123,10 @@ crtInit:
 
 bss_init:
   la a0, _bss_start
-800000c4:	c0000517          	auipc	a0,0xc0000
-800000c8:	76c50513          	addi	a0,a0,1900 # 40000830 <data>
+800000c4:	c0001517          	auipc	a0,0xc0001
+800000c8:	d7c50513          	addi	a0,a0,-644 # 40000e40 <data>
   la a1, _bss_end
-800000cc:	80818593          	addi	a1,gp,-2040 # 40000838 <_bss_end>
+800000cc:	80818593          	addi	a1,gp,-2040 # 40000e48 <_bss_end>
 
 800000d0 <bss_loop>:
 bss_loop:
@@ -144,16 +144,16 @@ bss_done:
 
 ctors_init:
   la a0, _ctors_start
-800000e0:	c0000517          	auipc	a0,0xc0000
-800000e4:	74c50513          	addi	a0,a0,1868 # 4000082c <_ctors_end>
+800000e0:	c0001517          	auipc	a0,0xc0001
+800000e4:	d6050513          	addi	a0,a0,-672 # 40000e40 <data>
   addi sp,sp,-4
 800000e8:	ffc10113          	addi	sp,sp,-4
 
 800000ec <ctors_loop>:
 ctors_loop:
   la a1, _ctors_end
-800000ec:	c0000597          	auipc	a1,0xc0000
-800000f0:	74058593          	addi	a1,a1,1856 # 4000082c <_ctors_end>
+800000ec:	c0001597          	auipc	a1,0xc0001
+800000f0:	d5458593          	addi	a1,a1,-684 # 40000e40 <data>
   beq a0,a1,ctors_done
 800000f4:	00b50e63          	beq	a0,a1,80000110 <ctors_done>
   lw a3,0(a0)
@@ -188,7 +188,7 @@ ctors_done:
 
   call main
 8000012c:	c0000097          	auipc	ra,0xc0000
-80000130:	338080e7          	jalr	824(ra) # 40000464 <main>
+80000130:	574080e7          	jalr	1396(ra) # 400006a0 <main>
 
 80000134 <infinitLoop>:
 infinitLoop:
@@ -425,10 +425,7 @@ static void vga_stop(Vga_Reg *reg){
 40000238:	00008067          	ret
 
 4000023c <prince_write>:
-#include <stdlib.h>
-#include <briey.h>
-//function----
-//------------------------PRINCE-------------------
+#include "briey.h"
 void prince_write(uint32_t iData, uint32_t iAddress)
 {
 4000023c:	fe010113          	addi	sp,sp,-32
@@ -595,280 +592,756 @@ void prince_cipher(uint32_t mode, uint32_t *key, uint32_t *block, uint32_t *res)
 40000404:	02010113          	addi	sp,sp,32
 40000408:	00008067          	ret
 
-4000040c <print>:
-void print(char *str){
+4000040c <timer_init>:
+static void timer_init(Timer_Reg *reg){
 4000040c:	fe010113          	addi	sp,sp,-32
-40000410:	00112e23          	sw	ra,28(sp)
-40000414:	00812c23          	sw	s0,24(sp)
-40000418:	02010413          	addi	s0,sp,32
-4000041c:	fea42623          	sw	a0,-20(s0)
-	while(*str){
-40000420:	0200006f          	j	40000440 <print+0x34>
-		uart_write(UART,*(str++));
+40000410:	00812e23          	sw	s0,28(sp)
+40000414:	02010413          	addi	s0,sp,32
+40000418:	fea42623          	sw	a0,-20(s0)
+	reg->CLEARS_TICKS  = 0;
+4000041c:	fec42783          	lw	a5,-20(s0)
+40000420:	0007a023          	sw	zero,0(a5)
+	reg->VALUE = 0;
 40000424:	fec42783          	lw	a5,-20(s0)
-40000428:	00178713          	addi	a4,a5,1
-4000042c:	fee42623          	sw	a4,-20(s0)
-40000430:	0007c783          	lbu	a5,0(a5)
-40000434:	00078593          	mv	a1,a5
-40000438:	f0010537          	lui	a0,0xf0010
-4000043c:	ca5ff0ef          	jal	ra,400000e0 <uart_write>
-	while(*str){
-40000440:	fec42783          	lw	a5,-20(s0)
-40000444:	0007c783          	lbu	a5,0(a5)
-40000448:	fc079ee3          	bnez	a5,40000424 <print+0x18>
-	}
+40000428:	0007a423          	sw	zero,8(a5)
+}
+4000042c:	00000013          	nop
+40000430:	01c12403          	lw	s0,28(sp)
+40000434:	02010113          	addi	sp,sp,32
+40000438:	00008067          	ret
+
+4000043c <prescaler_init>:
+static void prescaler_init(Prescaler_Reg* reg){
+4000043c:	fe010113          	addi	sp,sp,-32
+40000440:	00812e23          	sw	s0,28(sp)
+40000444:	02010413          	addi	s0,sp,32
+40000448:	fea42623          	sw	a0,-20(s0)
 }
 4000044c:	00000013          	nop
-40000450:	00000013          	nop
-40000454:	01c12083          	lw	ra,28(sp)
-40000458:	01812403          	lw	s0,24(sp)
-4000045c:	02010113          	addi	sp,sp,32
-40000460:	00008067          	ret
+40000450:	01c12403          	lw	s0,28(sp)
+40000454:	02010113          	addi	sp,sp,32
+40000458:	00008067          	ret
 
-40000464 <main>:
+4000045c <interruptCtrl_init>:
+static void interruptCtrl_init(InterruptCtrl_Reg* reg){
+4000045c:	fe010113          	addi	sp,sp,-32
+40000460:	00812e23          	sw	s0,28(sp)
+40000464:	02010413          	addi	s0,sp,32
+40000468:	fea42623          	sw	a0,-20(s0)
+	reg->MASKS = 0;
+4000046c:	fec42783          	lw	a5,-20(s0)
+40000470:	0007a223          	sw	zero,4(a5)
+	reg->PENDINGS = 0xFFFFFFFF;
+40000474:	fec42783          	lw	a5,-20(s0)
+40000478:	fff00713          	li	a4,-1
+4000047c:	00e7a023          	sw	a4,0(a5)
+}
+40000480:	00000013          	nop
+40000484:	01c12403          	lw	s0,28(sp)
+40000488:	02010113          	addi	sp,sp,32
+4000048c:	00008067          	ret
+
+40000490 <uart_writeAvailability>:
+static uint32_t uart_writeAvailability(Uart_Reg *reg){
+40000490:	fe010113          	addi	sp,sp,-32
+40000494:	00812e23          	sw	s0,28(sp)
+40000498:	02010413          	addi	s0,sp,32
+4000049c:	fea42623          	sw	a0,-20(s0)
+	return (reg->STATUS >> 16) & 0xFF;
+400004a0:	fec42783          	lw	a5,-20(s0)
+400004a4:	0047a783          	lw	a5,4(a5)
+400004a8:	0107d793          	srli	a5,a5,0x10
+400004ac:	0ff7f793          	zext.b	a5,a5
+}
+400004b0:	00078513          	mv	a0,a5
+400004b4:	01c12403          	lw	s0,28(sp)
+400004b8:	02010113          	addi	sp,sp,32
+400004bc:	00008067          	ret
+
+400004c0 <uart_readOccupancy>:
+static uint32_t uart_readOccupancy(Uart_Reg *reg){
+400004c0:	fe010113          	addi	sp,sp,-32
+400004c4:	00812e23          	sw	s0,28(sp)
+400004c8:	02010413          	addi	s0,sp,32
+400004cc:	fea42623          	sw	a0,-20(s0)
+	return reg->STATUS >> 24;
+400004d0:	fec42783          	lw	a5,-20(s0)
+400004d4:	0047a783          	lw	a5,4(a5)
+400004d8:	0187d793          	srli	a5,a5,0x18
+}
+400004dc:	00078513          	mv	a0,a5
+400004e0:	01c12403          	lw	s0,28(sp)
+400004e4:	02010113          	addi	sp,sp,32
+400004e8:	00008067          	ret
+
+400004ec <uart_write>:
+static void uart_write(Uart_Reg *reg, uint32_t data){
+400004ec:	fe010113          	addi	sp,sp,-32
+400004f0:	00112e23          	sw	ra,28(sp)
+400004f4:	00812c23          	sw	s0,24(sp)
+400004f8:	02010413          	addi	s0,sp,32
+400004fc:	fea42623          	sw	a0,-20(s0)
+40000500:	feb42423          	sw	a1,-24(s0)
+	while(uart_writeAvailability(reg) == 0);
+40000504:	00000013          	nop
+40000508:	fec42503          	lw	a0,-20(s0)
+4000050c:	f85ff0ef          	jal	ra,40000490 <uart_writeAvailability>
+40000510:	00050793          	mv	a5,a0
+40000514:	fe078ae3          	beqz	a5,40000508 <uart_write+0x1c>
+	reg->DATA = data;
+40000518:	fec42783          	lw	a5,-20(s0)
+4000051c:	fe842703          	lw	a4,-24(s0)
+40000520:	00e7a023          	sw	a4,0(a5)
+}
+40000524:	00000013          	nop
+40000528:	01c12083          	lw	ra,28(sp)
+4000052c:	01812403          	lw	s0,24(sp)
+40000530:	02010113          	addi	sp,sp,32
+40000534:	00008067          	ret
+
+40000538 <uart_applyConfig>:
+static void uart_applyConfig(Uart_Reg *reg, Uart_Config *config){
+40000538:	fe010113          	addi	sp,sp,-32
+4000053c:	00812e23          	sw	s0,28(sp)
+40000540:	02010413          	addi	s0,sp,32
+40000544:	fea42623          	sw	a0,-20(s0)
+40000548:	feb42423          	sw	a1,-24(s0)
+	reg->CLOCK_DIVIDER = config->clockDivider;
+4000054c:	fe842783          	lw	a5,-24(s0)
+40000550:	00c7a703          	lw	a4,12(a5)
+40000554:	fec42783          	lw	a5,-20(s0)
+40000558:	00e7a423          	sw	a4,8(a5)
+	reg->FRAME_CONFIG = ((config->dataLength-1) << 0) | (config->parity << 8) | (config->stop << 16);
+4000055c:	fe842783          	lw	a5,-24(s0)
+40000560:	0007a783          	lw	a5,0(a5)
+40000564:	fff78713          	addi	a4,a5,-1
+40000568:	fe842783          	lw	a5,-24(s0)
+4000056c:	0047a783          	lw	a5,4(a5)
+40000570:	00879793          	slli	a5,a5,0x8
+40000574:	00f76733          	or	a4,a4,a5
+40000578:	fe842783          	lw	a5,-24(s0)
+4000057c:	0087a783          	lw	a5,8(a5)
+40000580:	01079793          	slli	a5,a5,0x10
+40000584:	00f76733          	or	a4,a4,a5
+40000588:	fec42783          	lw	a5,-20(s0)
+4000058c:	00e7a623          	sw	a4,12(a5)
+}
+40000590:	00000013          	nop
+40000594:	01c12403          	lw	s0,28(sp)
+40000598:	02010113          	addi	sp,sp,32
+4000059c:	00008067          	ret
+
+400005a0 <vga_isBusy>:
+static uint32_t vga_isBusy(Vga_Reg *reg){
+400005a0:	fe010113          	addi	sp,sp,-32
+400005a4:	00812e23          	sw	s0,28(sp)
+400005a8:	02010413          	addi	s0,sp,32
+400005ac:	fea42623          	sw	a0,-20(s0)
+	return (reg->STATUS & 2) != 0;
+400005b0:	fec42783          	lw	a5,-20(s0)
+400005b4:	0007a783          	lw	a5,0(a5)
+400005b8:	0027f793          	andi	a5,a5,2
+400005bc:	00f037b3          	snez	a5,a5
+400005c0:	0ff7f793          	zext.b	a5,a5
+}
+400005c4:	00078513          	mv	a0,a5
+400005c8:	01c12403          	lw	s0,28(sp)
+400005cc:	02010113          	addi	sp,sp,32
+400005d0:	00008067          	ret
+
+400005d4 <vga_run>:
+static void vga_run(Vga_Reg *reg){
+400005d4:	fe010113          	addi	sp,sp,-32
+400005d8:	00812e23          	sw	s0,28(sp)
+400005dc:	02010413          	addi	s0,sp,32
+400005e0:	fea42623          	sw	a0,-20(s0)
+	reg->STATUS  = 1;
+400005e4:	fec42783          	lw	a5,-20(s0)
+400005e8:	00100713          	li	a4,1
+400005ec:	00e7a023          	sw	a4,0(a5)
+}
+400005f0:	00000013          	nop
+400005f4:	01c12403          	lw	s0,28(sp)
+400005f8:	02010113          	addi	sp,sp,32
+400005fc:	00008067          	ret
+
+40000600 <vga_stop>:
+static void vga_stop(Vga_Reg *reg){
+40000600:	fe010113          	addi	sp,sp,-32
+40000604:	00112e23          	sw	ra,28(sp)
+40000608:	00812c23          	sw	s0,24(sp)
+4000060c:	02010413          	addi	s0,sp,32
+40000610:	fea42623          	sw	a0,-20(s0)
+	reg->STATUS  = 0;
+40000614:	fec42783          	lw	a5,-20(s0)
+40000618:	0007a023          	sw	zero,0(a5)
+	while(vga_isBusy(reg));
+4000061c:	00000013          	nop
+40000620:	fec42503          	lw	a0,-20(s0)
+40000624:	f7dff0ef          	jal	ra,400005a0 <vga_isBusy>
+40000628:	00050793          	mv	a5,a0
+4000062c:	fe079ae3          	bnez	a5,40000620 <vga_stop+0x20>
+}
+40000630:	00000013          	nop
+40000634:	00000013          	nop
+40000638:	01c12083          	lw	ra,28(sp)
+4000063c:	01812403          	lw	s0,24(sp)
+40000640:	02010113          	addi	sp,sp,32
+40000644:	00008067          	ret
+
+40000648 <print>:
+#include <stdint.h>
+#include <stdlib.h>
+#include <briey.h>
+//function----
+
+void print(char *str){
+40000648:	fe010113          	addi	sp,sp,-32
+4000064c:	00112e23          	sw	ra,28(sp)
+40000650:	00812c23          	sw	s0,24(sp)
+40000654:	02010413          	addi	s0,sp,32
+40000658:	fea42623          	sw	a0,-20(s0)
+	while(*str){
+4000065c:	0200006f          	j	4000067c <print+0x34>
+		uart_write(UART,*(str++));
+40000660:	fec42783          	lw	a5,-20(s0)
+40000664:	00178713          	addi	a4,a5,1
+40000668:	fee42623          	sw	a4,-20(s0)
+4000066c:	0007c783          	lbu	a5,0(a5)
+40000670:	00078593          	mv	a1,a5
+40000674:	f0010537          	lui	a0,0xf0010
+40000678:	e75ff0ef          	jal	ra,400004ec <uart_write>
+	while(*str){
+4000067c:	fec42783          	lw	a5,-20(s0)
+40000680:	0007c783          	lbu	a5,0(a5)
+40000684:	fc079ee3          	bnez	a5,40000660 <print+0x18>
+	}
+}
+40000688:	00000013          	nop
+4000068c:	00000013          	nop
+40000690:	01c12083          	lw	ra,28(sp)
+40000694:	01812403          	lw	s0,24(sp)
+40000698:	02010113          	addi	sp,sp,32
+4000069c:	00008067          	ret
+
+400006a0 <main>:
 
 unsigned int data;
 unsigned int address;
 int main() {
-40000464:	fc010113          	addi	sp,sp,-64
-40000468:	02112e23          	sw	ra,60(sp)
-4000046c:	02812c23          	sw	s0,56(sp)
-40000470:	04010413          	addi	s0,sp,64
+400006a0:	fc010113          	addi	sp,sp,-64
+400006a4:	02112e23          	sw	ra,60(sp)
+400006a8:	02812c23          	sw	s0,56(sp)
+400006ac:	04010413          	addi	s0,sp,64
 	Uart_Config uartConfig;
 	uartConfig.dataLength = 8;
-40000474:	00800793          	li	a5,8
-40000478:	fef42023          	sw	a5,-32(s0)
+400006b0:	00800793          	li	a5,8
+400006b4:	fef42023          	sw	a5,-32(s0)
 	uartConfig.parity = NONE;
-4000047c:	fe042223          	sw	zero,-28(s0)
+400006b8:	fe042223          	sw	zero,-28(s0)
 	uartConfig.stop = ONE;
-40000480:	fe042423          	sw	zero,-24(s0)
+400006bc:	fe042423          	sw	zero,-24(s0)
 	uartConfig.clockDivider = (CORE_HZ / 8 / 115200) - 1;
-40000484:	03500793          	li	a5,53
-40000488:	fef42623          	sw	a5,-20(s0)
+400006c0:	03500793          	li	a5,53
+400006c4:	fef42623          	sw	a5,-20(s0)
 	uart_applyConfig(UART,&uartConfig);
-4000048c:	fe040793          	addi	a5,s0,-32
-40000490:	00078593          	mv	a1,a5
-40000494:	f0010537          	lui	a0,0xf0010
-40000498:	c95ff0ef          	jal	ra,4000012c <uart_applyConfig>
+400006c8:	fe040793          	addi	a5,s0,-32
+400006cc:	00078593          	mv	a1,a5
+400006d0:	f0010537          	lui	a0,0xf0010
+400006d4:	e65ff0ef          	jal	ra,40000538 <uart_applyConfig>
 
 	print("====================================================\r\n");
-4000049c:	400007b7          	lui	a5,0x40000
-400004a0:	74c78513          	addi	a0,a5,1868 # 4000074c <vga_simRes_h160_v120+0x20>
-400004a4:	f69ff0ef          	jal	ra,4000040c <print>
+400006d8:	400017b7          	lui	a5,0x40001
+400006dc:	d0078513          	addi	a0,a5,-768 # 40000d00 <vga_simRes_h160_v120+0x20>
+400006e0:	f69ff0ef          	jal	ra,40000648 <print>
 	print("==========Add Prince Peripheral to Briey-SoC========\r\n");
-400004a8:	400007b7          	lui	a5,0x40000
-400004ac:	78478513          	addi	a0,a5,1924 # 40000784 <vga_simRes_h160_v120+0x58>
-400004b0:	f5dff0ef          	jal	ra,4000040c <print>
+400006e4:	400017b7          	lui	a5,0x40001
+400006e8:	d3878513          	addi	a0,a5,-712 # 40000d38 <vga_simRes_h160_v120+0x58>
+400006ec:	f5dff0ef          	jal	ra,40000648 <print>
 	print("==========K18 FETEL - EMBEDDED SYSTEM -=============\r\n");
-400004b4:	400007b7          	lui	a5,0x40000
-400004b8:	7bc78513          	addi	a0,a5,1980 # 400007bc <vga_simRes_h160_v120+0x90>
-400004bc:	f51ff0ef          	jal	ra,4000040c <print>
+400006f0:	400017b7          	lui	a5,0x40001
+400006f4:	d7078513          	addi	a0,a5,-656 # 40000d70 <vga_simRes_h160_v120+0x90>
+400006f8:	f51ff0ef          	jal	ra,40000648 <print>
 	print("=============LE DUY LINH - 18200157-================\r\n");
-400004c0:	400007b7          	lui	a5,0x40000
-400004c4:	7f478513          	addi	a0,a5,2036 # 400007f4 <vga_simRes_h160_v120+0xc8>
-400004c8:	f45ff0ef          	jal	ra,4000040c <print>
+400006fc:	400017b7          	lui	a5,0x40001
+40000700:	da878513          	addi	a0,a5,-600 # 40000da8 <vga_simRes_h160_v120+0xc8>
+40000704:	f45ff0ef          	jal	ra,40000648 <print>
 	print("====================================================\r\n");
-400004cc:	400007b7          	lui	a5,0x40000
-400004d0:	74c78513          	addi	a0,a5,1868 # 4000074c <vga_simRes_h160_v120+0x20>
-400004d4:	f39ff0ef          	jal	ra,4000040c <print>
+40000708:	400017b7          	lui	a5,0x40001
+4000070c:	d0078513          	addi	a0,a5,-768 # 40000d00 <vga_simRes_h160_v120+0x20>
+40000710:	f39ff0ef          	jal	ra,40000648 <print>
 	//******************************************************************
 	//******************************PRINCE******************************
 	//******************************************************************
 	uint32_t key[4] 		= {0x0, 0x0, 0x0, 0x0};
-400004d8:	fc042823          	sw	zero,-48(s0)
-400004dc:	fc042a23          	sw	zero,-44(s0)
-400004e0:	fc042c23          	sw	zero,-40(s0)
-400004e4:	fc042e23          	sw	zero,-36(s0)
+40000714:	fc042823          	sw	zero,-48(s0)
+40000718:	fc042a23          	sw	zero,-44(s0)
+4000071c:	fc042c23          	sw	zero,-40(s0)
+40000720:	fc042e23          	sw	zero,-36(s0)
 	uint32_t block[2] 		= {0x0, 0x0};
-400004e8:	fc042423          	sw	zero,-56(s0)
-400004ec:	fc042623          	sw	zero,-52(s0)
+40000724:	fc042423          	sw	zero,-56(s0)
+40000728:	fc042623          	sw	zero,-52(s0)
 	uint32_t real_res[2] 	= {0x0,0x0};
-400004f0:	fc042023          	sw	zero,-64(s0)
-400004f4:	fc042223          	sw	zero,-60(s0)
+4000072c:	fc042023          	sw	zero,-64(s0)
+40000730:	fc042223          	sw	zero,-60(s0)
 	//************************TEST 1 (ENCRYPT)**************************
 
 	key[3]		= 0x00112233;
-400004f8:	001127b7          	lui	a5,0x112
-400004fc:	23378793          	addi	a5,a5,563 # 112233 <_stack_size+0x111a33>
-40000500:	fcf42e23          	sw	a5,-36(s0)
+40000734:	001127b7          	lui	a5,0x112
+40000738:	23378793          	addi	a5,a5,563 # 112233 <_stack_size+0x111a33>
+4000073c:	fcf42e23          	sw	a5,-36(s0)
 	key[2]		= 0x44556677;
-40000504:	445567b7          	lui	a5,0x44556
-40000508:	67778793          	addi	a5,a5,1655 # 44556677 <__global_pointer$+0x4555647>
-4000050c:	fcf42c23          	sw	a5,-40(s0)
+40000740:	445567b7          	lui	a5,0x44556
+40000744:	67778793          	addi	a5,a5,1655 # 44556677 <__global_pointer$+0x4555037>
+40000748:	fcf42c23          	sw	a5,-40(s0)
 	key[1]		= 0x8899aabb;
-40000510:	8899b7b7          	lui	a5,0x8899b
-40000514:	abb78793          	addi	a5,a5,-1349 # 8899aabb <_stack_start+0x899a17b>
-40000518:	fcf42a23          	sw	a5,-44(s0)
+4000074c:	8899b7b7          	lui	a5,0x8899b
+40000750:	abb78793          	addi	a5,a5,-1349 # 8899aabb <_stack_start+0x899a17b>
+40000754:	fcf42a23          	sw	a5,-44(s0)
 	key[0]		= 0xccddeeff;
-4000051c:	ccddf7b7          	lui	a5,0xccddf
-40000520:	eff78793          	addi	a5,a5,-257 # ccddeeff <_stack_start+0x4cdde5bf>
-40000524:	fcf42823          	sw	a5,-48(s0)
+40000758:	ccddf7b7          	lui	a5,0xccddf
+4000075c:	eff78793          	addi	a5,a5,-257 # ccddeeff <_stack_start+0x4cdde5bf>
+40000760:	fcf42823          	sw	a5,-48(s0)
 
 	block[1] 	= 0x01234567;
-40000528:	012347b7          	lui	a5,0x1234
-4000052c:	56778793          	addi	a5,a5,1383 # 1234567 <_stack_size+0x1233d67>
-40000530:	fcf42623          	sw	a5,-52(s0)
+40000764:	012347b7          	lui	a5,0x1234
+40000768:	56778793          	addi	a5,a5,1383 # 1234567 <_stack_size+0x1233d67>
+4000076c:	fcf42623          	sw	a5,-52(s0)
 	block[0] 	= 0x89abcdef;
-40000534:	89abd7b7          	lui	a5,0x89abd
-40000538:	def78793          	addi	a5,a5,-529 # 89abcdef <_stack_start+0x9abc4af>
-4000053c:	fcf42423          	sw	a5,-56(s0)
+40000770:	89abd7b7          	lui	a5,0x89abd
+40000774:	def78793          	addi	a5,a5,-529 # 89abcdef <_stack_start+0x9abc4af>
+40000778:	fcf42423          	sw	a5,-56(s0)
 
 	prince_cipher(PRINCE_OP_EN,key,block,real_res);
-40000540:	fc040693          	addi	a3,s0,-64
-40000544:	fc840713          	addi	a4,s0,-56
-40000548:	fd040793          	addi	a5,s0,-48
-4000054c:	00070613          	mv	a2,a4
-40000550:	00078593          	mv	a1,a5
-40000554:	00100513          	li	a0,1
-40000558:	d99ff0ef          	jal	ra,400002f0 <prince_cipher>
+4000077c:	fc040693          	addi	a3,s0,-64
+40000780:	fc840713          	addi	a4,s0,-56
+40000784:	fd040793          	addi	a5,s0,-48
+40000788:	00070613          	mv	a2,a4
+4000078c:	00078593          	mv	a1,a5
+40000790:	00100513          	li	a0,1
+40000794:	b5dff0ef          	jal	ra,400002f0 <prince_cipher>
 	GPIO_A_BASE->OUTPUT = real_res[1];
-4000055c:	f00007b7          	lui	a5,0xf0000
-40000560:	fc442703          	lw	a4,-60(s0)
-40000564:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
+40000798:	f00007b7          	lui	a5,0xf0000
+4000079c:	fc442703          	lw	a4,-60(s0)
+400007a0:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
 	GPIO_A_BASE->OUTPUT = real_res[0];
-40000568:	f00007b7          	lui	a5,0xf0000
-4000056c:	fc042703          	lw	a4,-64(s0)
-40000570:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
+400007a4:	f00007b7          	lui	a5,0xf0000
+400007a8:	fc042703          	lw	a4,-64(s0)
+400007ac:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
 
 
 	//************************TEST 2 (ENCRYPT)*************************
 	key[3]		= 0x00000000;
-40000574:	fc042e23          	sw	zero,-36(s0)
+400007b0:	fc042e23          	sw	zero,-36(s0)
 	key[2]		= 0x00000000;
-40000578:	fc042c23          	sw	zero,-40(s0)
+400007b4:	fc042c23          	sw	zero,-40(s0)
 	key[1]		= 0x00000000;
-4000057c:	fc042a23          	sw	zero,-44(s0)
+400007b8:	fc042a23          	sw	zero,-44(s0)
 	key[0]		= 0x00000000;
-40000580:	fc042823          	sw	zero,-48(s0)
+400007bc:	fc042823          	sw	zero,-48(s0)
 
 	block[1] 	= 0x00000000;
-40000584:	fc042623          	sw	zero,-52(s0)
+400007c0:	fc042623          	sw	zero,-52(s0)
 	block[0] 	= 0x00000000;
-40000588:	fc042423          	sw	zero,-56(s0)
+400007c4:	fc042423          	sw	zero,-56(s0)
 
 	prince_cipher(PRINCE_OP_EN,key,block,real_res);
-4000058c:	fc040693          	addi	a3,s0,-64
-40000590:	fc840713          	addi	a4,s0,-56
-40000594:	fd040793          	addi	a5,s0,-48
-40000598:	00070613          	mv	a2,a4
-4000059c:	00078593          	mv	a1,a5
-400005a0:	00100513          	li	a0,1
-400005a4:	d4dff0ef          	jal	ra,400002f0 <prince_cipher>
+400007c8:	fc040693          	addi	a3,s0,-64
+400007cc:	fc840713          	addi	a4,s0,-56
+400007d0:	fd040793          	addi	a5,s0,-48
+400007d4:	00070613          	mv	a2,a4
+400007d8:	00078593          	mv	a1,a5
+400007dc:	00100513          	li	a0,1
+400007e0:	b11ff0ef          	jal	ra,400002f0 <prince_cipher>
 	GPIO_A_BASE->OUTPUT = real_res[1];
-400005a8:	f00007b7          	lui	a5,0xf0000
-400005ac:	fc442703          	lw	a4,-60(s0)
-400005b0:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
+400007e4:	f00007b7          	lui	a5,0xf0000
+400007e8:	fc442703          	lw	a4,-60(s0)
+400007ec:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
 	GPIO_A_BASE->OUTPUT = real_res[0];
-400005b4:	f00007b7          	lui	a5,0xf0000
-400005b8:	fc042703          	lw	a4,-64(s0)
-400005bc:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
+400007f0:	f00007b7          	lui	a5,0xf0000
+400007f4:	fc042703          	lw	a4,-64(s0)
+400007f8:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
 
 
 	//************************TEST 3 (ENCRYPT)*************************
 
 	key[3]		= 0xd8cdb780;
-400005c0:	d8cdb7b7          	lui	a5,0xd8cdb
-400005c4:	78078793          	addi	a5,a5,1920 # d8cdb780 <_stack_start+0x58cdae40>
-400005c8:	fcf42e23          	sw	a5,-36(s0)
+400007fc:	d8cdb7b7          	lui	a5,0xd8cdb
+40000800:	78078793          	addi	a5,a5,1920 # d8cdb780 <_stack_start+0x58cdae40>
+40000804:	fcf42e23          	sw	a5,-36(s0)
 	key[2]		= 0x70b4c55a;
-400005cc:	70b4c7b7          	lui	a5,0x70b4c
-400005d0:	55a78793          	addi	a5,a5,1370 # 70b4c55a <__global_pointer$+0x30b4b52a>
-400005d4:	fcf42c23          	sw	a5,-40(s0)
+40000808:	70b4c7b7          	lui	a5,0x70b4c
+4000080c:	55a78793          	addi	a5,a5,1370 # 70b4c55a <__global_pointer$+0x30b4af1a>
+40000810:	fcf42c23          	sw	a5,-40(s0)
 	key[1]		= 0x818665aa;
-400005d8:	818667b7          	lui	a5,0x81866
-400005dc:	5aa78793          	addi	a5,a5,1450 # 818665aa <_stack_start+0x1865c6a>
-400005e0:	fcf42a23          	sw	a5,-44(s0)
+40000814:	818667b7          	lui	a5,0x81866
+40000818:	5aa78793          	addi	a5,a5,1450 # 818665aa <_stack_start+0x1865c6a>
+4000081c:	fcf42a23          	sw	a5,-44(s0)
 	key[0]		= 0x0d02dfda;
-400005e4:	0d02e7b7          	lui	a5,0xd02e
-400005e8:	fda78793          	addi	a5,a5,-38 # d02dfda <_stack_size+0xd02d7da>
-400005ec:	fcf42823          	sw	a5,-48(s0)
+40000820:	0d02e7b7          	lui	a5,0xd02e
+40000824:	fda78793          	addi	a5,a5,-38 # d02dfda <_stack_size+0xd02d7da>
+40000828:	fcf42823          	sw	a5,-48(s0)
 
 	block[1] = 0x69c4e0d8;
-400005f0:	69c4e7b7          	lui	a5,0x69c4e
-400005f4:	0d878793          	addi	a5,a5,216 # 69c4e0d8 <__global_pointer$+0x29c4d0a8>
-400005f8:	fcf42623          	sw	a5,-52(s0)
+4000082c:	69c4e7b7          	lui	a5,0x69c4e
+40000830:	0d878793          	addi	a5,a5,216 # 69c4e0d8 <__global_pointer$+0x29c4ca98>
+40000834:	fcf42623          	sw	a5,-52(s0)
 	block[0] = 0x6a7b0430;
-400005fc:	6a7b07b7          	lui	a5,0x6a7b0
-40000600:	43078793          	addi	a5,a5,1072 # 6a7b0430 <__global_pointer$+0x2a7af400>
-40000604:	fcf42423          	sw	a5,-56(s0)
+40000838:	6a7b07b7          	lui	a5,0x6a7b0
+4000083c:	43078793          	addi	a5,a5,1072 # 6a7b0430 <__global_pointer$+0x2a7aedf0>
+40000840:	fcf42423          	sw	a5,-56(s0)
 
 	prince_cipher(PRINCE_OP_EN,key,block,real_res);
-40000608:	fc040693          	addi	a3,s0,-64
-4000060c:	fc840713          	addi	a4,s0,-56
-40000610:	fd040793          	addi	a5,s0,-48
-40000614:	00070613          	mv	a2,a4
-40000618:	00078593          	mv	a1,a5
-4000061c:	00100513          	li	a0,1
-40000620:	cd1ff0ef          	jal	ra,400002f0 <prince_cipher>
+40000844:	fc040693          	addi	a3,s0,-64
+40000848:	fc840713          	addi	a4,s0,-56
+4000084c:	fd040793          	addi	a5,s0,-48
+40000850:	00070613          	mv	a2,a4
+40000854:	00078593          	mv	a1,a5
+40000858:	00100513          	li	a0,1
+4000085c:	a95ff0ef          	jal	ra,400002f0 <prince_cipher>
 	GPIO_A_BASE->OUTPUT = real_res[1];
-40000624:	f00007b7          	lui	a5,0xf0000
-40000628:	fc442703          	lw	a4,-60(s0)
-4000062c:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
+40000860:	f00007b7          	lui	a5,0xf0000
+40000864:	fc442703          	lw	a4,-60(s0)
+40000868:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
 	GPIO_A_BASE->OUTPUT = real_res[0];
-40000630:	f00007b7          	lui	a5,0xf0000
-40000634:	fc042703          	lw	a4,-64(s0)
-40000638:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
+4000086c:	f00007b7          	lui	a5,0xf0000
+40000870:	fc042703          	lw	a4,-64(s0)
+40000874:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
 
 	//************************TEST 4 (DECRYPT)*************************
 	key[3]		= 0xd8cdb780;
-4000063c:	d8cdb7b7          	lui	a5,0xd8cdb
-40000640:	78078793          	addi	a5,a5,1920 # d8cdb780 <_stack_start+0x58cdae40>
-40000644:	fcf42e23          	sw	a5,-36(s0)
+40000878:	d8cdb7b7          	lui	a5,0xd8cdb
+4000087c:	78078793          	addi	a5,a5,1920 # d8cdb780 <_stack_start+0x58cdae40>
+40000880:	fcf42e23          	sw	a5,-36(s0)
 	key[2]		= 0x70b4c55a;
-40000648:	70b4c7b7          	lui	a5,0x70b4c
-4000064c:	55a78793          	addi	a5,a5,1370 # 70b4c55a <__global_pointer$+0x30b4b52a>
-40000650:	fcf42c23          	sw	a5,-40(s0)
+40000884:	70b4c7b7          	lui	a5,0x70b4c
+40000888:	55a78793          	addi	a5,a5,1370 # 70b4c55a <__global_pointer$+0x30b4af1a>
+4000088c:	fcf42c23          	sw	a5,-40(s0)
 	key[1]		= 0x818665aa;
-40000654:	818667b7          	lui	a5,0x81866
-40000658:	5aa78793          	addi	a5,a5,1450 # 818665aa <_stack_start+0x1865c6a>
-4000065c:	fcf42a23          	sw	a5,-44(s0)
+40000890:	818667b7          	lui	a5,0x81866
+40000894:	5aa78793          	addi	a5,a5,1450 # 818665aa <_stack_start+0x1865c6a>
+40000898:	fcf42a23          	sw	a5,-44(s0)
 	key[0]		= 0x0d02dfda;
-40000660:	0d02e7b7          	lui	a5,0xd02e
-40000664:	fda78793          	addi	a5,a5,-38 # d02dfda <_stack_size+0xd02d7da>
-40000668:	fcf42823          	sw	a5,-48(s0)
+4000089c:	0d02e7b7          	lui	a5,0xd02e
+400008a0:	fda78793          	addi	a5,a5,-38 # d02dfda <_stack_size+0xd02d7da>
+400008a4:	fcf42823          	sw	a5,-48(s0)
 
 	block[1] 	= 0x43c6b256;
-4000066c:	43c6b7b7          	lui	a5,0x43c6b
-40000670:	25678793          	addi	a5,a5,598 # 43c6b256 <__global_pointer$+0x3c6a226>
-40000674:	fcf42623          	sw	a5,-52(s0)
+400008a8:	43c6b7b7          	lui	a5,0x43c6b
+400008ac:	25678793          	addi	a5,a5,598 # 43c6b256 <__global_pointer$+0x3c69c16>
+400008b0:	fcf42623          	sw	a5,-52(s0)
 	block[0] 	= 0xd79de7e8;
-40000678:	d79de7b7          	lui	a5,0xd79de
-4000067c:	7e878793          	addi	a5,a5,2024 # d79de7e8 <_stack_start+0x579ddea8>
-40000680:	fcf42423          	sw	a5,-56(s0)
+400008b4:	d79de7b7          	lui	a5,0xd79de
+400008b8:	7e878793          	addi	a5,a5,2024 # d79de7e8 <_stack_start+0x579ddea8>
+400008bc:	fcf42423          	sw	a5,-56(s0)
 
 	prince_cipher(PRINCE_OP_DE,key,block,real_res);
-40000684:	fc040693          	addi	a3,s0,-64
-40000688:	fc840713          	addi	a4,s0,-56
-4000068c:	fd040793          	addi	a5,s0,-48
-40000690:	00070613          	mv	a2,a4
-40000694:	00078593          	mv	a1,a5
-40000698:	00000513          	li	a0,0
-4000069c:	c55ff0ef          	jal	ra,400002f0 <prince_cipher>
+400008c0:	fc040693          	addi	a3,s0,-64
+400008c4:	fc840713          	addi	a4,s0,-56
+400008c8:	fd040793          	addi	a5,s0,-48
+400008cc:	00070613          	mv	a2,a4
+400008d0:	00078593          	mv	a1,a5
+400008d4:	00000513          	li	a0,0
+400008d8:	a19ff0ef          	jal	ra,400002f0 <prince_cipher>
 	GPIO_A_BASE->OUTPUT = real_res[1];
-400006a0:	f00007b7          	lui	a5,0xf0000
-400006a4:	fc442703          	lw	a4,-60(s0)
-400006a8:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
+400008dc:	f00007b7          	lui	a5,0xf0000
+400008e0:	fc442703          	lw	a4,-60(s0)
+400008e4:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
 	GPIO_A_BASE->OUTPUT = real_res[0];
-400006ac:	f00007b7          	lui	a5,0xf0000
-400006b0:	fc042703          	lw	a4,-64(s0)
-400006b4:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
+400008e8:	f00007b7          	lui	a5,0xf0000
+400008ec:	fc042703          	lw	a4,-64(s0)
+400008f0:	00e7a223          	sw	a4,4(a5) # f0000004 <_stack_start+0x6ffff6c4>
 	return 0;	
-400006b8:	00000793          	li	a5,0
+400008f4:	00000793          	li	a5,0
 }
-400006bc:	00078513          	mv	a0,a5
-400006c0:	03c12083          	lw	ra,60(sp)
-400006c4:	03812403          	lw	s0,56(sp)
-400006c8:	04010113          	addi	sp,sp,64
-400006cc:	00008067          	ret
+400008f8:	00078513          	mv	a0,a5
+400008fc:	03c12083          	lw	ra,60(sp)
+40000900:	03812403          	lw	s0,56(sp)
+40000904:	04010113          	addi	sp,sp,64
+40000908:	00008067          	ret
 
-400006d0 <irqCallback>:
+4000090c <irqCallback>:
 void irqCallback(){
-400006d0:	ff010113          	addi	sp,sp,-16
-400006d4:	00812623          	sw	s0,12(sp)
-400006d8:	01010413          	addi	s0,sp,16
+4000090c:	ff010113          	addi	sp,sp,-16
+40000910:	00812623          	sw	s0,12(sp)
+40000914:	01010413          	addi	s0,sp,16
 
 }
-400006dc:	00000013          	nop
-400006e0:	00c12403          	lw	s0,12(sp)
-400006e4:	01010113          	addi	sp,sp,16
-400006e8:	00008067          	ret
+40000918:	00000013          	nop
+4000091c:	00c12403          	lw	s0,12(sp)
+40000920:	01010113          	addi	sp,sp,16
+40000924:	00008067          	ret
+
+40000928 <timer_init>:
+static void timer_init(Timer_Reg *reg){
+40000928:	fe010113          	addi	sp,sp,-32
+4000092c:	00812e23          	sw	s0,28(sp)
+40000930:	02010413          	addi	s0,sp,32
+40000934:	fea42623          	sw	a0,-20(s0)
+	reg->CLEARS_TICKS  = 0;
+40000938:	fec42783          	lw	a5,-20(s0)
+4000093c:	0007a023          	sw	zero,0(a5)
+	reg->VALUE = 0;
+40000940:	fec42783          	lw	a5,-20(s0)
+40000944:	0007a423          	sw	zero,8(a5)
+}
+40000948:	00000013          	nop
+4000094c:	01c12403          	lw	s0,28(sp)
+40000950:	02010113          	addi	sp,sp,32
+40000954:	00008067          	ret
+
+40000958 <prescaler_init>:
+static void prescaler_init(Prescaler_Reg* reg){
+40000958:	fe010113          	addi	sp,sp,-32
+4000095c:	00812e23          	sw	s0,28(sp)
+40000960:	02010413          	addi	s0,sp,32
+40000964:	fea42623          	sw	a0,-20(s0)
+}
+40000968:	00000013          	nop
+4000096c:	01c12403          	lw	s0,28(sp)
+40000970:	02010113          	addi	sp,sp,32
+40000974:	00008067          	ret
+
+40000978 <interruptCtrl_init>:
+static void interruptCtrl_init(InterruptCtrl_Reg* reg){
+40000978:	fe010113          	addi	sp,sp,-32
+4000097c:	00812e23          	sw	s0,28(sp)
+40000980:	02010413          	addi	s0,sp,32
+40000984:	fea42623          	sw	a0,-20(s0)
+	reg->MASKS = 0;
+40000988:	fec42783          	lw	a5,-20(s0)
+4000098c:	0007a223          	sw	zero,4(a5)
+	reg->PENDINGS = 0xFFFFFFFF;
+40000990:	fec42783          	lw	a5,-20(s0)
+40000994:	fff00713          	li	a4,-1
+40000998:	00e7a023          	sw	a4,0(a5)
+}
+4000099c:	00000013          	nop
+400009a0:	01c12403          	lw	s0,28(sp)
+400009a4:	02010113          	addi	sp,sp,32
+400009a8:	00008067          	ret
+
+400009ac <uart_writeAvailability>:
+static uint32_t uart_writeAvailability(Uart_Reg *reg){
+400009ac:	fe010113          	addi	sp,sp,-32
+400009b0:	00812e23          	sw	s0,28(sp)
+400009b4:	02010413          	addi	s0,sp,32
+400009b8:	fea42623          	sw	a0,-20(s0)
+	return (reg->STATUS >> 16) & 0xFF;
+400009bc:	fec42783          	lw	a5,-20(s0)
+400009c0:	0047a783          	lw	a5,4(a5)
+400009c4:	0107d793          	srli	a5,a5,0x10
+400009c8:	0ff7f793          	zext.b	a5,a5
+}
+400009cc:	00078513          	mv	a0,a5
+400009d0:	01c12403          	lw	s0,28(sp)
+400009d4:	02010113          	addi	sp,sp,32
+400009d8:	00008067          	ret
+
+400009dc <uart_readOccupancy>:
+static uint32_t uart_readOccupancy(Uart_Reg *reg){
+400009dc:	fe010113          	addi	sp,sp,-32
+400009e0:	00812e23          	sw	s0,28(sp)
+400009e4:	02010413          	addi	s0,sp,32
+400009e8:	fea42623          	sw	a0,-20(s0)
+	return reg->STATUS >> 24;
+400009ec:	fec42783          	lw	a5,-20(s0)
+400009f0:	0047a783          	lw	a5,4(a5)
+400009f4:	0187d793          	srli	a5,a5,0x18
+}
+400009f8:	00078513          	mv	a0,a5
+400009fc:	01c12403          	lw	s0,28(sp)
+40000a00:	02010113          	addi	sp,sp,32
+40000a04:	00008067          	ret
+
+40000a08 <uart_write>:
+static void uart_write(Uart_Reg *reg, uint32_t data){
+40000a08:	fe010113          	addi	sp,sp,-32
+40000a0c:	00112e23          	sw	ra,28(sp)
+40000a10:	00812c23          	sw	s0,24(sp)
+40000a14:	02010413          	addi	s0,sp,32
+40000a18:	fea42623          	sw	a0,-20(s0)
+40000a1c:	feb42423          	sw	a1,-24(s0)
+	while(uart_writeAvailability(reg) == 0);
+40000a20:	00000013          	nop
+40000a24:	fec42503          	lw	a0,-20(s0)
+40000a28:	f85ff0ef          	jal	ra,400009ac <uart_writeAvailability>
+40000a2c:	00050793          	mv	a5,a0
+40000a30:	fe078ae3          	beqz	a5,40000a24 <uart_write+0x1c>
+	reg->DATA = data;
+40000a34:	fec42783          	lw	a5,-20(s0)
+40000a38:	fe842703          	lw	a4,-24(s0)
+40000a3c:	00e7a023          	sw	a4,0(a5)
+}
+40000a40:	00000013          	nop
+40000a44:	01c12083          	lw	ra,28(sp)
+40000a48:	01812403          	lw	s0,24(sp)
+40000a4c:	02010113          	addi	sp,sp,32
+40000a50:	00008067          	ret
+
+40000a54 <uart_applyConfig>:
+static void uart_applyConfig(Uart_Reg *reg, Uart_Config *config){
+40000a54:	fe010113          	addi	sp,sp,-32
+40000a58:	00812e23          	sw	s0,28(sp)
+40000a5c:	02010413          	addi	s0,sp,32
+40000a60:	fea42623          	sw	a0,-20(s0)
+40000a64:	feb42423          	sw	a1,-24(s0)
+	reg->CLOCK_DIVIDER = config->clockDivider;
+40000a68:	fe842783          	lw	a5,-24(s0)
+40000a6c:	00c7a703          	lw	a4,12(a5)
+40000a70:	fec42783          	lw	a5,-20(s0)
+40000a74:	00e7a423          	sw	a4,8(a5)
+	reg->FRAME_CONFIG = ((config->dataLength-1) << 0) | (config->parity << 8) | (config->stop << 16);
+40000a78:	fe842783          	lw	a5,-24(s0)
+40000a7c:	0007a783          	lw	a5,0(a5)
+40000a80:	fff78713          	addi	a4,a5,-1
+40000a84:	fe842783          	lw	a5,-24(s0)
+40000a88:	0047a783          	lw	a5,4(a5)
+40000a8c:	00879793          	slli	a5,a5,0x8
+40000a90:	00f76733          	or	a4,a4,a5
+40000a94:	fe842783          	lw	a5,-24(s0)
+40000a98:	0087a783          	lw	a5,8(a5)
+40000a9c:	01079793          	slli	a5,a5,0x10
+40000aa0:	00f76733          	or	a4,a4,a5
+40000aa4:	fec42783          	lw	a5,-20(s0)
+40000aa8:	00e7a623          	sw	a4,12(a5)
+}
+40000aac:	00000013          	nop
+40000ab0:	01c12403          	lw	s0,28(sp)
+40000ab4:	02010113          	addi	sp,sp,32
+40000ab8:	00008067          	ret
+
+40000abc <vga_isBusy>:
+static uint32_t vga_isBusy(Vga_Reg *reg){
+40000abc:	fe010113          	addi	sp,sp,-32
+40000ac0:	00812e23          	sw	s0,28(sp)
+40000ac4:	02010413          	addi	s0,sp,32
+40000ac8:	fea42623          	sw	a0,-20(s0)
+	return (reg->STATUS & 2) != 0;
+40000acc:	fec42783          	lw	a5,-20(s0)
+40000ad0:	0007a783          	lw	a5,0(a5)
+40000ad4:	0027f793          	andi	a5,a5,2
+40000ad8:	00f037b3          	snez	a5,a5
+40000adc:	0ff7f793          	zext.b	a5,a5
+}
+40000ae0:	00078513          	mv	a0,a5
+40000ae4:	01c12403          	lw	s0,28(sp)
+40000ae8:	02010113          	addi	sp,sp,32
+40000aec:	00008067          	ret
+
+40000af0 <vga_run>:
+static void vga_run(Vga_Reg *reg){
+40000af0:	fe010113          	addi	sp,sp,-32
+40000af4:	00812e23          	sw	s0,28(sp)
+40000af8:	02010413          	addi	s0,sp,32
+40000afc:	fea42623          	sw	a0,-20(s0)
+	reg->STATUS  = 1;
+40000b00:	fec42783          	lw	a5,-20(s0)
+40000b04:	00100713          	li	a4,1
+40000b08:	00e7a023          	sw	a4,0(a5)
+}
+40000b0c:	00000013          	nop
+40000b10:	01c12403          	lw	s0,28(sp)
+40000b14:	02010113          	addi	sp,sp,32
+40000b18:	00008067          	ret
+
+40000b1c <vga_stop>:
+static void vga_stop(Vga_Reg *reg){
+40000b1c:	fe010113          	addi	sp,sp,-32
+40000b20:	00112e23          	sw	ra,28(sp)
+40000b24:	00812c23          	sw	s0,24(sp)
+40000b28:	02010413          	addi	s0,sp,32
+40000b2c:	fea42623          	sw	a0,-20(s0)
+	reg->STATUS  = 0;
+40000b30:	fec42783          	lw	a5,-20(s0)
+40000b34:	0007a023          	sw	zero,0(a5)
+	while(vga_isBusy(reg));
+40000b38:	00000013          	nop
+40000b3c:	fec42503          	lw	a0,-20(s0)
+40000b40:	f7dff0ef          	jal	ra,40000abc <vga_isBusy>
+40000b44:	00050793          	mv	a5,a0
+40000b48:	fe079ae3          	bnez	a5,40000b3c <vga_stop+0x20>
+}
+40000b4c:	00000013          	nop
+40000b50:	00000013          	nop
+40000b54:	01c12083          	lw	ra,28(sp)
+40000b58:	01812403          	lw	s0,24(sp)
+40000b5c:	02010113          	addi	sp,sp,32
+40000b60:	00008067          	ret
+
+40000b64 <aes_write>:
+#include "briey.h"
+void aes_write(uint32_t iData, uint32_t iAddress)
+{
+40000b64:	fe010113          	addi	sp,sp,-32
+40000b68:	00812e23          	sw	s0,28(sp)
+40000b6c:	02010413          	addi	s0,sp,32
+40000b70:	fea42623          	sw	a0,-20(s0)
+40000b74:	feb42423          	sw	a1,-24(s0)
+	AES_BASE->ADDRESS		= iAddress;
+40000b78:	f00027b7          	lui	a5,0xf0002
+40000b7c:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000b80:	fe842703          	lw	a4,-24(s0)
+40000b84:	00e7a423          	sw	a4,8(a5)
+	AES_BASE->WRITE_ENABLE 	= 1;
+40000b88:	f00027b7          	lui	a5,0xf0002
+40000b8c:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000b90:	00100713          	li	a4,1
+40000b94:	00e7a223          	sw	a4,4(a5)
+	AES_BASE->IDATA			= iData;
+40000b98:	f00027b7          	lui	a5,0xf0002
+40000b9c:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000ba0:	fec42703          	lw	a4,-20(s0)
+40000ba4:	00e7a623          	sw	a4,12(a5)
+	AES_BASE->CHIP_SELECT	= 1;
+40000ba8:	f00027b7          	lui	a5,0xf0002
+40000bac:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000bb0:	00100713          	li	a4,1
+40000bb4:	00e7a023          	sw	a4,0(a5)
+	AES_BASE->CHIP_SELECT	= 0;
+40000bb8:	f00027b7          	lui	a5,0xf0002
+40000bbc:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000bc0:	0007a023          	sw	zero,0(a5)
+}
+40000bc4:	00000013          	nop
+40000bc8:	01c12403          	lw	s0,28(sp)
+40000bcc:	02010113          	addi	sp,sp,32
+40000bd0:	00008067          	ret
+
+40000bd4 <aes_read>:
+uint32_t aes_read(uint32_t iAddress)
+{
+40000bd4:	fd010113          	addi	sp,sp,-48
+40000bd8:	02812623          	sw	s0,44(sp)
+40000bdc:	03010413          	addi	s0,sp,48
+40000be0:	fca42e23          	sw	a0,-36(s0)
+	AES_BASE->ADDRESS		= iAddress;
+40000be4:	f00027b7          	lui	a5,0xf0002
+40000be8:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000bec:	fdc42703          	lw	a4,-36(s0)
+40000bf0:	00e7a423          	sw	a4,8(a5)
+	AES_BASE->WRITE_ENABLE	= 0;
+40000bf4:	f00027b7          	lui	a5,0xf0002
+40000bf8:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000bfc:	0007a223          	sw	zero,4(a5)
+	AES_BASE->CHIP_SELECT	= 1;
+40000c00:	f00027b7          	lui	a5,0xf0002
+40000c04:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000c08:	00100713          	li	a4,1
+40000c0c:	00e7a023          	sw	a4,0(a5)
+	uint32_t res 				= AES_BASE->ODATA;
+40000c10:	f00027b7          	lui	a5,0xf0002
+40000c14:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000c18:	0107a783          	lw	a5,16(a5)
+40000c1c:	fef42623          	sw	a5,-20(s0)
+	AES_BASE->CHIP_SELECT	= 0;
+40000c20:	f00027b7          	lui	a5,0xf0002
+40000c24:	40078793          	addi	a5,a5,1024 # f0002400 <_stack_start+0x70001ac0>
+40000c28:	0007a023          	sw	zero,0(a5)
+	return res;
+40000c2c:	fec42783          	lw	a5,-20(s0)
+}
+40000c30:	00078513          	mv	a0,a5
+40000c34:	02c12403          	lw	s0,44(sp)
+40000c38:	03010113          	addi	sp,sp,48
+40000c3c:	00008067          	ret

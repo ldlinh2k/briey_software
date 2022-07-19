@@ -1,8 +1,8 @@
-package vexriscv.periph.prince
+package vexriscv.periph.aes
 
 import spinal.core._
 import spinal.lib._
-class prince() extends BlackBox {
+class aes() extends BlackBox {
    val io = new Bundle {
   
      val clk = in Bool()

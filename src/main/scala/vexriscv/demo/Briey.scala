@@ -2,8 +2,8 @@ package vexriscv.demo
 
 
 import vexriscv.plugin._
-import vexriscv.periph.gcd._
-import vexriscv.periph.memory._
+import vexriscv.periph.prince._
+import vexriscv.periph.aes._
 import vexriscv._
 import vexriscv.ip.{DataCacheConfig, InstructionCacheConfig}
 import spinal.core._
@@ -279,7 +279,12 @@ class Briey(config: BrieyConfig) extends Component{
         dataWidth = 32
       )
     )
-
+    val apbAESBridge = new Apb3AESCtrl(
+        apb3Config = Apb3Config(
+        addressWidth = 20,
+        dataWidth = 32
+      )
+    )
     val timerCtrl = PinsecTimerCtrl()
 
 
@@ -381,7 +386,8 @@ class Briey(config: BrieyConfig) extends Component{
       slaves = List(
         gpioACtrl.io.apb        -> (0x00000, 4 kB),
         gpioBCtrl.io.apb        -> (0x01000, 4 kB),
-        apbPrinceBridge.io.apb  -> (0x02000, 1 kB),        
+        apbPrinceBridge.io.apb  -> (0x02000, 1 kB), 
+        apbAESBridge.io.apb     -> (0x02400, 1 kB),       
         uartCtrl.io.apb         -> (0x10000, 4 kB),
         timerCtrl.io.apb        -> (0x20000, 4 kB),
         vgaCtrl.io.apb          -> (0x30000, 4 kB)

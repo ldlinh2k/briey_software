@@ -1,4 +1,4 @@
-package vexriscv.periph.memory
+package vexriscv.periph.prince
 
 import spinal.core._
 import spinal.lib._
@@ -17,7 +17,7 @@ object Apb3PrinceCtrl {
 
 class Apb3PrinceCtrl(apb3Config : Apb3Config) extends Component {
   val io = new Bundle {
-      val apb = slave(Apb3(Apb3AVLCtrl.getApb3Config))
+      val apb = slave(Apb3(Apb3PrinceCtrl.getApb3Config))
   }
 
   val prince_module = new prince

@@ -32,4 +32,8 @@ typedef struct
   volatile uint32_t ODATA;
 } Prince_Reg;
 
+//function
+void prince_write(uint32_t iData, uint32_t iAddress);
+uint32_t prince_read(uint32_t iAddress);
+void prince_cipher(uint32_t mode, uint32_t *key, uint32_t *block, uint32_t *res);
 #endif /* PRINCE_H_ */

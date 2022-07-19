@@ -15,14 +15,16 @@
 #include "vga.h"
 #include "gpio.h"
 #include "prince.h"
+#include "aes.h"
 
 #define CORE_HZ 50000000
 
-#define GPIO_A_BASE    ((Gpio_Reg*)(0xF0000000))
-#define GPIO_B_BASE    ((Gpio_Reg*)(0xF0001000))
+#define GPIO_A_BASE    	((Gpio_Reg*)(0xF0000000))
+#define GPIO_B_BASE    	((Gpio_Reg*)(0xF0001000))
 #define PRINCE_BASE 	((Prince_Reg*)(0xF0002000))
-#define UART      ((Uart_Reg*)(0xF0010000))
-#define VGA_BASE       ((Vga_Reg*)(0xF0030000))
+#define AES_BASE 		((Aes_Reg*)(0xF0002400))
+#define UART      		((Uart_Reg*)(0xF0010000))
+#define VGA_BASE      	((Vga_Reg*)(0xF0030000))
 
 
 #define TIMER_PRESCALER ((Prescaler_Reg*)0xF0020000)
