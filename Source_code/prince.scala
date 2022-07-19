@@ -1,17 +1,11 @@
-class prince() extends BlackBox {
-   val io = new Bundle {
-     val clk = in Bool()
-     val reset = in Bool()
-
-     val cs = in Bool()
-     val we = in Bool()
-     val address = in UInt (8 bits)
-     val write_data = in UInt (32 bits)
-     val read_data = out Bits (32 bits)
-   }
-
-   mapCurrentClockDomain(clock=io.clk, reset = io.reset)
-   // Remove io_ prefix
-   noIoPrefix()
- }
- 
+    val apbDecoder = Apb3Decoder(
+      master = apbBridge.io.apb,
+      slaves = List(
+        gpioACtrl.io.apb        -> (0x00000, 4 kB),
+        gpioBCtrl.io.apb        -> (0x01000, 4 kB),
+        apbPrinceBridge.io.apb  -> (0x02000, 1 kB),        
+        uartCtrl.io.apb         -> (0x10000, 4 kB),
+        timerCtrl.io.apb        -> (0x20000, 4 kB),
+        vgaCtrl.io.apb          -> (0x30000, 4 kB)
+      )
+    )

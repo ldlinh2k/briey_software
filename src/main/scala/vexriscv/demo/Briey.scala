@@ -273,18 +273,6 @@ class Briey(config: BrieyConfig) extends Component{
       withReadSync = true
     )
     //--config--
-    val gcd = new Apb3GCDCtrl(
-      apb3Config = Apb3Config(
-        addressWidth = 20,
-        dataWidth = 32
-      )
-    )
-    val apbAVLBridge = new Apb3AVLCtrl(
-      apb3Config = Apb3Config(
-        addressWidth = 20,
-        dataWidth = 32
-      )
-    )
     val apbPrinceBridge = new Apb3PrinceCtrl(
         apb3Config = Apb3Config(
         addressWidth = 20,
@@ -391,14 +379,12 @@ class Briey(config: BrieyConfig) extends Component{
     val apbDecoder = Apb3Decoder(
       master = apbBridge.io.apb,
       slaves = List(
-        gpioACtrl.io.apb -> (0x00000, 4 kB),
-        gpioBCtrl.io.apb -> (0x01000, 4 kB),
-        gcd.io.apb ->       (0x02000, 1 kB),
-        apbAVLBridge.io.apb ->(0x02400, 1 kB),
-        apbPrinceBridge.io.apb ->(0x02800,1 kB),
-        uartCtrl.io.apb  -> (0x10000, 4 kB),
-        timerCtrl.io.apb -> (0x20000, 4 kB),
-        vgaCtrl.io.apb   -> (0x30000, 4 kB)
+        gpioACtrl.io.apb        -> (0x00000, 4 kB),
+        gpioBCtrl.io.apb        -> (0x01000, 4 kB),
+        apbPrinceBridge.io.apb  -> (0x02000, 1 kB),        
+        uartCtrl.io.apb         -> (0x10000, 4 kB),
+        timerCtrl.io.apb        -> (0x20000, 4 kB),
+        vgaCtrl.io.apb          -> (0x30000, 4 kB)
       )
     )
   }

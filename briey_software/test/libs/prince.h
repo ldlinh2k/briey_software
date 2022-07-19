@@ -20,7 +20,6 @@
 #define PRINCE_ADDR_NAME1       0x1
 #define PRINCE_ADDR_VERSION     0x2
 
-
 #define PRINCE_OP_EN            0x1
 #define PRINCE_OP_DE            0x0
 
@@ -33,6 +32,4 @@ typedef struct
   volatile uint32_t ODATA;
 } Prince_Reg;
 
-//void prince_write(uint32_t iData, uint32_t iAddress);
-//uint32_t prince_read(uint32_t iAddress);
 #endif /* PRINCE_H_ */
