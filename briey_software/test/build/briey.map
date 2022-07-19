@@ -210,9 +210,9 @@ OUTPUT(build/briey.elf elf32-littleriscv)
  .debug_macro   0x0000000000001abe       0x6a build/src/briey_main.o
  .debug_macro   0x0000000000001b28       0x52 build/src/briey_main.o
 
-.debug_line     0x0000000000000000      0xa7f
- .debug_line    0x0000000000000000      0x8a9 build/src/briey_main.o
- .debug_line    0x00000000000008a9      0x1d6 build/src/briey_crt.o
+.debug_line     0x0000000000000000      0xa7d
+ .debug_line    0x0000000000000000      0x8a7 build/src/briey_main.o
+ .debug_line    0x00000000000008a7      0x1d6 build/src/briey_crt.o
 
 .debug_str      0x0000000000000000     0x74f8
  .debug_str     0x0000000000000000     0x74b7 build/src/briey_main.o

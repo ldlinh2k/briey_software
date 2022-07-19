@@ -1,11 +1,51 @@
-...
-#include "prince.h"
+//------------------------PRINCE-------------------
+void prince_write(uint32_t iData, uint32_t iAddress)
+{
+	PRINCE_BASE->ADDRESS		= iAddress;
+	PRINCE_BASE->WRITE_ENABLE 	= 1;
+	PRINCE_BASE->IDATA		= iData;
+	PRINCE_BASE->CHIP_SELECT	= 1;
+	PRINCE_BASE->CHIP_SELECT	= 0;
+}
+uint32_t prince_read(uint32_t iAddress)
+{
+	PRINCE_BASE->ADDRESS		= iAddress;
+	PRINCE_BASE->WRITE_ENABLE	= 0;
+	PRINCE_BASE->CHIP_SELECT	= 1;
+	uint32_t res 			= PRINCE_BASE->ODATA;
+	PRINCE_BASE->CHIP_SELECT	= 0;
+	return res;
+}
 
-#define CORE_HZ 50000000
+void prince_cipher(uint32_t mode, uint32_t *key, uint32_t *block, uint32_t *res)
+{
+	//KEY----
 
-#define GPIO_A_BASE    ((Gpio_Reg*)(0xF0000000))
-#define GPIO_B_BASE    ((Gpio_Reg*)(0xF0001000))
-#define PRINCE_BASE 	((Prince_Reg*)(0xF0002000)) // PRINCE PERIPHERAL
-#define UART      	((Uart_Reg*)(0xF0010000))
-#define VGA_BASE       ((Vga_Reg*)(0xF0030000))
-...
+	prince_write(key[3],PRINCE_ADDR_KEY3);
+	prince_write(key[2],PRINCE_ADDR_KEY2);
+	prince_write(key[1],PRINCE_ADDR_KEY1);
+	prince_write(key[0],PRINCE_ADDR_KEY0);
+
+
+
+	//EN-OR-DE---
+	prince_write(mode,PRINCE_ADDR_CONFIG);
+
+	//BLOCK----
+	prince_write(block[1],PRINCE_ADDR_BLOCK1);
+	prince_write(block[0],PRINCE_ADDR_BLOCK0);
+
+
+	//START----
+	prince_write(0x1,PRINCE_ADDR_CTRL);
+
+	//wait result----
+	while(prince_read(PRINCE_ADDR_STATUS)==0);
+	res[1] = prince_read(PRINCE_ADDR_RESULT1);
+	res[0] = prince_read(PRINCE_ADDR_RESULT0);
+}
+void print(char *str){
+	while(*str){
+		uart_write(UART,*(str++));
+	}
+}

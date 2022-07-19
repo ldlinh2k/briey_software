@@ -508,33 +508,36 @@ void prince_cipher(uint32_t mode, uint32_t *key, uint32_t *block, uint32_t *res)
 4000030c:	fec42223          	sw	a2,-28(s0)
 40000310:	fed42023          	sw	a3,-32(s0)
 		//KEY----
-		prince_write(key[0],PRINCE_ADDR_KEY0);
-40000314:	fe842783          	lw	a5,-24(s0)
-40000318:	0007a783          	lw	a5,0(a5)
-4000031c:	01000593          	li	a1,16
-40000320:	00078513          	mv	a0,a5
-40000324:	f19ff0ef          	jal	ra,4000023c <prince_write>
-		prince_write(key[1],PRINCE_ADDR_KEY1);
-40000328:	fe842783          	lw	a5,-24(s0)
-4000032c:	00478793          	addi	a5,a5,4
-40000330:	0007a783          	lw	a5,0(a5)
-40000334:	01100593          	li	a1,17
-40000338:	00078513          	mv	a0,a5
-4000033c:	f01ff0ef          	jal	ra,4000023c <prince_write>
-		prince_write(key[2],PRINCE_ADDR_KEY2);
-40000340:	fe842783          	lw	a5,-24(s0)
-40000344:	00878793          	addi	a5,a5,8
-40000348:	0007a783          	lw	a5,0(a5)
-4000034c:	01200593          	li	a1,18
-40000350:	00078513          	mv	a0,a5
-40000354:	ee9ff0ef          	jal	ra,4000023c <prince_write>
+
 		prince_write(key[3],PRINCE_ADDR_KEY3);
-40000358:	fe842783          	lw	a5,-24(s0)
-4000035c:	00c78793          	addi	a5,a5,12
+40000314:	fe842783          	lw	a5,-24(s0)
+40000318:	00c78793          	addi	a5,a5,12
+4000031c:	0007a783          	lw	a5,0(a5)
+40000320:	01300593          	li	a1,19
+40000324:	00078513          	mv	a0,a5
+40000328:	f15ff0ef          	jal	ra,4000023c <prince_write>
+		prince_write(key[2],PRINCE_ADDR_KEY2);
+4000032c:	fe842783          	lw	a5,-24(s0)
+40000330:	00878793          	addi	a5,a5,8
+40000334:	0007a783          	lw	a5,0(a5)
+40000338:	01200593          	li	a1,18
+4000033c:	00078513          	mv	a0,a5
+40000340:	efdff0ef          	jal	ra,4000023c <prince_write>
+		prince_write(key[1],PRINCE_ADDR_KEY1);
+40000344:	fe842783          	lw	a5,-24(s0)
+40000348:	00478793          	addi	a5,a5,4
+4000034c:	0007a783          	lw	a5,0(a5)
+40000350:	01100593          	li	a1,17
+40000354:	00078513          	mv	a0,a5
+40000358:	ee5ff0ef          	jal	ra,4000023c <prince_write>
+		prince_write(key[0],PRINCE_ADDR_KEY0);
+4000035c:	fe842783          	lw	a5,-24(s0)
 40000360:	0007a783          	lw	a5,0(a5)
-40000364:	01300593          	li	a1,19
+40000364:	01000593          	li	a1,16
 40000368:	00078513          	mv	a0,a5
 4000036c:	ed1ff0ef          	jal	ra,4000023c <prince_write>
+
+
 
 		//EN-OR-DE---
 		prince_write(mode,PRINCE_ADDR_CONFIG);
@@ -543,19 +546,20 @@ void prince_cipher(uint32_t mode, uint32_t *key, uint32_t *block, uint32_t *res)
 40000378:	ec5ff0ef          	jal	ra,4000023c <prince_write>
 
 		//BLOCK----
-		prince_write(block[0],PRINCE_ADDR_BLOCK0);
-4000037c:	fe442783          	lw	a5,-28(s0)
-40000380:	0007a783          	lw	a5,0(a5)
-40000384:	02000593          	li	a1,32
-40000388:	00078513          	mv	a0,a5
-4000038c:	eb1ff0ef          	jal	ra,4000023c <prince_write>
 		prince_write(block[1],PRINCE_ADDR_BLOCK1);
-40000390:	fe442783          	lw	a5,-28(s0)
-40000394:	00478793          	addi	a5,a5,4
+4000037c:	fe442783          	lw	a5,-28(s0)
+40000380:	00478793          	addi	a5,a5,4
+40000384:	0007a783          	lw	a5,0(a5)
+40000388:	02100593          	li	a1,33
+4000038c:	00078513          	mv	a0,a5
+40000390:	eadff0ef          	jal	ra,4000023c <prince_write>
+		prince_write(block[0],PRINCE_ADDR_BLOCK0);
+40000394:	fe442783          	lw	a5,-28(s0)
 40000398:	0007a783          	lw	a5,0(a5)
-4000039c:	02100593          	li	a1,33
+4000039c:	02000593          	li	a1,32
 400003a0:	00078513          	mv	a0,a5
 400003a4:	e99ff0ef          	jal	ra,4000023c <prince_write>
+
 
 		//START----
 		prince_write(0x1,PRINCE_ADDR_CTRL);
@@ -858,8 +862,6 @@ int main() {
 400006cc:	00008067          	ret
 
 400006d0 <irqCallback>:
-
-
 void irqCallback(){
 400006d0:	ff010113          	addi	sp,sp,-16
 400006d4:	00812623          	sw	s0,12(sp)
