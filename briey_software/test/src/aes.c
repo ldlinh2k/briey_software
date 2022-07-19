@@ -64,7 +64,7 @@ void aes_256cipher(unsigned char operation, uint32_t *key, uint32_t *block, uint
 	aes_write(key[1],AES_ADDR_KEY_BASE +1);
 	aes_write(key[0],AES_ADDR_KEY_BASE);
 
-	aes_write(AES_CONFIG_128_KEY,AES_ADDR_CONFIG);
+	aes_write(AES_CONFIG_256_KEY,AES_ADDR_CONFIG);
 	aes_write(AES_CTRL_INIT_KEY,AES_ADDR_CTRL);
 
     while(aes_read(AES_ADDR_STATUS) == 0);
@@ -77,11 +77,11 @@ void aes_256cipher(unsigned char operation, uint32_t *key, uint32_t *block, uint
 
     unsigned char AES_CONFIG = 0x00;
 	if (operation == 0x01)
-		AES_CONFIG = AES_CONFIG_128_EN;
+		AES_CONFIG = AES_CONFIG_256_EN;
 	else
-		AES_CONFIG = AES_CONFIG_128_DE;
+		AES_CONFIG = AES_CONFIG_256_DE;
 
-	aes_write(AES_CONFIG,AES_ADDR_CONFIG);
+	aes_write(AES_CONFIG, AES_ADDR_CONFIG);
     aes_write(AES_CTRL_START, AES_ADDR_CTRL);
 
     while(aes_read(AES_ADDR_STATUS) == 0);
