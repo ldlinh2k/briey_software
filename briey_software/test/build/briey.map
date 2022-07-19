@@ -63,9 +63,9 @@ LOAD /opt/riscv/bin/../lib/gcc/riscv64-unknown-elf/10.2.0/libgcc.a
                 0x0000000080000000                crtStart
                 0x0000000080000020                trap_entry
 
-.memory         0x0000000040000000      0x8a0
+.memory         0x0000000040000000      0x900
  *(.text)
- .text          0x0000000040000000      0x8a0 build/src/briey_main.o
+ .text          0x0000000040000000      0x900 build/src/briey_main.o
                 0x000000004000023c                gcd
                 0x00000000400002a4                avalon_write
                 0x0000000040000320                avalon_read
@@ -74,76 +74,76 @@ LOAD /opt/riscv/bin/../lib/gcc/riscv64-unknown-elf/10.2.0/libgcc.a
                 0x0000000040000478                prince_cipher
                 0x0000000040000594                print
                 0x00000000400005ec                main
-                0x0000000040000884                irqCallback
-                0x00000000400008a0                end = .
+                0x00000000400008e4                irqCallback
+                0x0000000040000900                end = .
 
-.rodata         0x00000000400008a0       0x82
+.rodata         0x0000000040000900       0x82
  *(.rdata)
  *(.rodata .rodata.*)
- .rodata        0x00000000400008a0       0x82 build/src/briey_main.o
+ .rodata        0x0000000040000900       0x82 build/src/briey_main.o
  *(.gnu.linkonce.r.*)
 
-.rela.dyn       0x0000000040000924        0x0
- .rela.text     0x0000000040000924        0x0 build/src/briey_main.o
+.rela.dyn       0x0000000040000984        0x0
+ .rela.text     0x0000000040000984        0x0 build/src/briey_main.o
 
-.ctors          0x0000000040000922        0x2
-                0x0000000040000924                . = ALIGN (0x4)
- *fill*         0x0000000040000922        0x2 
-                0x0000000040000924                _ctors_start = .
+.ctors          0x0000000040000982        0x2
+                0x0000000040000984                . = ALIGN (0x4)
+ *fill*         0x0000000040000982        0x2 
+                0x0000000040000984                _ctors_start = .
  *(.init_array*)
  *(SORT_BY_NAME(.ctors.*))
  *(.ctors)
-                0x0000000040000924                . = ALIGN (0x4)
-                0x0000000040000924                _ctors_end = .
+                0x0000000040000984                . = ALIGN (0x4)
+                0x0000000040000984                _ctors_end = .
 
-.data           0x0000000040000924        0x4
+.data           0x0000000040000984        0x4
  *(.rdata)
  *(.rodata .rodata.*)
  *(.gnu.linkonce.r.*)
  *(.data .data.*)
- .data          0x0000000040000924        0x0 build/src/briey_main.o
- .data          0x0000000040000924        0x0 build/src/briey_crt.o
+ .data          0x0000000040000984        0x0 build/src/briey_main.o
+ .data          0x0000000040000984        0x0 build/src/briey_crt.o
  *(.gnu.linkonce.d.*)
-                0x0000000040000928                . = ALIGN (0x8)
- *fill*         0x0000000040000924        0x4 
-                0x0000000040001128                PROVIDE (__global_pointer$ = (. + 0x800))
+                0x0000000040000988                . = ALIGN (0x8)
+ *fill*         0x0000000040000984        0x4 
+                0x0000000040001188                PROVIDE (__global_pointer$ = (. + 0x800))
  *(.sdata .sdata.*)
  *(.gnu.linkonce.s.*)
-                0x0000000040000928                . = ALIGN (0x8)
+                0x0000000040000988                . = ALIGN (0x8)
  *(.srodata.cst16)
  *(.srodata.cst8)
  *(.srodata.cst4)
  *(.srodata.cst2)
  *(.srodata .srodata.*)
 
-.bss            0x0000000040000928        0x8
-                0x0000000040000928                . = ALIGN (0x4)
-                0x0000000040000928                _bss_start = .
+.bss            0x0000000040000988        0x8
+                0x0000000040000988                . = ALIGN (0x4)
+                0x0000000040000988                _bss_start = .
  *(.sbss*)
- .sbss          0x0000000040000928        0x8 build/src/briey_main.o
-                0x0000000040000928                data
-                0x000000004000092c                address
+ .sbss          0x0000000040000988        0x8 build/src/briey_main.o
+                0x0000000040000988                data
+                0x000000004000098c                address
  *(.gnu.linkonce.sb.*)
  *(.bss .bss.*)
- .bss           0x0000000040000930        0x0 build/src/briey_main.o
- .bss           0x0000000040000930        0x0 build/src/briey_crt.o
+ .bss           0x0000000040000990        0x0 build/src/briey_main.o
+ .bss           0x0000000040000990        0x0 build/src/briey_crt.o
  *(.gnu.linkonce.b.*)
  *(COMMON)
-                0x0000000040000930                . = ALIGN (0x4)
-                0x0000000040000930                _bss_end = .
+                0x0000000040000990                . = ALIGN (0x4)
+                0x0000000040000990                _bss_end = .
 
-.noinit         0x0000000040000930        0x0
-                0x0000000040000930                . = ALIGN (0x4)
+.noinit         0x0000000040000990        0x0
+                0x0000000040000990                . = ALIGN (0x4)
  *(.noinit .noinit.*)
-                0x0000000040000930                . = ALIGN (0x4)
+                0x0000000040000990                . = ALIGN (0x4)
 
-._user_heap     0x0000000040000930        0x0
-                0x0000000040000930                . = ALIGN (0x8)
+._user_heap     0x0000000040000990        0x0
+                0x0000000040000990                . = ALIGN (0x8)
                 [!provide]                        PROVIDE (end = .)
                 [!provide]                        PROVIDE (_end = .)
                 [!provide]                        PROVIDE (_heap_start = .)
-                0x0000000040000930                . = (. + _heap_size)
-                0x0000000040000930                . = ALIGN (0x8)
+                0x0000000040000990                . = (. + _heap_size)
+                0x0000000040000990                . = ALIGN (0x8)
                 [!provide]                        PROVIDE (_heap_end = .)
 
 ._stack         0x0000000080000138      0x808
@@ -156,9 +156,9 @@ LOAD /opt/riscv/bin/../lib/gcc/riscv64-unknown-elf/10.2.0/libgcc.a
                 0x0000000080000940                PROVIDE (_stack_start = .)
 OUTPUT(build/briey.elf elf32-littleriscv)
 
-.debug_info     0x0000000000000000      0x89c
- .debug_info    0x0000000000000000      0x876 build/src/briey_main.o
- .debug_info    0x0000000000000876       0x26 build/src/briey_crt.o
+.debug_info     0x0000000000000000      0x8d9
+ .debug_info    0x0000000000000000      0x8b3 build/src/briey_main.o
+ .debug_info    0x00000000000008b3       0x26 build/src/briey_crt.o
 
 .debug_abbrev   0x0000000000000000      0x220
  .debug_abbrev  0x0000000000000000      0x20c build/src/briey_main.o
@@ -213,14 +213,14 @@ OUTPUT(build/briey.elf elf32-littleriscv)
  .debug_macro   0x0000000000001ad2       0x6a build/src/briey_main.o
  .debug_macro   0x0000000000001b3c       0x5e build/src/briey_main.o
 
-.debug_line     0x0000000000000000      0xb72
- .debug_line    0x0000000000000000      0x99c build/src/briey_main.o
- .debug_line    0x000000000000099c      0x1d6 build/src/briey_crt.o
+.debug_line     0x0000000000000000      0xc32
+ .debug_line    0x0000000000000000      0xa5c build/src/briey_main.o
+ .debug_line    0x0000000000000a5c      0x1d6 build/src/briey_crt.o
 
-.debug_str      0x0000000000000000     0x7578
- .debug_str     0x0000000000000000     0x7537 build/src/briey_main.o
-                                       0x7730 (size before relaxing)
- .debug_str     0x0000000000007537       0x41 build/src/briey_crt.o
+.debug_str      0x0000000000000000     0x759c
+ .debug_str     0x0000000000000000     0x755b build/src/briey_main.o
+                                       0x7754 (size before relaxing)
+ .debug_str     0x000000000000755b       0x41 build/src/briey_crt.o
 
 .comment        0x0000000000000000       0x30
  .comment       0x0000000000000000       0x30 build/src/briey_main.o

@@ -113,7 +113,8 @@ int main() {
 
 
 	prince_cipher(PRINCE_OP_EN,key,block,real_res);
-
+	GPIO_A_BASE->OUTPUT = real_res[0];
+	GPIO_A_BASE->OUTPUT = real_res[1];
 
 	//**********************************TEST 2 *************************
 	key[3]	= 0x00000000;       // Key (128 bits)
@@ -126,6 +127,8 @@ int main() {
 //	exp_res[1] = 0x818665aa;    // Expected cipher out
 
 	prince_cipher(PRINCE_OP_EN,key,block,real_res);
+	GPIO_A_BASE->OUTPUT = real_res[0];
+	GPIO_A_BASE->OUTPUT = real_res[1];
 
 	//-------------------------------------TEST 3 (DECRYPT)------------------------
 
@@ -139,6 +142,8 @@ int main() {
 //	exp_res[1] = 0x69c4e0d8;    // Expected cipher out
 
 	prince_cipher(PRINCE_OP_DE,key,block,real_res);
+	GPIO_A_BASE->OUTPUT = real_res[0];
+	GPIO_A_BASE->OUTPUT = real_res[1];
 	//----------------------------------TEST 4-------------------------
 	key[3]	= 0xd8cdb780;       // Key (128 bits)
 	key[2]	= 0x70b4c55a;
@@ -150,6 +155,8 @@ int main() {
 //	exp_res[1] = 0x43c6b256;    // Expected cipher out
 
 	prince_cipher(PRINCE_OP_EN,key,block,real_res);
+	GPIO_A_BASE->OUTPUT = real_res[0];
+	GPIO_A_BASE->OUTPUT = real_res[1];
 	//---------------------------------------
 	uint32_t myGCD=0;
 	myGCD=	gcd(16, 8);
