@@ -52,9 +52,19 @@ void aes_128_cipher(unsigned char operation, uint32_t *key, uint32_t *block, uin
     res[2] = aes_read(AES_ADDR_RESULT_BASE + 2);
     res[1] = aes_read(AES_ADDR_RESULT_BASE + 1);
     res[0] = aes_read(AES_ADDR_RESULT_BASE + 0);
+
+    //print result to terminal
+	if(operation == 0x1)
+		print("============================AES128 ENCRYPTTION==============================\r\n");
+	else
+		print("============================AES128 DECRYPTTION==============================\r\n");
+	print128bit("\r\nPLAIN_TEXT (128-bit) : ", block);
+	print128bit("KEY (128-bit) : ", key);
+	print128bit("RESULT (128-bit) : ", res);
+	print("\r\n============================================================================\r\n");
 }
 
-void aes_256cipher(unsigned char operation, uint32_t *key, uint32_t *block, uint32_t *res) {
+void aes_256_cipher(unsigned char operation, uint32_t *key, uint32_t *block, uint32_t *res) {
 	aes_write(key[7],AES_ADDR_KEY_BASE +7);
 	aes_write(key[6],AES_ADDR_KEY_BASE +6);
 	aes_write(key[5],AES_ADDR_KEY_BASE +5);
@@ -90,4 +100,15 @@ void aes_256cipher(unsigned char operation, uint32_t *key, uint32_t *block, uint
     res[2] = aes_read(AES_ADDR_RESULT_BASE + 2);
     res[1] = aes_read(AES_ADDR_RESULT_BASE + 1);
     res[0] = aes_read(AES_ADDR_RESULT_BASE + 0);
+
+    //print result to terminal
+	if(operation == 0x1)
+		print("======================================AES256 ENCRYPTTION========================================\r\n");
+	else
+		print("======================================AES256 DECRYPTTION========================================\r\n");
+	print128bit("\r\nPLAIN_TEXT (128-bit) : ", block);
+	print256bit("KEY (256-bit) : ", key);
+	print128bit("RESULT (128-bit) : ", res);
+	print("\r\n================================================================================================\r\n");
+
 }

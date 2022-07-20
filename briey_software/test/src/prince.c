@@ -19,15 +19,6 @@ uint32_t prince_read(uint32_t iAddress)
 
 void prince_cipher(uint32_t mode, uint32_t *key, uint32_t *block, uint32_t *res)
 {
-		//KEY----
-
-		prince_write(key[3],PRINCE_ADDR_KEY3);
-		prince_write(key[2],PRINCE_ADDR_KEY2);
-		prince_write(key[1],PRINCE_ADDR_KEY1);
-		prince_write(key[0],PRINCE_ADDR_KEY0);
-
-
-
 		//EN-OR-DE---
 		prince_write(mode,PRINCE_ADDR_CONFIG);
 
@@ -35,6 +26,12 @@ void prince_cipher(uint32_t mode, uint32_t *key, uint32_t *block, uint32_t *res)
 		prince_write(block[1],PRINCE_ADDR_BLOCK1);
 		prince_write(block[0],PRINCE_ADDR_BLOCK0);
 
+		//KEY----
+
+		prince_write(key[3],PRINCE_ADDR_KEY3);
+		prince_write(key[2],PRINCE_ADDR_KEY2);
+		prince_write(key[1],PRINCE_ADDR_KEY1);
+		prince_write(key[0],PRINCE_ADDR_KEY0);
 
 		//START----
 		prince_write(0x1,PRINCE_ADDR_CTRL);
@@ -43,5 +40,17 @@ void prince_cipher(uint32_t mode, uint32_t *key, uint32_t *block, uint32_t *res)
 		while(prince_read(PRINCE_ADDR_STATUS)==0);
 		res[1] = prince_read(PRINCE_ADDR_RESULT1);
 		res[0] = prince_read(PRINCE_ADDR_RESULT0);
+
+		//print result to terminal
+		if(mode == PRINCE_OP_EN)
+			print("=============================PRINCE ENCRYPTTION=============================\r\n");
+		else
+			print("=============================PRINCE DECRYPTTION=============================\r\n");
+		print("\r\n");
+		print64bit("PLAIN_TEXT (64-bit) : ", block);
+		print128bit("KEY (128-bit) : ", key);
+		print64bit("RESULT (64-bit) : ", res);
+		print("\r\n============================================================================\r\n");
+
 }
 

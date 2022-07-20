@@ -28,10 +28,6 @@ build/src/briey_main.o: src/briey_main.c \
  /opt/riscv/riscv64-unknown-elf/include/sys/sched.h \
  /opt/riscv/riscv64-unknown-elf/include/machine/types.h \
  /opt/riscv/riscv64-unknown-elf/include/sys/stdio.h \
- /opt/riscv/riscv64-unknown-elf/include/string.h \
- /opt/riscv/riscv64-unknown-elf/include/sys/_locale.h \
- /opt/riscv/riscv64-unknown-elf/include/strings.h \
- /opt/riscv/riscv64-unknown-elf/include/sys/string.h \
  /opt/riscv/lib/gcc/riscv64-unknown-elf/10.2.0/include/stdint.h \
  /opt/riscv/riscv64-unknown-elf/include/stdint.h \
  /opt/riscv/riscv64-unknown-elf/include/sys/_intsup.h \
