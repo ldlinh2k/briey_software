@@ -16,6 +16,7 @@
 #include "gpio.h"
 #include "prince.h"
 #include "aes.h"
+#include "present.h"
 
 #define CORE_HZ 50000000
 
@@ -23,6 +24,7 @@
 #define GPIO_B_BASE    	((Gpio_Reg*)(0xF0001000))
 #define PRINCE_BASE 	((Prince_Reg*)(0xF0002000))
 #define AES_BASE 		((Aes_Reg*)(0xF0002400))
+#define PRESENT_BASE  	((Present_Reg*)(0xF0002800))
 #define UART      		((Uart_Reg*)(0xF0010000))
 #define VGA_BASE      	((Vga_Reg*)(0xF0030000))
 
