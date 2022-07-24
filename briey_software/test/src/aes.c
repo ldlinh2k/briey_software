@@ -55,13 +55,13 @@ void aes_128_cipher(unsigned char operation, uint32_t *key, uint32_t *block, uin
 
     //print result to terminal
 	if(operation == 0x1)
-		print("============================AES128 ENCRYPTTION==============================\r\n");
+		print("\r\t============================AES128 ENCRYPTTION==============================\r\n");
 	else
-		print("============================AES128 DECRYPTTION==============================\r\n");
-	print128bit("\r\nPLAIN_TEXT (128-bit) : ", block);
+		print("\r\t============================AES128 DECRYPTTION==============================\r\n");
+	print("\r\n");
+	print128bit("\r\tPLAIN_TEXT (128-bit) : ", block);
 	print128bit("KEY (128-bit) : ", key);
 	print128bit("RESULT (128-bit) : ", res);
-	print("\r\n============================================================================\r\n");
 }
 
 void aes_256_cipher(unsigned char operation, uint32_t *key, uint32_t *block, uint32_t *res) {
@@ -103,12 +103,13 @@ void aes_256_cipher(unsigned char operation, uint32_t *key, uint32_t *block, uin
 
     //print result to terminal
 	if(operation == 0x1)
-		print("======================================AES256 ENCRYPTTION========================================\r\n");
+		print("\r\t======================================AES256 ENCRYPTTION========================================\r\n");
 	else
-		print("======================================AES256 DECRYPTTION========================================\r\n");
-	print128bit("\r\nPLAIN_TEXT (128-bit) : ", block);
+		print("\r\t======================================AES256 DECRYPTTION========================================\r\n");
+	print("\r\n");
+	print128bit("PLAIN_TEXT (128-bit) : ", block);
 	print256bit("KEY (256-bit) : ", key);
 	print128bit("RESULT (128-bit) : ", res);
-	print("\r\n================================================================================================\r\n");
+	//print("\r\n================================================================================================\r\n");
 
 }
