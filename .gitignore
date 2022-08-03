@@ -45,7 +45,11 @@ obj_dir
 *.tcl
 *.o
 *.bin
-
+*.asm
+*.elf
+*.hex
+*.map
+*.d
 simWorkspace/
 tmp/
 /archive.tar.gz
