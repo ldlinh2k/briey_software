@@ -18,6 +18,7 @@ module PRESENT_WRAPPER(
 	00xx:	iKey:0x1[79:48];0x2[47:16];0x3[15:0];
 	010x:	iDat: 0x4;0x5
 	001x:	oData:0x6;0x7
+	1001:   status
 */
 wire	[63:0]	odreg;
 reg				reset_n;
