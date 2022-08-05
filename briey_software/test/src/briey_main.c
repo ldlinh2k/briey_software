@@ -11,7 +11,41 @@ int main() {
 	uartConfig.stop = ONE;
 	uartConfig.clockDivider = (CORE_HZ / 8 / 115200) - 1;
 	uart_applyConfig(UART,&uartConfig);
+//CHACHA
+	print("\r\t**********************************CHACHA TEST*******************************\r\n");
+	uint32_t chacha_key[8] 		= {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+	uint32_t chacha_block[2] 	= {0x0, 0x0};
+	uint32_t chacha_res[15] 	= {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+	uint32_t chacha_rounds = 8;
+	chacha_cipher(KEY_128_BITS,chacha_key,chacha_block,chacha_rounds,chacha_res);
+	chacha_block[1] 	= 0x0;
+	chacha_block[0] 	= 0x0;
+	chacha_cipher(KEY_128_BITS,chacha_key,chacha_block,12,chacha_res);
+	chacha_block[1] 	= 0x0;
+	chacha_block[0] 	= 0x0;
+	chacha_cipher(KEY_128_BITS,chacha_key,chacha_block,20,chacha_res);
+	chacha_block[1] 	= 0x0;
+	chacha_block[0] 	= 0x0;
+	chacha_cipher(KEY_256_BITS,chacha_key,chacha_block,8,chacha_res);
+	chacha_block[1] 	= 0x0;
+	chacha_block[0] 	= 0x0;
+	chacha_cipher(KEY_256_BITS,chacha_key,chacha_block,12,chacha_res);
+	chacha_block[1] 	= 0x0;
+	chacha_block[0] 	= 0x0;
+	chacha_cipher(KEY_256_BITS,chacha_key,chacha_block,20,chacha_res);
+	//test 2
+	chacha_block[1]=0x0f1e2d3c;
+	chacha_block[0]=0x4b596877;
 
+			chacha_key[7]=0x00112233;
+			chacha_key[6]=0x44556677;
+			chacha_key[5]=0x8899aabb;
+			chacha_key[4]=0xccddeeff;
+			chacha_key[3]=0xffeeddcc;
+			chacha_key[2]=0xbbaa9988;
+			chacha_key[1]=0x77665544;
+			chacha_key[0]= 0x33221100;
+	chacha_cipher(KEY_256_BITS,chacha_key,chacha_block,chacha_rounds,chacha_res);
 //PRINCE
 	print("\r\t**********************************PRINCE TEST*******************************\r\n");
 	uint32_t prince_key[4] 		= {0x0, 0x0, 0x0, 0x0};

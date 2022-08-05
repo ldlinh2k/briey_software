@@ -90,3 +90,25 @@ void print256bit(char *message, uint32_t *num)
 	print32bit(num[0]);
 	print("\r\n");
 }
+void print512bit (char *message, uint32_t *num)
+{
+	print("\r\t");
+	print(message);
+	print32bit(num[15]);
+	print32bit(num[14]);
+	print32bit(num[13]);
+	print32bit(num[12]);
+	print32bit(num[11]);
+	print32bit(num[10]);
+	print32bit(num[9]);
+	print32bit(num[8]);
+	print32bit(num[7]);
+	print32bit(num[6]);
+	print32bit(num[5]);
+	print32bit(num[4]);
+	print32bit(num[3]);
+	print32bit(num[2]);
+	print32bit(num[1]);
+	print32bit(num[0]);
+	print("\r\n");
+}

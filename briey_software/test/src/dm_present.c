@@ -21,20 +21,20 @@ uint32_t dm_present_read(uint32_t iAddress)
 void dm_present_hash(uint32_t *key, uint32_t *block, uint32_t *res) {
 
 	//PLAIN_TEXT
-	dm_present_write(block[1],PRESENT_ADDR_BLOCK_BASE +1);
-	dm_present_write(block[0],PRESENT_ADDR_BLOCK_BASE);
+	dm_present_write(block[1],DMPRESENT_ADDR_BLOCK_BASE +1);
+	dm_present_write(block[0],DMPRESENT_ADDR_BLOCK_BASE);
 
 	//KEY
-	dm_present_write(key[2],PRESENT_ADDR_KEY_BASE +2);
-	dm_present_write(key[1],PRESENT_ADDR_KEY_BASE +1);
-	dm_present_write(key[0],PRESENT_ADDR_KEY_BASE);
+	dm_present_write(key[2],DMPRESENT_ADDR_KEY_BASE +2);
+	dm_present_write(key[1],DMPRESENT_ADDR_KEY_BASE +1);
+	dm_present_write(key[0],DMPRESENT_ADDR_KEY_BASE);
 
 	//START
-	dm_present_write(0x1,PRESENT_ADDR_START);
-    while(dm_present_read(PRESENT_ADDR_RESULT_BASE) == 0);
+	dm_present_write(0x1,DMPRESENT_ADDR_START);
+    while(dm_present_read(DMPRESENT_ADDR_RESULT_BASE) == 0);
 
-    res[1] = dm_present_read(PRESENT_ADDR_RESULT_BASE +1);
-    res[0] = dm_present_read(PRESENT_ADDR_RESULT_BASE);
+    res[1] = dm_present_read(DMPRESENT_ADDR_RESULT_BASE +1);
+    res[0] = dm_present_read(DMPRESENT_ADDR_RESULT_BASE);
 
 
     //print result to terminal
