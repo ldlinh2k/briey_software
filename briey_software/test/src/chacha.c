@@ -18,6 +18,9 @@ uint32_t chacha_read(uint32_t iAddress)
 }
 void chacha_cipher(unsigned char key_length, uint32_t *key, uint32_t *block, uint32_t rounds,uint32_t *res)
 {
+	print("\r\t==================================CHACHA20 CIPHER=========================================\r\n");
+	print("\r\n");
+	print64bit("\r\tPLAIN_TEXT (64-bit) : ", block);
 	chacha_write(key[7],CHACHA_ADDR_KEY_BASE);
 	chacha_write(key[6],CHACHA_ADDR_KEY_BASE+1);
 	chacha_write(key[5],CHACHA_ADDR_KEY_BASE+2);
@@ -56,10 +59,8 @@ void chacha_cipher(unsigned char key_length, uint32_t *key, uint32_t *block, uin
 	res[1] = chacha_read(CHACHA_ADDR_RESULT_BASE + 14);
 	res[0] = chacha_read(CHACHA_ADDR_RESULT_BASE + 15);
 
-	print("\r\t===========================CHACHA20 CIPHER==================================\r\n");
-	print("\r\n");
-	print64bit("\r\tPLAIN_TEXT (64-bit) : ", block);
-	print256bit("KEY (128/256-bit) : ", key);
+
+	print256bit("KEY (128/256-bit): ", key);
 	print512bit("RESULT (512-bit) : ", res);
 	//print("\r\n============================================================================\r\n");
 

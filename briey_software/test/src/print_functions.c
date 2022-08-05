@@ -102,6 +102,8 @@ void print512bit (char *message, uint32_t *num)
 	print32bit(num[10]);
 	print32bit(num[9]);
 	print32bit(num[8]);
+	print("\r\n");
+	print("\r\t                   ");
 	print32bit(num[7]);
 	print32bit(num[6]);
 	print32bit(num[5]);
