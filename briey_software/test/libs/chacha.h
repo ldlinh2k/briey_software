@@ -1,3 +1,10 @@
+/*
+ * chacha.h
+ *
+ *  Created on: Aug 5, 2022
+ *      Author: linh
+ */
+
 #ifndef CHACHA_H_
 #define CHACHA_H_
 	#define CHACHA_ADDR_CTRL         	0x08

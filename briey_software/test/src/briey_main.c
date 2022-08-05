@@ -15,7 +15,42 @@ int main() {
 	uartConfig.stop = ONE;
 	uartConfig.clockDivider = (CORE_HZ / 8 / 115200) - 1;
 	uart_applyConfig(UART,&uartConfig);
-//CHACHA
+//POLY1305
+	print("\r\n");
+	print("\r\t*****************************************POLY1305 TEST************************************\r\n");
+	uint32_t poly_key[8] 	= {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+	uint32_t poly_block[4] 	= {0x0, 0x0,0x0,0x0};
+	uint32_t poly_res[4] 	= {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+	print("\r\n\t==========================================TEST 1==========================================\r\n");
+	//key 85d6be78 57556d33 7f4452fe 42d506a8 0103808a fb0db2fd 4abff6af 4149f51b
+	//0 bytes message
+	//res expec: h0103808a fb0db2fd 4abff6af 4149f51b
+	poly_key[7]= 0x85d6be78;
+	poly_key[6]= 0x57556d33;
+	poly_key[5]= 0x7f4452fe;
+	poly_key[4]= 0x42d506a8;
+	poly_key[3]= 0x0103808a;
+	poly_key[2]= 0xfb0db2fd;
+	poly_key[1]= 0x4abff6af;
+	poly_key[0]= 0x4149f51b;
+
+	poly_test_N_bytes(0,poly_key,poly_block,poly_res);
+	print("\r\n\t==========================================TEST 2==========================================\r\n");
+	poly_block[3] = 0x31000000;
+	//USE THE SAME KEY
+	//res expec: h8097ddf5_19b7f412_0b57fabf_925a19ac
+	//1 byte message: 31
+	poly_test_N_bytes(1,poly_key,poly_block,poly_res);
+
+	print("\r\n\t==========================================TEST 3==========================================\r\n");
+	//res expec: ha8061dc1_305136c6_c22b8baf_0c0127a9
+	poly_test_rfc8439();
+
+	print("\r\n\t==========================================TEST 4==========================================\r\n");
+	//res expec: hdc0964e5 ce9cd7d9 a7571faf a5dc0473
+	poly_test_long();
+	//ab
+	//CHACHA
 	print("\r\n");
 	print("\r\t*****************************************CHACHA TEST**************************************\r\n");
 	uint32_t chacha_key[8] 		= {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
