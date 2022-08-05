@@ -6,6 +6,7 @@ import vexriscv.periph.prince._
 import vexriscv.periph.present._
 import vexriscv.periph.dm_present._
 import vexriscv.periph.chacha._
+import vexriscv.periph.poly1305._
 
 import vexriscv._
 import vexriscv.ip.{DataCacheConfig, InstructionCacheConfig}
@@ -300,7 +301,12 @@ class Briey(config: BrieyConfig) extends Component{
         dataWidth = 32
       )
     )
-    
+    val apbPoly1305Bridge = new Apb3Poly1305Ctrl(
+        apb3Config = Apb3Config(
+        addressWidth = 20,
+        dataWidth = 32
+      )
+    )
     val timerCtrl = PinsecTimerCtrl()
 
 
@@ -406,6 +412,7 @@ class Briey(config: BrieyConfig) extends Component{
         apbPresentBridge.io.apb   -> (0x02400, 1 kB),  
         apbDMPresentBridge.io.apb -> (0x02800, 1 kB),
         apbChachaBridge.io.apb    -> (0x02C00, 1 kB),   
+        apbPoly1305Bridge.io.apb  -> (0x03000, 1 kB),
         uartCtrl.io.apb           -> (0x10000, 4 kB),
         timerCtrl.io.apb          -> (0x20000, 4 kB),
         vgaCtrl.io.apb            -> (0x30000, 4 kB)
