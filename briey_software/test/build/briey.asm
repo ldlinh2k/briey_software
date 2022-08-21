@@ -55,15 +55,15 @@ Disassembly of section .vector:
 
 800000b4 <crtInit>:
 800000b4:	c0004197          	auipc	gp,0xc0004
-800000b8:	5ac18193          	addi	gp,gp,1452 # 40004660 <__global_pointer$>
+800000b8:	04418193          	addi	gp,gp,68 # 400040f8 <__global_pointer$>
 800000bc:	00001117          	auipc	sp,0x1
 800000c0:	88410113          	addi	sp,sp,-1916 # 80000940 <_stack_start>
 
 800000c4 <bss_init>:
 800000c4:	c0004517          	auipc	a0,0xc0004
-800000c8:	d9c50513          	addi	a0,a0,-612 # 40003e60 <_bss_end>
+800000c8:	83450513          	addi	a0,a0,-1996 # 400038f8 <_bss_end>
 800000cc:	c0004597          	auipc	a1,0xc0004
-800000d0:	d9458593          	addi	a1,a1,-620 # 40003e60 <_bss_end>
+800000d0:	82c58593          	addi	a1,a1,-2004 # 400038f8 <_bss_end>
 
 800000d4 <bss_loop>:
 800000d4:	00b50863          	beq	a0,a1,800000e4 <bss_done>
@@ -73,12 +73,12 @@ Disassembly of section .vector:
 
 800000e4 <bss_done>:
 800000e4:	c0004517          	auipc	a0,0xc0004
-800000e8:	d7850513          	addi	a0,a0,-648 # 40003e5c <_ctors_end>
+800000e8:	81050513          	addi	a0,a0,-2032 # 400038f4 <_ctors_end>
 800000ec:	ffc10113          	addi	sp,sp,-4
 
 800000f0 <ctors_loop>:
 800000f0:	c0004597          	auipc	a1,0xc0004
-800000f4:	d6c58593          	addi	a1,a1,-660 # 40003e5c <_ctors_end>
+800000f4:	80458593          	addi	a1,a1,-2044 # 400038f4 <_ctors_end>
 800000f8:	00b50e63          	beq	a0,a1,80000114 <ctors_done>
 800000fc:	00052683          	lw	a3,0(a0)
 80000100:	00450513          	addi	a0,a0,4
@@ -423,17 +423,17 @@ void chacha_cipher(unsigned char key_length, uint32_t *key, uint32_t *block, uin
 40000340:	fef407a3          	sb	a5,-17(s0)
 	print("\r\t==================================CHACHA20 CIPHER=========================================\r\n");
 40000344:	400037b7          	lui	a5,0x40003
-40000348:	18078513          	addi	a0,a5,384 # 40003180 <vga_simRes_h160_v120+0x20>
-4000034c:	665010ef          	jal	ra,400021b0 <print>
+40000348:	d1078513          	addi	a0,a5,-752 # 40002d10 <vga_simRes_h160_v120+0x20>
+4000034c:	1f5010ef          	jal	ra,40001d40 <print>
 	print("\r\n");
 40000350:	400037b7          	lui	a5,0x40003
-40000354:	1e078513          	addi	a0,a5,480 # 400031e0 <vga_simRes_h160_v120+0x80>
-40000358:	659010ef          	jal	ra,400021b0 <print>
+40000354:	d7078513          	addi	a0,a5,-656 # 40002d70 <vga_simRes_h160_v120+0x80>
+40000358:	1e9010ef          	jal	ra,40001d40 <print>
 	print64bit("\r\tPLAIN_TEXT (64-bit) : ", block);
 4000035c:	fe442583          	lw	a1,-28(s0)
 40000360:	400037b7          	lui	a5,0x40003
-40000364:	1e478513          	addi	a0,a5,484 # 400031e4 <vga_simRes_h160_v120+0x84>
-40000368:	0b0020ef          	jal	ra,40002418 <print64bit>
+40000364:	d7478513          	addi	a0,a5,-652 # 40002d74 <vga_simRes_h160_v120+0x84>
+40000368:	441010ef          	jal	ra,40001fa8 <print64bit>
 	chacha_write(key[7],CHACHA_ADDR_KEY_BASE);
 4000036c:	fe842783          	lw	a5,-24(s0)
 40000370:	01c78793          	addi	a5,a5,28
@@ -644,13 +644,13 @@ void chacha_cipher(unsigned char key_length, uint32_t *key, uint32_t *block, uin
 	print256bit("KEY (128/256-bit): ", key);
 4000060c:	fe842583          	lw	a1,-24(s0)
 40000610:	400037b7          	lui	a5,0x40003
-40000614:	20078513          	addi	a0,a5,512 # 40003200 <vga_simRes_h160_v120+0xa0>
-40000618:	78d010ef          	jal	ra,400025a4 <print256bit>
+40000614:	d9078513          	addi	a0,a5,-624 # 40002d90 <vga_simRes_h160_v120+0xa0>
+40000618:	31d010ef          	jal	ra,40002134 <print256bit>
 	print512bit("RESULT (512-bit) : ", res);
 4000061c:	fdc42583          	lw	a1,-36(s0)
 40000620:	400037b7          	lui	a5,0x40003
-40000624:	21478513          	addi	a0,a5,532 # 40003214 <vga_simRes_h160_v120+0xb4>
-40000628:	064020ef          	jal	ra,4000268c <print512bit>
+40000624:	da478513          	addi	a0,a5,-604 # 40002da4 <vga_simRes_h160_v120+0xb4>
+40000628:	3f5010ef          	jal	ra,4000221c <print512bit>
 	//print("\r\n============================================================================\r\n");
 
 }
@@ -943,27 +943,27 @@ void chacha_cipher(unsigned char key_length, uint32_t *key, uint32_t *block, uin
 40000a3c:	00100793          	li	a5,1
 40000a40:	00f71a63          	bne	a4,a5,40000a54 <prince_cipher+0x120>
 40000a44:	400037b7          	lui	a5,0x40003
-40000a48:	28878513          	addi	a0,a5,648 # 40003288 <vga_simRes_h160_v120+0x20>
-40000a4c:	764010ef          	jal	ra,400021b0 <print>
+40000a48:	e1878513          	addi	a0,a5,-488 # 40002e18 <vga_simRes_h160_v120+0x20>
+40000a4c:	2f4010ef          	jal	ra,40001d40 <print>
 40000a50:	0100006f          	j	40000a60 <prince_cipher+0x12c>
 40000a54:	400037b7          	lui	a5,0x40003
-40000a58:	2dc78513          	addi	a0,a5,732 # 400032dc <vga_simRes_h160_v120+0x74>
-40000a5c:	754010ef          	jal	ra,400021b0 <print>
+40000a58:	e6c78513          	addi	a0,a5,-404 # 40002e6c <vga_simRes_h160_v120+0x74>
+40000a5c:	2e4010ef          	jal	ra,40001d40 <print>
 40000a60:	400037b7          	lui	a5,0x40003
-40000a64:	33078513          	addi	a0,a5,816 # 40003330 <vga_simRes_h160_v120+0xc8>
-40000a68:	748010ef          	jal	ra,400021b0 <print>
+40000a64:	ec078513          	addi	a0,a5,-320 # 40002ec0 <vga_simRes_h160_v120+0xc8>
+40000a68:	2d8010ef          	jal	ra,40001d40 <print>
 40000a6c:	fe442583          	lw	a1,-28(s0)
 40000a70:	400037b7          	lui	a5,0x40003
-40000a74:	33478513          	addi	a0,a5,820 # 40003334 <vga_simRes_h160_v120+0xcc>
-40000a78:	1a1010ef          	jal	ra,40002418 <print64bit>
+40000a74:	ec478513          	addi	a0,a5,-316 # 40002ec4 <vga_simRes_h160_v120+0xcc>
+40000a78:	530010ef          	jal	ra,40001fa8 <print64bit>
 40000a7c:	fe842583          	lw	a1,-24(s0)
 40000a80:	400037b7          	lui	a5,0x40003
-40000a84:	34c78513          	addi	a0,a5,844 # 4000334c <vga_simRes_h160_v120+0xe4>
-40000a88:	201010ef          	jal	ra,40002488 <print128bit>
+40000a84:	edc78513          	addi	a0,a5,-292 # 40002edc <vga_simRes_h160_v120+0xe4>
+40000a88:	590010ef          	jal	ra,40002018 <print128bit>
 40000a8c:	fe042583          	lw	a1,-32(s0)
 40000a90:	400037b7          	lui	a5,0x40003
-40000a94:	36078513          	addi	a0,a5,864 # 40003360 <vga_simRes_h160_v120+0xf8>
-40000a98:	181010ef          	jal	ra,40002418 <print64bit>
+40000a94:	ef078513          	addi	a0,a5,-272 # 40002ef0 <vga_simRes_h160_v120+0xf8>
+40000a98:	510010ef          	jal	ra,40001fa8 <print64bit>
 40000a9c:	00000013          	nop
 40000aa0:	01c12083          	lw	ra,28(sp)
 40000aa4:	01812403          	lw	s0,24(sp)
@@ -1218,12 +1218,12 @@ int main() {
 	//POLY1305
 	print("\r\n");
 40000d5c:	400037b7          	lui	a5,0x40003
-40000d60:	3d478513          	addi	a0,a5,980 # 400033d4 <vga_simRes_h160_v120+0x20>
-40000d64:	44c010ef          	jal	ra,400021b0 <print>
+40000d60:	f6478513          	addi	a0,a5,-156 # 40002f64 <vga_simRes_h160_v120+0x20>
+40000d64:	7dd000ef          	jal	ra,40001d40 <print>
 	print("\r\t*****************************************POLY1305 TEST************************************\r\n");
 40000d68:	400037b7          	lui	a5,0x40003
-40000d6c:	3d878513          	addi	a0,a5,984 # 400033d8 <vga_simRes_h160_v120+0x24>
-40000d70:	440010ef          	jal	ra,400021b0 <print>
+40000d6c:	f6878513          	addi	a0,a5,-152 # 40002f68 <vga_simRes_h160_v120+0x24>
+40000d70:	7d1000ef          	jal	ra,40001d40 <print>
 	uint32_t poly_key[8] 	= {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
 40000d74:	fc042023          	sw	zero,-64(s0)
 40000d78:	fc042223          	sw	zero,-60(s0)
@@ -1245,8 +1245,8 @@ int main() {
 40000db0:	fa042623          	sw	zero,-84(s0)
 	print("\r\n\t==========================================TEST 1==========================================\r\n");
 40000db4:	400037b7          	lui	a5,0x40003
-40000db8:	43878513          	addi	a0,a5,1080 # 40003438 <vga_simRes_h160_v120+0x84>
-40000dbc:	3f4010ef          	jal	ra,400021b0 <print>
+40000db8:	fc878513          	addi	a0,a5,-56 # 40002fc8 <vga_simRes_h160_v120+0x84>
+40000dbc:	785000ef          	jal	ra,40001d40 <print>
 	//key 85d6be78 57556d33 7f4452fe 42d506a8 0103808a fb0db2fd 4abff6af 4149f51b
 	//0 bytes message
 	//res expec: h0103808a fb0db2fd 4abff6af 4149f51b
@@ -1256,15 +1256,15 @@ int main() {
 40000dc8:	fcf42e23          	sw	a5,-36(s0)
 	poly_key[6]= 0x57556d33;
 40000dcc:	575577b7          	lui	a5,0x57557
-40000dd0:	d3378793          	addi	a5,a5,-717 # 57556d33 <__global_pointer$+0x175526d3>
+40000dd0:	d3378793          	addi	a5,a5,-717 # 57556d33 <__global_pointer$+0x17552c3b>
 40000dd4:	fcf42c23          	sw	a5,-40(s0)
 	poly_key[5]= 0x7f4452fe;
 40000dd8:	7f4457b7          	lui	a5,0x7f445
-40000ddc:	2fe78793          	addi	a5,a5,766 # 7f4452fe <__global_pointer$+0x3f440c9e>
+40000ddc:	2fe78793          	addi	a5,a5,766 # 7f4452fe <__global_pointer$+0x3f441206>
 40000de0:	fcf42a23          	sw	a5,-44(s0)
 	poly_key[4]= 0x42d506a8;
 40000de4:	42d507b7          	lui	a5,0x42d50
-40000de8:	6a878793          	addi	a5,a5,1704 # 42d506a8 <__global_pointer$+0x2d4c048>
+40000de8:	6a878793          	addi	a5,a5,1704 # 42d506a8 <__global_pointer$+0x2d4c5b0>
 40000dec:	fcf42823          	sw	a5,-48(s0)
 	poly_key[3]= 0x0103808a;
 40000df0:	010387b7          	lui	a5,0x1038
@@ -1276,11 +1276,11 @@ int main() {
 40000e04:	fcf42423          	sw	a5,-56(s0)
 	poly_key[1]= 0x4abff6af;
 40000e08:	4abff7b7          	lui	a5,0x4abff
-40000e0c:	6af78793          	addi	a5,a5,1711 # 4abff6af <__global_pointer$+0xabfb04f>
+40000e0c:	6af78793          	addi	a5,a5,1711 # 4abff6af <__global_pointer$+0xabfb5b7>
 40000e10:	fcf42223          	sw	a5,-60(s0)
 	poly_key[0]= 0x4149f51b;
 40000e14:	4149f7b7          	lui	a5,0x4149f
-40000e18:	51b78793          	addi	a5,a5,1307 # 4149f51b <__global_pointer$+0x149aebb>
+40000e18:	51b78793          	addi	a5,a5,1307 # 4149f51b <__global_pointer$+0x149b423>
 40000e1c:	fcf42023          	sw	a5,-64(s0)
 
 	poly_test_N_bytes(0,poly_key,poly_block,poly_res);
@@ -1290,11 +1290,11 @@ int main() {
 40000e2c:	00070613          	mv	a2,a4
 40000e30:	00078593          	mv	a1,a5
 40000e34:	00000513          	li	a0,0
-40000e38:	781010ef          	jal	ra,40002db8 <poly_test_N_bytes>
+40000e38:	311010ef          	jal	ra,40002948 <poly_test_N_bytes>
 	print("\r\n\t==========================================TEST 2==========================================\r\n");
 40000e3c:	400037b7          	lui	a5,0x40003
-40000e40:	49878513          	addi	a0,a5,1176 # 40003498 <vga_simRes_h160_v120+0xe4>
-40000e44:	36c010ef          	jal	ra,400021b0 <print>
+40000e40:	02878513          	addi	a0,a5,40 # 40003028 <vga_simRes_h160_v120+0xe4>
+40000e44:	6fd000ef          	jal	ra,40001d40 <print>
 	poly_block[3] = 0x31000000;
 40000e48:	310007b7          	lui	a5,0x31000
 40000e4c:	faf42e23          	sw	a5,-68(s0)
@@ -1308,33 +1308,33 @@ int main() {
 40000e5c:	00070613          	mv	a2,a4
 40000e60:	00078593          	mv	a1,a5
 40000e64:	00100513          	li	a0,1
-40000e68:	751010ef          	jal	ra,40002db8 <poly_test_N_bytes>
+40000e68:	2e1010ef          	jal	ra,40002948 <poly_test_N_bytes>
 
 	print("\r\n\t==========================================TEST 3==========================================\r\n");
 40000e6c:	400037b7          	lui	a5,0x40003
-40000e70:	4f878513          	addi	a0,a5,1272 # 400034f8 <vga_simRes_h160_v120+0x144>
-40000e74:	33c010ef          	jal	ra,400021b0 <print>
+40000e70:	08878513          	addi	a0,a5,136 # 40003088 <vga_simRes_h160_v120+0x144>
+40000e74:	6cd000ef          	jal	ra,40001d40 <print>
 	//res expec: ha8061dc1_305136c6_c22b8baf_0c0127a9
 	poly_test_rfc8439();
-40000e78:	7cd010ef          	jal	ra,40002e44 <poly_test_rfc8439>
+40000e78:	35d010ef          	jal	ra,400029d4 <poly_test_rfc8439>
 
 	print("\r\n\t==========================================TEST 4==========================================\r\n");
 40000e7c:	400037b7          	lui	a5,0x40003
-40000e80:	55878513          	addi	a0,a5,1368 # 40003558 <vga_simRes_h160_v120+0x1a4>
-40000e84:	32c010ef          	jal	ra,400021b0 <print>
+40000e80:	0e878513          	addi	a0,a5,232 # 400030e8 <vga_simRes_h160_v120+0x1a4>
+40000e84:	6bd000ef          	jal	ra,40001d40 <print>
 	//res expec: hdc0964e5 ce9cd7d9 a7571faf a5dc0473
 	poly_test_long();
-40000e88:	180020ef          	jal	ra,40003008 <poly_test_long>
+40000e88:	511010ef          	jal	ra,40002b98 <poly_test_long>
 	//ab
 	//CHACHA
 	print("\r\n");
 40000e8c:	400037b7          	lui	a5,0x40003
-40000e90:	3d478513          	addi	a0,a5,980 # 400033d4 <vga_simRes_h160_v120+0x20>
-40000e94:	31c010ef          	jal	ra,400021b0 <print>
+40000e90:	f6478513          	addi	a0,a5,-156 # 40002f64 <vga_simRes_h160_v120+0x20>
+40000e94:	6ad000ef          	jal	ra,40001d40 <print>
 	print("\r\t*****************************************CHACHA TEST**************************************\r\n");
 40000e98:	400037b7          	lui	a5,0x40003
-40000e9c:	5b878513          	addi	a0,a5,1464 # 400035b8 <vga_simRes_h160_v120+0x204>
-40000ea0:	310010ef          	jal	ra,400021b0 <print>
+40000e9c:	14878513          	addi	a0,a5,328 # 40003148 <vga_simRes_h160_v120+0x204>
+40000ea0:	6a1000ef          	jal	ra,40001d40 <print>
 	uint32_t chacha_key[8] 		= {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
 40000ea4:	f8042023          	sw	zero,-128(s0)
 40000ea8:	f8042223          	sw	zero,-124(s0)
@@ -1365,12 +1365,12 @@ int main() {
 40000f04:	f6042a23          	sw	zero,-140(s0)
 	print("\r\n\t==========================================TEST 1==========================================\r\n");
 40000f08:	400037b7          	lui	a5,0x40003
-40000f0c:	43878513          	addi	a0,a5,1080 # 40003438 <vga_simRes_h160_v120+0x84>
-40000f10:	2a0010ef          	jal	ra,400021b0 <print>
+40000f0c:	fc878513          	addi	a0,a5,-56 # 40002fc8 <vga_simRes_h160_v120+0x84>
+40000f10:	631000ef          	jal	ra,40001d40 <print>
 	print("\r\n\t[All zeros, 128-bit key, 8 rounds]\r\n");
 40000f14:	400037b7          	lui	a5,0x40003
-40000f18:	61878513          	addi	a0,a5,1560 # 40003618 <vga_simRes_h160_v120+0x264>
-40000f1c:	294010ef          	jal	ra,400021b0 <print>
+40000f18:	1a878513          	addi	a0,a5,424 # 400031a8 <vga_simRes_h160_v120+0x264>
+40000f1c:	625000ef          	jal	ra,40001d40 <print>
 	chacha_cipher(KEY_128_BITS,chacha_key,chacha_block,8,chacha_res);
 40000f20:	f3c40713          	addi	a4,s0,-196
 40000f24:	f7840613          	addi	a2,s0,-136
@@ -1382,8 +1382,8 @@ int main() {
 
 	print("\r\n\t[All zeros, 128-bit key, 12 rounds]\r\n");
 40000f3c:	400037b7          	lui	a5,0x40003
-40000f40:	64078513          	addi	a0,a5,1600 # 40003640 <vga_simRes_h160_v120+0x28c>
-40000f44:	26c010ef          	jal	ra,400021b0 <print>
+40000f40:	1d078513          	addi	a0,a5,464 # 400031d0 <vga_simRes_h160_v120+0x28c>
+40000f44:	5fd000ef          	jal	ra,40001d40 <print>
 	resetBlock(chacha_block);
 40000f48:	f7840793          	addi	a5,s0,-136
 40000f4c:	00078513          	mv	a0,a5
@@ -1399,8 +1399,8 @@ int main() {
 
 	print("\r\n\t[All zeros, 128-bit key, 20 rounds]\r\n");
 40000f70:	400037b7          	lui	a5,0x40003
-40000f74:	66c78513          	addi	a0,a5,1644 # 4000366c <vga_simRes_h160_v120+0x2b8>
-40000f78:	238010ef          	jal	ra,400021b0 <print>
+40000f74:	1fc78513          	addi	a0,a5,508 # 400031fc <vga_simRes_h160_v120+0x2b8>
+40000f78:	5c9000ef          	jal	ra,40001d40 <print>
 	resetBlock(chacha_block);
 40000f7c:	f7840793          	addi	a5,s0,-136
 40000f80:	00078513          	mv	a0,a5
@@ -1416,8 +1416,8 @@ int main() {
 
 	print("\r\n\t[All zeros, 256-bit key, 8 rounds]\r\n");
 40000fa4:	400037b7          	lui	a5,0x40003
-40000fa8:	69878513          	addi	a0,a5,1688 # 40003698 <vga_simRes_h160_v120+0x2e4>
-40000fac:	204010ef          	jal	ra,400021b0 <print>
+40000fa8:	22878513          	addi	a0,a5,552 # 40003228 <vga_simRes_h160_v120+0x2e4>
+40000fac:	595000ef          	jal	ra,40001d40 <print>
 	resetBlock(chacha_block);
 40000fb0:	f7840793          	addi	a5,s0,-136
 40000fb4:	00078513          	mv	a0,a5
@@ -1433,8 +1433,8 @@ int main() {
 
 	print("\r\n\t[All zeros, 256-bit key, 12 rounds]\r\n");
 40000fd8:	400037b7          	lui	a5,0x40003
-40000fdc:	6c078513          	addi	a0,a5,1728 # 400036c0 <vga_simRes_h160_v120+0x30c>
-40000fe0:	1d0010ef          	jal	ra,400021b0 <print>
+40000fdc:	25078513          	addi	a0,a5,592 # 40003250 <vga_simRes_h160_v120+0x30c>
+40000fe0:	561000ef          	jal	ra,40001d40 <print>
 	resetBlock(chacha_block);
 40000fe4:	f7840793          	addi	a5,s0,-136
 40000fe8:	00078513          	mv	a0,a5
@@ -1450,8 +1450,8 @@ int main() {
 
 	print("\r\n\t[All zeros, 256-bit key, 20 rounds]\r\n");
 4000100c:	400037b7          	lui	a5,0x40003
-40001010:	6ec78513          	addi	a0,a5,1772 # 400036ec <vga_simRes_h160_v120+0x338>
-40001014:	19c010ef          	jal	ra,400021b0 <print>
+40001010:	27c78513          	addi	a0,a5,636 # 4000327c <vga_simRes_h160_v120+0x338>
+40001014:	52d000ef          	jal	ra,40001d40 <print>
 	resetBlock(chacha_block);
 40001018:	f7840793          	addi	a5,s0,-136
 4000101c:	00078513          	mv	a0,a5
@@ -1467,19 +1467,19 @@ int main() {
 
 	print("\r\n\t==========================================TEST 2==========================================\r\n");
 40001040:	400037b7          	lui	a5,0x40003
-40001044:	49878513          	addi	a0,a5,1176 # 40003498 <vga_simRes_h160_v120+0xe4>
-40001048:	168010ef          	jal	ra,400021b0 <print>
+40001044:	02878513          	addi	a0,a5,40 # 40003028 <vga_simRes_h160_v120+0xe4>
+40001048:	4f9000ef          	jal	ra,40001d40 <print>
 	print("\r\n\t[256-bit key, 8 rounds]\r\n");
 4000104c:	400037b7          	lui	a5,0x40003
-40001050:	71878513          	addi	a0,a5,1816 # 40003718 <vga_simRes_h160_v120+0x364>
-40001054:	15c010ef          	jal	ra,400021b0 <print>
+40001050:	2a878513          	addi	a0,a5,680 # 400032a8 <vga_simRes_h160_v120+0x364>
+40001054:	4ed000ef          	jal	ra,40001d40 <print>
 	chacha_block[1]=0x0f1e2d3c;
 40001058:	0f1e37b7          	lui	a5,0xf1e3
 4000105c:	d3c78793          	addi	a5,a5,-708 # f1e2d3c <_stack_size+0xf1e253c>
 40001060:	f6f42e23          	sw	a5,-132(s0)
 	chacha_block[0]=0x4b596877;
 40001064:	4b5977b7          	lui	a5,0x4b597
-40001068:	87778793          	addi	a5,a5,-1929 # 4b596877 <__global_pointer$+0xb592217>
+40001068:	87778793          	addi	a5,a5,-1929 # 4b596877 <__global_pointer$+0xb59277f>
 4000106c:	f6f42c23          	sw	a5,-136(s0)
 
 	chacha_key[7]=	0x00112233;
@@ -1488,7 +1488,7 @@ int main() {
 40001078:	f8f42e23          	sw	a5,-100(s0)
 	chacha_key[6]=	0x44556677;
 4000107c:	445567b7          	lui	a5,0x44556
-40001080:	67778793          	addi	a5,a5,1655 # 44556677 <__global_pointer$+0x4552017>
+40001080:	67778793          	addi	a5,a5,1655 # 44556677 <__global_pointer$+0x455257f>
 40001084:	f8f42c23          	sw	a5,-104(s0)
 	chacha_key[5]=	0x8899aabb;
 40001088:	8899b7b7          	lui	a5,0x8899b
@@ -1508,7 +1508,7 @@ int main() {
 400010b4:	f8f42423          	sw	a5,-120(s0)
 	chacha_key[1]=	0x77665544;
 400010b8:	776657b7          	lui	a5,0x77665
-400010bc:	54478793          	addi	a5,a5,1348 # 77665544 <__global_pointer$+0x37660ee4>
+400010bc:	54478793          	addi	a5,a5,1348 # 77665544 <__global_pointer$+0x3766144c>
 400010c0:	f8f42223          	sw	a5,-124(s0)
 	chacha_key[0]= 	0x33221100;
 400010c4:	332217b7          	lui	a5,0x33221
@@ -1526,12 +1526,12 @@ int main() {
 
 	print("\r\n\t==========================================TEST 3==========================================\r\n");
 400010ec:	400037b7          	lui	a5,0x40003
-400010f0:	4f878513          	addi	a0,a5,1272 # 400034f8 <vga_simRes_h160_v120+0x144>
-400010f4:	0bc010ef          	jal	ra,400021b0 <print>
+400010f0:	08878513          	addi	a0,a5,136 # 40003088 <vga_simRes_h160_v120+0x144>
+400010f4:	44d000ef          	jal	ra,40001d40 <print>
 	print("\r\n\t[All bits in key and IV are set. 128 bit key, 8 rounds]\r\n");
 400010f8:	400037b7          	lui	a5,0x40003
-400010fc:	73878513          	addi	a0,a5,1848 # 40003738 <vga_simRes_h160_v120+0x384>
-40001100:	0b0010ef          	jal	ra,400021b0 <print>
+400010fc:	2c878513          	addi	a0,a5,712 # 400032c8 <vga_simRes_h160_v120+0x384>
+40001100:	441000ef          	jal	ra,40001d40 <print>
 	//h2204d5b81ce662193e00966034f91302f14a3fb047f58b6e6ef0d721132304163e0fb640d76ff9c3b9cd99996e6e38fad13f0e31c82244d33abbc1b11e8bf12d
 	chacha_block[1]=0xffffffff;
 40001104:	fff00793          	li	a5,-1
@@ -1576,8 +1576,8 @@ int main() {
 
 	print("\r\n\t==========================================TEST 4==========================================\r\n");
 40001170:	400037b7          	lui	a5,0x40003
-40001174:	55878513          	addi	a0,a5,1368 # 40003558 <vga_simRes_h160_v120+0x1a4>
-40001178:	038010ef          	jal	ra,400021b0 <print>
+40001174:	0e878513          	addi	a0,a5,232 # 400030e8 <vga_simRes_h160_v120+0x1a4>
+40001178:	3c9000ef          	jal	ra,40001d40 <print>
 	//128-bit key
 	//ha7a6c81bd8ac106e8f3a46a1bc8ec702e95d18c7e0f424519aeafb54471d83a2bf888861586b73d228eaaf82f9665a5a155e867f93731bfbe24fab495590b231
 	chacha_block[1]=0x0f1e2d3c;
@@ -1586,7 +1586,7 @@ int main() {
 40001184:	f6f42e23          	sw	a5,-132(s0)
 	chacha_block[0]=0x4b596877;
 40001188:	4b5977b7          	lui	a5,0x4b597
-4000118c:	87778793          	addi	a5,a5,-1929 # 4b596877 <__global_pointer$+0xb592217>
+4000118c:	87778793          	addi	a5,a5,-1929 # 4b596877 <__global_pointer$+0xb59277f>
 40001190:	f6f42c23          	sw	a5,-136(s0)
 	chacha_key[7]=	0x00112233;
 40001194:	001127b7          	lui	a5,0x112
@@ -1594,7 +1594,7 @@ int main() {
 4000119c:	f8f42e23          	sw	a5,-100(s0)
 	chacha_key[6]=	0x44556677;
 400011a0:	445567b7          	lui	a5,0x44556
-400011a4:	67778793          	addi	a5,a5,1655 # 44556677 <__global_pointer$+0x4552017>
+400011a4:	67778793          	addi	a5,a5,1655 # 44556677 <__global_pointer$+0x455257f>
 400011a8:	f8f42c23          	sw	a5,-104(s0)
 	chacha_key[5]=	0x8899aabb;
 400011ac:	8899b7b7          	lui	a5,0x8899b
@@ -1625,8 +1625,8 @@ int main() {
 //PRINCE
 	print("\r\t**********************************PRINCE TEST*******************************\r\n");
 400011f0:	400037b7          	lui	a5,0x40003
-400011f4:	77878513          	addi	a0,a5,1912 # 40003778 <vga_simRes_h160_v120+0x3c4>
-400011f8:	7b9000ef          	jal	ra,400021b0 <print>
+400011f4:	30878513          	addi	a0,a5,776 # 40003308 <vga_simRes_h160_v120+0x3c4>
+400011f8:	349000ef          	jal	ra,40001d40 <print>
 	uint32_t prince_key[4] 		= {0x0, 0x0, 0x0, 0x0};
 400011fc:	f2042623          	sw	zero,-212(s0)
 40001200:	f2042823          	sw	zero,-208(s0)
@@ -1640,16 +1640,16 @@ int main() {
 40001218:	f2042023          	sw	zero,-224(s0)
 	print("\r\n\t===================================TEST 1===================================\r\n");
 4000121c:	400037b7          	lui	a5,0x40003
-40001220:	7cc78513          	addi	a0,a5,1996 # 400037cc <vga_simRes_h160_v120+0x418>
-40001224:	78d000ef          	jal	ra,400021b0 <print>
+40001220:	35c78513          	addi	a0,a5,860 # 4000335c <vga_simRes_h160_v120+0x418>
+40001224:	31d000ef          	jal	ra,40001d40 <print>
 
 	prince_block[1] 	= 0x69c4e0d8;
 40001228:	69c4e7b7          	lui	a5,0x69c4e
-4000122c:	0d878793          	addi	a5,a5,216 # 69c4e0d8 <__global_pointer$+0x29c49a78>
+4000122c:	0d878793          	addi	a5,a5,216 # 69c4e0d8 <__global_pointer$+0x29c49fe0>
 40001230:	f2f42423          	sw	a5,-216(s0)
 	prince_block[0] 	= 0x6a7b0430;
 40001234:	6a7b07b7          	lui	a5,0x6a7b0
-40001238:	43078793          	addi	a5,a5,1072 # 6a7b0430 <__global_pointer$+0x2a7abdd0>
+40001238:	43078793          	addi	a5,a5,1072 # 6a7b0430 <__global_pointer$+0x2a7ac338>
 4000123c:	f2f42223          	sw	a5,-220(s0)
 
 	prince_key[3]		= 0xd8cdb780;
@@ -1658,7 +1658,7 @@ int main() {
 40001248:	f2f42c23          	sw	a5,-200(s0)
 	prince_key[2]		= 0x70b4c55a;
 4000124c:	70b4c7b7          	lui	a5,0x70b4c
-40001250:	55a78793          	addi	a5,a5,1370 # 70b4c55a <__global_pointer$+0x30b47efa>
+40001250:	55a78793          	addi	a5,a5,1370 # 70b4c55a <__global_pointer$+0x30b48462>
 40001254:	f2f42a23          	sw	a5,-204(s0)
 	prince_key[1]		= 0x818665aa;
 40001258:	818667b7          	lui	a5,0x81866
@@ -1679,13 +1679,13 @@ int main() {
 40001288:	eacff0ef          	jal	ra,40000934 <prince_cipher>
 
 	print("\r\n\t===================================TEST 2===================================\r\n");
-4000128c:	400047b7          	lui	a5,0x40004
-40001290:	82078513          	addi	a0,a5,-2016 # 40003820 <vga_simRes_h160_v120+0x46c>
-40001294:	71d000ef          	jal	ra,400021b0 <print>
+4000128c:	400037b7          	lui	a5,0x40003
+40001290:	3b078513          	addi	a0,a5,944 # 400033b0 <vga_simRes_h160_v120+0x46c>
+40001294:	2ad000ef          	jal	ra,40001d40 <print>
 
 	prince_block[1] 	= 0x43c6b256;
 40001298:	43c6b7b7          	lui	a5,0x43c6b
-4000129c:	25678793          	addi	a5,a5,598 # 43c6b256 <__global_pointer$+0x3c66bf6>
+4000129c:	25678793          	addi	a5,a5,598 # 43c6b256 <__global_pointer$+0x3c6715e>
 400012a0:	f2f42423          	sw	a5,-216(s0)
 	prince_block[0] 	= 0xd79de7e8;
 400012a4:	d79de7b7          	lui	a5,0xd79de
@@ -1705,12 +1705,12 @@ int main() {
 //PRESENT
  	print("\r\n");
 400012cc:	400037b7          	lui	a5,0x40003
-400012d0:	3d478513          	addi	a0,a5,980 # 400033d4 <vga_simRes_h160_v120+0x20>
-400012d4:	6dd000ef          	jal	ra,400021b0 <print>
+400012d0:	f6478513          	addi	a0,a5,-156 # 40002f64 <vga_simRes_h160_v120+0x20>
+400012d4:	26d000ef          	jal	ra,40001d40 <print>
 	print("\r\t******************************PRESENT TEST**********************************\r\n");
-400012d8:	400047b7          	lui	a5,0x40004
-400012dc:	87478513          	addi	a0,a5,-1932 # 40003874 <vga_simRes_h160_v120+0x4c0>
-400012e0:	6d1000ef          	jal	ra,400021b0 <print>
+400012d8:	400037b7          	lui	a5,0x40003
+400012dc:	40478513          	addi	a0,a5,1028 # 40003404 <vga_simRes_h160_v120+0x4c0>
+400012e0:	261000ef          	jal	ra,40001d40 <print>
 	unsigned int present_key[3] = {0x0, 0x0, 0x0};
 400012e4:	f0042823          	sw	zero,-240(s0)
 400012e8:	f0042a23          	sw	zero,-236(s0)
@@ -1723,26 +1723,26 @@ int main() {
 400012fc:	f0042223          	sw	zero,-252(s0)
 
 	print("\r\n\t==================================TEST 1====================================\r\n");
-40001300:	400047b7          	lui	a5,0x40004
-40001304:	8c878513          	addi	a0,a5,-1848 # 400038c8 <vga_simRes_h160_v120+0x514>
-40001308:	6a9000ef          	jal	ra,400021b0 <print>
+40001300:	400037b7          	lui	a5,0x40003
+40001304:	45878513          	addi	a0,a5,1112 # 40003458 <vga_simRes_h160_v120+0x514>
+40001308:	239000ef          	jal	ra,40001d40 <print>
 
 	present_block[1]=0x4c746e67;
 4000130c:	4c7477b7          	lui	a5,0x4c747
-40001310:	e6778793          	addi	a5,a5,-409 # 4c746e67 <__global_pointer$+0xc742807>
+40001310:	e6778793          	addi	a5,a5,-409 # 4c746e67 <__global_pointer$+0xc742d6f>
 40001314:	f0f42623          	sw	a5,-244(s0)
 	present_block[0]=0x7579656e;
 40001318:	757967b7          	lui	a5,0x75796
-4000131c:	56e78793          	addi	a5,a5,1390 # 7579656e <__global_pointer$+0x35791f0e>
+4000131c:	56e78793          	addi	a5,a5,1390 # 7579656e <__global_pointer$+0x35792476>
 40001320:	f0f42423          	sw	a5,-248(s0)
 
 	present_key[2] = 0x46657465;
 40001324:	466577b7          	lui	a5,0x46657
-40001328:	46578793          	addi	a5,a5,1125 # 46657465 <__global_pointer$+0x6652e05>
+40001328:	46578793          	addi	a5,a5,1125 # 46657465 <__global_pointer$+0x665336d>
 4000132c:	f0f42c23          	sw	a5,-232(s0)
 	present_key[1] = 0x6c48636d;
 40001330:	6c4867b7          	lui	a5,0x6c486
-40001334:	36d78793          	addi	a5,a5,877 # 6c48636d <__global_pointer$+0x2c481d0d>
+40001334:	36d78793          	addi	a5,a5,877 # 6c48636d <__global_pointer$+0x2c482275>
 40001338:	f0f42a23          	sw	a5,-236(s0)
 	present_key[0] = 0x7573;
 4000133c:	000077b7          	lui	a5,0x7
@@ -1759,9 +1759,9 @@ int main() {
 40001360:	4dc000ef          	jal	ra,4000183c <present_cipher>
 
 	print("\r\n\t==================================TEST 2====================================\r\n");
-40001364:	400047b7          	lui	a5,0x40004
-40001368:	91c78513          	addi	a0,a5,-1764 # 4000391c <vga_simRes_h160_v120+0x568>
-4000136c:	645000ef          	jal	ra,400021b0 <print>
+40001364:	400037b7          	lui	a5,0x40003
+40001368:	4ac78513          	addi	a0,a5,1196 # 400034ac <vga_simRes_h160_v120+0x568>
+4000136c:	1d5000ef          	jal	ra,40001d40 <print>
 
 	present_block[1]=0x0e1d00d4;
 40001370:	0e1d07b7          	lui	a5,0xe1d0
@@ -1785,33 +1785,33 @@ int main() {
 	//DM_PRESENT
 	print("\r\n");
 400013a4:	400037b7          	lui	a5,0x40003
-400013a8:	3d478513          	addi	a0,a5,980 # 400033d4 <vga_simRes_h160_v120+0x20>
-400013ac:	605000ef          	jal	ra,400021b0 <print>
+400013a8:	f6478513          	addi	a0,a5,-156 # 40002f64 <vga_simRes_h160_v120+0x20>
+400013ac:	195000ef          	jal	ra,40001d40 <print>
 	print("\r\t***************************DM_PRESENT TEST**********************************\r\n");
-400013b0:	400047b7          	lui	a5,0x40004
-400013b4:	97078513          	addi	a0,a5,-1680 # 40003970 <vga_simRes_h160_v120+0x5bc>
-400013b8:	5f9000ef          	jal	ra,400021b0 <print>
+400013b0:	400037b7          	lui	a5,0x40003
+400013b4:	50078513          	addi	a0,a5,1280 # 40003500 <vga_simRes_h160_v120+0x5bc>
+400013b8:	189000ef          	jal	ra,40001d40 <print>
 	print("\r\n\t==================================TEST 1====================================\r\n");
-400013bc:	400047b7          	lui	a5,0x40004
-400013c0:	8c878513          	addi	a0,a5,-1848 # 400038c8 <vga_simRes_h160_v120+0x514>
-400013c4:	5ed000ef          	jal	ra,400021b0 <print>
+400013bc:	400037b7          	lui	a5,0x40003
+400013c0:	45878513          	addi	a0,a5,1112 # 40003458 <vga_simRes_h160_v120+0x514>
+400013c4:	17d000ef          	jal	ra,40001d40 <print>
 
 	present_block[1]=0x4c746e67;
 400013c8:	4c7477b7          	lui	a5,0x4c747
-400013cc:	e6778793          	addi	a5,a5,-409 # 4c746e67 <__global_pointer$+0xc742807>
+400013cc:	e6778793          	addi	a5,a5,-409 # 4c746e67 <__global_pointer$+0xc742d6f>
 400013d0:	f0f42623          	sw	a5,-244(s0)
 	present_block[0]=0x7579656e;
 400013d4:	757967b7          	lui	a5,0x75796
-400013d8:	56e78793          	addi	a5,a5,1390 # 7579656e <__global_pointer$+0x35791f0e>
+400013d8:	56e78793          	addi	a5,a5,1390 # 7579656e <__global_pointer$+0x35792476>
 400013dc:	f0f42423          	sw	a5,-248(s0)
 
 	present_key[2] = 0x46657465;
 400013e0:	466577b7          	lui	a5,0x46657
-400013e4:	46578793          	addi	a5,a5,1125 # 46657465 <__global_pointer$+0x6652e05>
+400013e4:	46578793          	addi	a5,a5,1125 # 46657465 <__global_pointer$+0x665336d>
 400013e8:	f0f42c23          	sw	a5,-232(s0)
 	present_key[1] = 0x6c48636d;
 400013ec:	6c4867b7          	lui	a5,0x6c486
-400013f0:	36d78793          	addi	a5,a5,877 # 6c48636d <__global_pointer$+0x2c481d0d>
+400013f0:	36d78793          	addi	a5,a5,877 # 6c48636d <__global_pointer$+0x2c482275>
 400013f4:	f0f42a23          	sw	a5,-236(s0)
 	present_key[0] = 0x7573;
 400013f8:	000077b7          	lui	a5,0x7
@@ -1830,17 +1830,17 @@ int main() {
 4000141c:	5ac000ef          	jal	ra,400019c8 <present_hash>
 
 	print("\r\n\t==================================TEST 2====================================\r\n");
-40001420:	400047b7          	lui	a5,0x40004
-40001424:	91c78513          	addi	a0,a5,-1764 # 4000391c <vga_simRes_h160_v120+0x568>
-40001428:	589000ef          	jal	ra,400021b0 <print>
+40001420:	400037b7          	lui	a5,0x40003
+40001424:	4ac78513          	addi	a0,a5,1196 # 400034ac <vga_simRes_h160_v120+0x568>
+40001428:	119000ef          	jal	ra,40001d40 <print>
 
 	present_block[1]=0x46657465;
 4000142c:	466577b7          	lui	a5,0x46657
-40001430:	46578793          	addi	a5,a5,1125 # 46657465 <__global_pointer$+0x6652e05>
+40001430:	46578793          	addi	a5,a5,1125 # 46657465 <__global_pointer$+0x665336d>
 40001434:	f0f42623          	sw	a5,-244(s0)
 	present_block[0]=0x6c5f5553;
 40001438:	6c5f57b7          	lui	a5,0x6c5f5
-4000143c:	55378793          	addi	a5,a5,1363 # 6c5f5553 <__global_pointer$+0x2c5f0ef3>
+4000143c:	55378793          	addi	a5,a5,1363 # 6c5f5553 <__global_pointer$+0x2c5f145b>
 40001440:	f0f42423          	sw	a5,-248(s0)
 
 	present_key[2] = 0x00000000;
@@ -1860,9 +1860,9 @@ int main() {
 40001468:	00078513          	mv	a0,a5
 4000146c:	55c000ef          	jal	ra,400019c8 <present_hash>
 	print("\r\n\t==================================TEST 3====================================\r\n");
-40001470:	400047b7          	lui	a5,0x40004
-40001474:	9c478513          	addi	a0,a5,-1596 # 400039c4 <vga_simRes_h160_v120+0x610>
-40001478:	539000ef          	jal	ra,400021b0 <print>
+40001470:	400037b7          	lui	a5,0x40003
+40001474:	55478513          	addi	a0,a5,1364 # 40003554 <vga_simRes_h160_v120+0x610>
+40001478:	0c9000ef          	jal	ra,40001d40 <print>
 
 	present_block[1]=0x31383230;
 4000147c:	313837b7          	lui	a5,0x31383
@@ -1886,6 +1886,7 @@ int main() {
 400014b0:	55378793          	addi	a5,a5,1363 # 5553 <_stack_size+0x4d53>
 400014b4:	f0f42823          	sw	a5,-240(s0)
 	//expec: 08e11c56 b6d5a592
+
 
 	present_hash(present_key,present_block,present_res);
 400014b8:	f0040693          	addi	a3,s0,-256
@@ -2298,34 +2299,34 @@ void present_cipher(unsigned char operation, uint32_t *key, uint32_t *block, uin
 40001950:	fef44783          	lbu	a5,-17(s0)
 40001954:	00079a63          	bnez	a5,40001968 <present_cipher+0x12c>
 		print("\r\t===========================PRESENT ENCRYPTTION==============================\r\n");
-40001958:	400047b7          	lui	a5,0x40004
-4000195c:	a7878513          	addi	a0,a5,-1416 # 40003a78 <vga_simRes_h160_v120+0x20>
-40001960:	051000ef          	jal	ra,400021b0 <print>
+40001958:	400037b7          	lui	a5,0x40003
+4000195c:	60878513          	addi	a0,a5,1544 # 40003608 <vga_simRes_h160_v120+0x20>
+40001960:	3e0000ef          	jal	ra,40001d40 <print>
 40001964:	0100006f          	j	40001974 <present_cipher+0x138>
 	else
 		print("\r\t===========================PRESENT DECRYPTTION==============================\r\n");
-40001968:	400047b7          	lui	a5,0x40004
-4000196c:	acc78513          	addi	a0,a5,-1332 # 40003acc <vga_simRes_h160_v120+0x74>
-40001970:	041000ef          	jal	ra,400021b0 <print>
+40001968:	400037b7          	lui	a5,0x40003
+4000196c:	65c78513          	addi	a0,a5,1628 # 4000365c <vga_simRes_h160_v120+0x74>
+40001970:	3d0000ef          	jal	ra,40001d40 <print>
 	print("\r\n");
-40001974:	400047b7          	lui	a5,0x40004
-40001978:	b2078513          	addi	a0,a5,-1248 # 40003b20 <vga_simRes_h160_v120+0xc8>
-4000197c:	035000ef          	jal	ra,400021b0 <print>
+40001974:	400037b7          	lui	a5,0x40003
+40001978:	6b078513          	addi	a0,a5,1712 # 400036b0 <vga_simRes_h160_v120+0xc8>
+4000197c:	3c4000ef          	jal	ra,40001d40 <print>
 	print64bit("\r\tPLAIN_TEXT (64-bit) : ", block);
 40001980:	fe442583          	lw	a1,-28(s0)
-40001984:	400047b7          	lui	a5,0x40004
-40001988:	b2478513          	addi	a0,a5,-1244 # 40003b24 <vga_simRes_h160_v120+0xcc>
-4000198c:	28d000ef          	jal	ra,40002418 <print64bit>
+40001984:	400037b7          	lui	a5,0x40003
+40001988:	6b478513          	addi	a0,a5,1716 # 400036b4 <vga_simRes_h160_v120+0xcc>
+4000198c:	61c000ef          	jal	ra,40001fa8 <print64bit>
 	print80bit("KEY (80-bit) : ", key);
 40001990:	fe842583          	lw	a1,-24(s0)
-40001994:	400047b7          	lui	a5,0x40004
-40001998:	b4078513          	addi	a0,a5,-1216 # 40003b40 <vga_simRes_h160_v120+0xe8>
-4000199c:	385000ef          	jal	ra,40002520 <print80bit>
+40001994:	400037b7          	lui	a5,0x40003
+40001998:	6d078513          	addi	a0,a5,1744 # 400036d0 <vga_simRes_h160_v120+0xe8>
+4000199c:	714000ef          	jal	ra,400020b0 <print80bit>
 	print64bit("RESULT (64-bit) : ", res);
 400019a0:	fe042583          	lw	a1,-32(s0)
-400019a4:	400047b7          	lui	a5,0x40004
-400019a8:	b5078513          	addi	a0,a5,-1200 # 40003b50 <vga_simRes_h160_v120+0xf8>
-400019ac:	26d000ef          	jal	ra,40002418 <print64bit>
+400019a4:	400037b7          	lui	a5,0x40003
+400019a8:	6e078513          	addi	a0,a5,1760 # 400036e0 <vga_simRes_h160_v120+0xf8>
+400019ac:	5fc000ef          	jal	ra,40001fa8 <print64bit>
 	//print("\r\n============================================================================\r\n");
 }
 400019b0:	00000013          	nop
@@ -2410,28 +2411,28 @@ void present_hash(uint32_t *key, uint32_t *block, uint32_t *res) {
 40001aa0:	00e7a023          	sw	a4,0(a5)
 
 		print("\r\t===========================DM_PRESENT HASH==================================\r\n");
-40001aa4:	400047b7          	lui	a5,0x40004
-40001aa8:	b6478513          	addi	a0,a5,-1180 # 40003b64 <vga_simRes_h160_v120+0x10c>
-40001aac:	704000ef          	jal	ra,400021b0 <print>
+40001aa4:	400037b7          	lui	a5,0x40003
+40001aa8:	6f478513          	addi	a0,a5,1780 # 400036f4 <vga_simRes_h160_v120+0x10c>
+40001aac:	294000ef          	jal	ra,40001d40 <print>
 		print("\r\n");
-40001ab0:	400047b7          	lui	a5,0x40004
-40001ab4:	b2078513          	addi	a0,a5,-1248 # 40003b20 <vga_simRes_h160_v120+0xc8>
-40001ab8:	6f8000ef          	jal	ra,400021b0 <print>
+40001ab0:	400037b7          	lui	a5,0x40003
+40001ab4:	6b078513          	addi	a0,a5,1712 # 400036b0 <vga_simRes_h160_v120+0xc8>
+40001ab8:	288000ef          	jal	ra,40001d40 <print>
 		print64bit("\r\tPLAIN_TEXT (64-bit) : ", block);
 40001abc:	fe842583          	lw	a1,-24(s0)
-40001ac0:	400047b7          	lui	a5,0x40004
-40001ac4:	b2478513          	addi	a0,a5,-1244 # 40003b24 <vga_simRes_h160_v120+0xcc>
-40001ac8:	151000ef          	jal	ra,40002418 <print64bit>
+40001ac0:	400037b7          	lui	a5,0x40003
+40001ac4:	6b478513          	addi	a0,a5,1716 # 400036b4 <vga_simRes_h160_v120+0xcc>
+40001ac8:	4e0000ef          	jal	ra,40001fa8 <print64bit>
 		print80bit("KEY (80-bit) : ", key);
 40001acc:	fec42583          	lw	a1,-20(s0)
-40001ad0:	400047b7          	lui	a5,0x40004
-40001ad4:	b4078513          	addi	a0,a5,-1216 # 40003b40 <vga_simRes_h160_v120+0xe8>
-40001ad8:	249000ef          	jal	ra,40002520 <print80bit>
+40001ad0:	400037b7          	lui	a5,0x40003
+40001ad4:	6d078513          	addi	a0,a5,1744 # 400036d0 <vga_simRes_h160_v120+0xe8>
+40001ad8:	5d8000ef          	jal	ra,400020b0 <print80bit>
 		print64bit("RESULT (64-bit) : ", res);
 40001adc:	fe442583          	lw	a1,-28(s0)
-40001ae0:	400047b7          	lui	a5,0x40004
-40001ae4:	b5078513          	addi	a0,a5,-1200 # 40003b50 <vga_simRes_h160_v120+0xf8>
-40001ae8:	131000ef          	jal	ra,40002418 <print64bit>
+40001ae0:	400037b7          	lui	a5,0x40003
+40001ae4:	6e078513          	addi	a0,a5,1760 # 400036e0 <vga_simRes_h160_v120+0xf8>
+40001ae8:	4c0000ef          	jal	ra,40001fa8 <print64bit>
 }
 40001aec:	00000013          	nop
 40001af0:	01c12083          	lw	ra,28(sp)
@@ -2637,1778 +2638,1387 @@ static void vga_stop(Vga_Reg *reg){
 40001d38:	02010113          	addi	sp,sp,32
 40001d3c:	00008067          	ret
 
-40001d40 <dm_present_write>:
-#include "briey.h"
-void dm_present_write(uint32_t iData, uint32_t iAddress)
-{
-40001d40:	fe010113          	addi	sp,sp,-32
-40001d44:	00812e23          	sw	s0,28(sp)
-40001d48:	02010413          	addi	s0,sp,32
-40001d4c:	fea42623          	sw	a0,-20(s0)
-40001d50:	feb42423          	sw	a1,-24(s0)
-	DMPRESENT_BASE->ADDRESS			= iAddress;
-40001d54:	f00037b7          	lui	a5,0xf0003
-40001d58:	80078793          	addi	a5,a5,-2048 # f0002800 <_stack_start+0x70001ec0>
-40001d5c:	fe842703          	lw	a4,-24(s0)
-40001d60:	00e7a623          	sw	a4,12(a5)
-	DMPRESENT_BASE->WRITE_N 		= 0;
-40001d64:	f00037b7          	lui	a5,0xf0003
-40001d68:	80078793          	addi	a5,a5,-2048 # f0002800 <_stack_start+0x70001ec0>
-40001d6c:	0007a223          	sw	zero,4(a5)
-	DMPRESENT_BASE->READ_N 			= 1;
-40001d70:	f00037b7          	lui	a5,0xf0003
-40001d74:	80078793          	addi	a5,a5,-2048 # f0002800 <_stack_start+0x70001ec0>
-40001d78:	00100713          	li	a4,1
-40001d7c:	00e7a423          	sw	a4,8(a5)
-	DMPRESENT_BASE->IDATA			= iData;
-40001d80:	f00037b7          	lui	a5,0xf0003
-40001d84:	80078793          	addi	a5,a5,-2048 # f0002800 <_stack_start+0x70001ec0>
-40001d88:	fec42703          	lw	a4,-20(s0)
-40001d8c:	00e7a823          	sw	a4,16(a5)
-	DMPRESENT_BASE->CHIP_SELECT_N	= 0;
-40001d90:	f00037b7          	lui	a5,0xf0003
-40001d94:	80078793          	addi	a5,a5,-2048 # f0002800 <_stack_start+0x70001ec0>
-40001d98:	0007a023          	sw	zero,0(a5)
-	DMPRESENT_BASE->CHIP_SELECT_N	= 1;
-40001d9c:	f00037b7          	lui	a5,0xf0003
-40001da0:	80078793          	addi	a5,a5,-2048 # f0002800 <_stack_start+0x70001ec0>
-40001da4:	00100713          	li	a4,1
-40001da8:	00e7a023          	sw	a4,0(a5)
-}
-40001dac:	00000013          	nop
-40001db0:	01c12403          	lw	s0,28(sp)
-40001db4:	02010113          	addi	sp,sp,32
-40001db8:	00008067          	ret
-
-40001dbc <dm_present_read>:
-uint32_t dm_present_read(uint32_t iAddress)
-{
-40001dbc:	fd010113          	addi	sp,sp,-48
-40001dc0:	02812623          	sw	s0,44(sp)
-40001dc4:	03010413          	addi	s0,sp,48
-40001dc8:	fca42e23          	sw	a0,-36(s0)
-	DMPRESENT_BASE->ADDRESS			= iAddress;
-40001dcc:	f00037b7          	lui	a5,0xf0003
-40001dd0:	80078793          	addi	a5,a5,-2048 # f0002800 <_stack_start+0x70001ec0>
-40001dd4:	fdc42703          	lw	a4,-36(s0)
-40001dd8:	00e7a623          	sw	a4,12(a5)
-	DMPRESENT_BASE->READ_N			= 0;
-40001ddc:	f00037b7          	lui	a5,0xf0003
-40001de0:	80078793          	addi	a5,a5,-2048 # f0002800 <_stack_start+0x70001ec0>
-40001de4:	0007a423          	sw	zero,8(a5)
-	DMPRESENT_BASE->WRITE_N			= 1;
-40001de8:	f00037b7          	lui	a5,0xf0003
-40001dec:	80078793          	addi	a5,a5,-2048 # f0002800 <_stack_start+0x70001ec0>
-40001df0:	00100713          	li	a4,1
-40001df4:	00e7a223          	sw	a4,4(a5)
-	DMPRESENT_BASE->CHIP_SELECT_N	= 0;
-40001df8:	f00037b7          	lui	a5,0xf0003
-40001dfc:	80078793          	addi	a5,a5,-2048 # f0002800 <_stack_start+0x70001ec0>
-40001e00:	0007a023          	sw	zero,0(a5)
-	uint32_t res 					= DMPRESENT_BASE->ODATA;
-40001e04:	f00037b7          	lui	a5,0xf0003
-40001e08:	80078793          	addi	a5,a5,-2048 # f0002800 <_stack_start+0x70001ec0>
-40001e0c:	0147a783          	lw	a5,20(a5)
-40001e10:	fef42623          	sw	a5,-20(s0)
-	DMPRESENT_BASE->CHIP_SELECT_N	= 1;
-40001e14:	f00037b7          	lui	a5,0xf0003
-40001e18:	80078793          	addi	a5,a5,-2048 # f0002800 <_stack_start+0x70001ec0>
-40001e1c:	00100713          	li	a4,1
-40001e20:	00e7a023          	sw	a4,0(a5)
-	return res;
-40001e24:	fec42783          	lw	a5,-20(s0)
-}
-40001e28:	00078513          	mv	a0,a5
-40001e2c:	02c12403          	lw	s0,44(sp)
-40001e30:	03010113          	addi	sp,sp,48
-40001e34:	00008067          	ret
-
-40001e38 <dm_present_hash>:
-void dm_present_hash(uint32_t *key, uint32_t *block, uint32_t *res) {
-40001e38:	fe010113          	addi	sp,sp,-32
-40001e3c:	00112e23          	sw	ra,28(sp)
-40001e40:	00812c23          	sw	s0,24(sp)
-40001e44:	00912a23          	sw	s1,20(sp)
-40001e48:	02010413          	addi	s0,sp,32
-40001e4c:	fea42623          	sw	a0,-20(s0)
-40001e50:	feb42423          	sw	a1,-24(s0)
-40001e54:	fec42223          	sw	a2,-28(s0)
-
-	//PLAIN_TEXT
-	dm_present_write(block[1],DMPRESENT_ADDR_BLOCK_BASE +1);
-40001e58:	fe842783          	lw	a5,-24(s0)
-40001e5c:	00478793          	addi	a5,a5,4
-40001e60:	0007a783          	lw	a5,0(a5)
-40001e64:	00500593          	li	a1,5
-40001e68:	00078513          	mv	a0,a5
-40001e6c:	ed5ff0ef          	jal	ra,40001d40 <dm_present_write>
-	dm_present_write(block[0],DMPRESENT_ADDR_BLOCK_BASE);
-40001e70:	fe842783          	lw	a5,-24(s0)
-40001e74:	0007a783          	lw	a5,0(a5)
-40001e78:	00400593          	li	a1,4
-40001e7c:	00078513          	mv	a0,a5
-40001e80:	ec1ff0ef          	jal	ra,40001d40 <dm_present_write>
-
-	//KEY
-	dm_present_write(key[2],DMPRESENT_ADDR_KEY_BASE +2);
-40001e84:	fec42783          	lw	a5,-20(s0)
-40001e88:	00878793          	addi	a5,a5,8
-40001e8c:	0007a783          	lw	a5,0(a5)
-40001e90:	00300593          	li	a1,3
-40001e94:	00078513          	mv	a0,a5
-40001e98:	ea9ff0ef          	jal	ra,40001d40 <dm_present_write>
-	dm_present_write(key[1],DMPRESENT_ADDR_KEY_BASE +1);
-40001e9c:	fec42783          	lw	a5,-20(s0)
-40001ea0:	00478793          	addi	a5,a5,4
-40001ea4:	0007a783          	lw	a5,0(a5)
-40001ea8:	00200593          	li	a1,2
-40001eac:	00078513          	mv	a0,a5
-40001eb0:	e91ff0ef          	jal	ra,40001d40 <dm_present_write>
-	dm_present_write(key[0],DMPRESENT_ADDR_KEY_BASE);
-40001eb4:	fec42783          	lw	a5,-20(s0)
-40001eb8:	0007a783          	lw	a5,0(a5)
-40001ebc:	00100593          	li	a1,1
-40001ec0:	00078513          	mv	a0,a5
-40001ec4:	e7dff0ef          	jal	ra,40001d40 <dm_present_write>
-
-	//START
-	dm_present_write(0x1,DMPRESENT_ADDR_START);
-40001ec8:	00000593          	li	a1,0
-40001ecc:	00100513          	li	a0,1
-40001ed0:	e71ff0ef          	jal	ra,40001d40 <dm_present_write>
-    while(dm_present_read(DMPRESENT_ADDR_RESULT_BASE) == 0);
-40001ed4:	00000013          	nop
-40001ed8:	00600513          	li	a0,6
-40001edc:	ee1ff0ef          	jal	ra,40001dbc <dm_present_read>
-40001ee0:	00050793          	mv	a5,a0
-40001ee4:	fe078ae3          	beqz	a5,40001ed8 <dm_present_hash+0xa0>
-
-    res[1] = dm_present_read(DMPRESENT_ADDR_RESULT_BASE +1);
-40001ee8:	fe442783          	lw	a5,-28(s0)
-40001eec:	00478493          	addi	s1,a5,4
-40001ef0:	00700513          	li	a0,7
-40001ef4:	ec9ff0ef          	jal	ra,40001dbc <dm_present_read>
-40001ef8:	00050793          	mv	a5,a0
-40001efc:	00f4a023          	sw	a5,0(s1)
-    res[0] = dm_present_read(DMPRESENT_ADDR_RESULT_BASE);
-40001f00:	00600513          	li	a0,6
-40001f04:	eb9ff0ef          	jal	ra,40001dbc <dm_present_read>
-40001f08:	00050713          	mv	a4,a0
-40001f0c:	fe442783          	lw	a5,-28(s0)
-40001f10:	00e7a023          	sw	a4,0(a5)
-
-
-    //print result to terminal
-	print("\r\t===========================DM_PRESENT HASH==================================\r\n");
-40001f14:	400047b7          	lui	a5,0x40004
-40001f18:	c1878513          	addi	a0,a5,-1000 # 40003c18 <vga_simRes_h160_v120+0x20>
-40001f1c:	294000ef          	jal	ra,400021b0 <print>
-	print("\r\n");
-40001f20:	400047b7          	lui	a5,0x40004
-40001f24:	c6c78513          	addi	a0,a5,-916 # 40003c6c <vga_simRes_h160_v120+0x74>
-40001f28:	288000ef          	jal	ra,400021b0 <print>
-	print64bit("\r\tPLAIN_TEXT (64-bit) : ", block);
-40001f2c:	fe842583          	lw	a1,-24(s0)
-40001f30:	400047b7          	lui	a5,0x40004
-40001f34:	c7078513          	addi	a0,a5,-912 # 40003c70 <vga_simRes_h160_v120+0x78>
-40001f38:	4e0000ef          	jal	ra,40002418 <print64bit>
-	print80bit("KEY (80-bit) : ", key);
-40001f3c:	fec42583          	lw	a1,-20(s0)
-40001f40:	400047b7          	lui	a5,0x40004
-40001f44:	c8c78513          	addi	a0,a5,-884 # 40003c8c <vga_simRes_h160_v120+0x94>
-40001f48:	5d8000ef          	jal	ra,40002520 <print80bit>
-	print64bit("RESULT (64-bit) : ", res);
-40001f4c:	fe442583          	lw	a1,-28(s0)
-40001f50:	400047b7          	lui	a5,0x40004
-40001f54:	c9c78513          	addi	a0,a5,-868 # 40003c9c <vga_simRes_h160_v120+0xa4>
-40001f58:	4c0000ef          	jal	ra,40002418 <print64bit>
-	//print("\r\n============================================================================\r\n");
-}
-40001f5c:	00000013          	nop
-40001f60:	01c12083          	lw	ra,28(sp)
-40001f64:	01812403          	lw	s0,24(sp)
-40001f68:	01412483          	lw	s1,20(sp)
-40001f6c:	02010113          	addi	sp,sp,32
-40001f70:	00008067          	ret
-
-40001f74 <timer_init>:
-static void timer_init(Timer_Reg *reg){
-40001f74:	fe010113          	addi	sp,sp,-32
-40001f78:	00812e23          	sw	s0,28(sp)
-40001f7c:	02010413          	addi	s0,sp,32
-40001f80:	fea42623          	sw	a0,-20(s0)
-	reg->CLEARS_TICKS  = 0;
-40001f84:	fec42783          	lw	a5,-20(s0)
-40001f88:	0007a023          	sw	zero,0(a5)
-	reg->VALUE = 0;
-40001f8c:	fec42783          	lw	a5,-20(s0)
-40001f90:	0007a423          	sw	zero,8(a5)
-}
-40001f94:	00000013          	nop
-40001f98:	01c12403          	lw	s0,28(sp)
-40001f9c:	02010113          	addi	sp,sp,32
-40001fa0:	00008067          	ret
-
-40001fa4 <prescaler_init>:
-static void prescaler_init(Prescaler_Reg* reg){
-40001fa4:	fe010113          	addi	sp,sp,-32
-40001fa8:	00812e23          	sw	s0,28(sp)
-40001fac:	02010413          	addi	s0,sp,32
-40001fb0:	fea42623          	sw	a0,-20(s0)
-}
-40001fb4:	00000013          	nop
-40001fb8:	01c12403          	lw	s0,28(sp)
-40001fbc:	02010113          	addi	sp,sp,32
-40001fc0:	00008067          	ret
-
-40001fc4 <interruptCtrl_init>:
-static void interruptCtrl_init(InterruptCtrl_Reg* reg){
-40001fc4:	fe010113          	addi	sp,sp,-32
-40001fc8:	00812e23          	sw	s0,28(sp)
-40001fcc:	02010413          	addi	s0,sp,32
-40001fd0:	fea42623          	sw	a0,-20(s0)
-	reg->MASKS = 0;
-40001fd4:	fec42783          	lw	a5,-20(s0)
-40001fd8:	0007a223          	sw	zero,4(a5)
-	reg->PENDINGS = 0xFFFFFFFF;
-40001fdc:	fec42783          	lw	a5,-20(s0)
-40001fe0:	fff00713          	li	a4,-1
-40001fe4:	00e7a023          	sw	a4,0(a5)
-}
-40001fe8:	00000013          	nop
-40001fec:	01c12403          	lw	s0,28(sp)
-40001ff0:	02010113          	addi	sp,sp,32
-40001ff4:	00008067          	ret
-
-40001ff8 <uart_writeAvailability>:
-static uint32_t uart_writeAvailability(Uart_Reg *reg){
-40001ff8:	fe010113          	addi	sp,sp,-32
-40001ffc:	00812e23          	sw	s0,28(sp)
-40002000:	02010413          	addi	s0,sp,32
-40002004:	fea42623          	sw	a0,-20(s0)
-	return (reg->STATUS >> 16) & 0xFF;
-40002008:	fec42783          	lw	a5,-20(s0)
-4000200c:	0047a783          	lw	a5,4(a5)
-40002010:	0107d793          	srli	a5,a5,0x10
-40002014:	0ff7f793          	zext.b	a5,a5
-}
-40002018:	00078513          	mv	a0,a5
-4000201c:	01c12403          	lw	s0,28(sp)
-40002020:	02010113          	addi	sp,sp,32
-40002024:	00008067          	ret
-
-40002028 <uart_readOccupancy>:
-static uint32_t uart_readOccupancy(Uart_Reg *reg){
-40002028:	fe010113          	addi	sp,sp,-32
-4000202c:	00812e23          	sw	s0,28(sp)
-40002030:	02010413          	addi	s0,sp,32
-40002034:	fea42623          	sw	a0,-20(s0)
-	return reg->STATUS >> 24;
-40002038:	fec42783          	lw	a5,-20(s0)
-4000203c:	0047a783          	lw	a5,4(a5)
-40002040:	0187d793          	srli	a5,a5,0x18
-}
-40002044:	00078513          	mv	a0,a5
-40002048:	01c12403          	lw	s0,28(sp)
-4000204c:	02010113          	addi	sp,sp,32
-40002050:	00008067          	ret
-
-40002054 <uart_write>:
-static void uart_write(Uart_Reg *reg, uint32_t data){
-40002054:	fe010113          	addi	sp,sp,-32
-40002058:	00112e23          	sw	ra,28(sp)
-4000205c:	00812c23          	sw	s0,24(sp)
-40002060:	02010413          	addi	s0,sp,32
-40002064:	fea42623          	sw	a0,-20(s0)
-40002068:	feb42423          	sw	a1,-24(s0)
-	while(uart_writeAvailability(reg) == 0);
-4000206c:	00000013          	nop
-40002070:	fec42503          	lw	a0,-20(s0)
-40002074:	f85ff0ef          	jal	ra,40001ff8 <uart_writeAvailability>
-40002078:	00050793          	mv	a5,a0
-4000207c:	fe078ae3          	beqz	a5,40002070 <uart_write+0x1c>
-	reg->DATA = data;
-40002080:	fec42783          	lw	a5,-20(s0)
-40002084:	fe842703          	lw	a4,-24(s0)
-40002088:	00e7a023          	sw	a4,0(a5)
-}
-4000208c:	00000013          	nop
-40002090:	01c12083          	lw	ra,28(sp)
-40002094:	01812403          	lw	s0,24(sp)
-40002098:	02010113          	addi	sp,sp,32
-4000209c:	00008067          	ret
-
-400020a0 <uart_applyConfig>:
-static void uart_applyConfig(Uart_Reg *reg, Uart_Config *config){
-400020a0:	fe010113          	addi	sp,sp,-32
-400020a4:	00812e23          	sw	s0,28(sp)
-400020a8:	02010413          	addi	s0,sp,32
-400020ac:	fea42623          	sw	a0,-20(s0)
-400020b0:	feb42423          	sw	a1,-24(s0)
-	reg->CLOCK_DIVIDER = config->clockDivider;
-400020b4:	fe842783          	lw	a5,-24(s0)
-400020b8:	00c7a703          	lw	a4,12(a5)
-400020bc:	fec42783          	lw	a5,-20(s0)
-400020c0:	00e7a423          	sw	a4,8(a5)
-	reg->FRAME_CONFIG = ((config->dataLength-1) << 0) | (config->parity << 8) | (config->stop << 16);
-400020c4:	fe842783          	lw	a5,-24(s0)
-400020c8:	0007a783          	lw	a5,0(a5)
-400020cc:	fff78713          	addi	a4,a5,-1
-400020d0:	fe842783          	lw	a5,-24(s0)
-400020d4:	0047a783          	lw	a5,4(a5)
-400020d8:	00879793          	slli	a5,a5,0x8
-400020dc:	00f76733          	or	a4,a4,a5
-400020e0:	fe842783          	lw	a5,-24(s0)
-400020e4:	0087a783          	lw	a5,8(a5)
-400020e8:	01079793          	slli	a5,a5,0x10
-400020ec:	00f76733          	or	a4,a4,a5
-400020f0:	fec42783          	lw	a5,-20(s0)
-400020f4:	00e7a623          	sw	a4,12(a5)
-}
-400020f8:	00000013          	nop
-400020fc:	01c12403          	lw	s0,28(sp)
-40002100:	02010113          	addi	sp,sp,32
-40002104:	00008067          	ret
-
-40002108 <vga_isBusy>:
-static uint32_t vga_isBusy(Vga_Reg *reg){
-40002108:	fe010113          	addi	sp,sp,-32
-4000210c:	00812e23          	sw	s0,28(sp)
-40002110:	02010413          	addi	s0,sp,32
-40002114:	fea42623          	sw	a0,-20(s0)
-	return (reg->STATUS & 2) != 0;
-40002118:	fec42783          	lw	a5,-20(s0)
-4000211c:	0007a783          	lw	a5,0(a5)
-40002120:	0027f793          	andi	a5,a5,2
-40002124:	00f037b3          	snez	a5,a5
-40002128:	0ff7f793          	zext.b	a5,a5
-}
-4000212c:	00078513          	mv	a0,a5
-40002130:	01c12403          	lw	s0,28(sp)
-40002134:	02010113          	addi	sp,sp,32
-40002138:	00008067          	ret
-
-4000213c <vga_run>:
-static void vga_run(Vga_Reg *reg){
-4000213c:	fe010113          	addi	sp,sp,-32
-40002140:	00812e23          	sw	s0,28(sp)
-40002144:	02010413          	addi	s0,sp,32
-40002148:	fea42623          	sw	a0,-20(s0)
-	reg->STATUS  = 1;
-4000214c:	fec42783          	lw	a5,-20(s0)
-40002150:	00100713          	li	a4,1
-40002154:	00e7a023          	sw	a4,0(a5)
-}
-40002158:	00000013          	nop
-4000215c:	01c12403          	lw	s0,28(sp)
-40002160:	02010113          	addi	sp,sp,32
-40002164:	00008067          	ret
-
-40002168 <vga_stop>:
-static void vga_stop(Vga_Reg *reg){
-40002168:	fe010113          	addi	sp,sp,-32
-4000216c:	00112e23          	sw	ra,28(sp)
-40002170:	00812c23          	sw	s0,24(sp)
-40002174:	02010413          	addi	s0,sp,32
-40002178:	fea42623          	sw	a0,-20(s0)
-	reg->STATUS  = 0;
-4000217c:	fec42783          	lw	a5,-20(s0)
-40002180:	0007a023          	sw	zero,0(a5)
-	while(vga_isBusy(reg));
-40002184:	00000013          	nop
-40002188:	fec42503          	lw	a0,-20(s0)
-4000218c:	f7dff0ef          	jal	ra,40002108 <vga_isBusy>
-40002190:	00050793          	mv	a5,a0
-40002194:	fe079ae3          	bnez	a5,40002188 <vga_stop+0x20>
-}
-40002198:	00000013          	nop
-4000219c:	00000013          	nop
-400021a0:	01c12083          	lw	ra,28(sp)
-400021a4:	01812403          	lw	s0,24(sp)
-400021a8:	02010113          	addi	sp,sp,32
-400021ac:	00008067          	ret
-
-400021b0 <print>:
+40001d40 <print>:
 #include <briey.h>
 
 void print(char *str){
-400021b0:	fe010113          	addi	sp,sp,-32
-400021b4:	00112e23          	sw	ra,28(sp)
-400021b8:	00812c23          	sw	s0,24(sp)
-400021bc:	02010413          	addi	s0,sp,32
-400021c0:	fea42623          	sw	a0,-20(s0)
+40001d40:	fe010113          	addi	sp,sp,-32
+40001d44:	00112e23          	sw	ra,28(sp)
+40001d48:	00812c23          	sw	s0,24(sp)
+40001d4c:	02010413          	addi	s0,sp,32
+40001d50:	fea42623          	sw	a0,-20(s0)
 	while(*str){
-400021c4:	0200006f          	j	400021e4 <print+0x34>
+40001d54:	0200006f          	j	40001d74 <print+0x34>
 		uart_write(UART,*(str++));
-400021c8:	fec42783          	lw	a5,-20(s0)
-400021cc:	00178713          	addi	a4,a5,1
-400021d0:	fee42623          	sw	a4,-20(s0)
-400021d4:	0007c783          	lbu	a5,0(a5)
-400021d8:	00078593          	mv	a1,a5
-400021dc:	f0010537          	lui	a0,0xf0010
-400021e0:	e75ff0ef          	jal	ra,40002054 <uart_write>
+40001d58:	fec42783          	lw	a5,-20(s0)
+40001d5c:	00178713          	addi	a4,a5,1
+40001d60:	fee42623          	sw	a4,-20(s0)
+40001d64:	0007c783          	lbu	a5,0(a5)
+40001d68:	00078593          	mv	a1,a5
+40001d6c:	f0010537          	lui	a0,0xf0010
+40001d70:	e75ff0ef          	jal	ra,40001be4 <uart_write>
 	while(*str){
-400021e4:	fec42783          	lw	a5,-20(s0)
-400021e8:	0007c783          	lbu	a5,0(a5)
-400021ec:	fc079ee3          	bnez	a5,400021c8 <print+0x18>
+40001d74:	fec42783          	lw	a5,-20(s0)
+40001d78:	0007c783          	lbu	a5,0(a5)
+40001d7c:	fc079ee3          	bnez	a5,40001d58 <print+0x18>
 	}
 }
-400021f0:	00000013          	nop
-400021f4:	00000013          	nop
-400021f8:	01c12083          	lw	ra,28(sp)
-400021fc:	01812403          	lw	s0,24(sp)
-40002200:	02010113          	addi	sp,sp,32
-40002204:	00008067          	ret
+40001d80:	00000013          	nop
+40001d84:	00000013          	nop
+40001d88:	01c12083          	lw	ra,28(sp)
+40001d8c:	01812403          	lw	s0,24(sp)
+40001d90:	02010113          	addi	sp,sp,32
+40001d94:	00008067          	ret
 
-40002208 <print16bit>:
+40001d98 <print16bit>:
 
 void print16bit(uint32_t n)
 {
-40002208:	fc010113          	addi	sp,sp,-64
-4000220c:	02112e23          	sw	ra,60(sp)
-40002210:	02812c23          	sw	s0,56(sp)
-40002214:	04010413          	addi	s0,sp,64
-40002218:	fca42623          	sw	a0,-52(s0)
+40001d98:	fc010113          	addi	sp,sp,-64
+40001d9c:	02112e23          	sw	ra,60(sp)
+40001da0:	02812c23          	sw	s0,56(sp)
+40001da4:	04010413          	addi	s0,sp,64
+40001da8:	fca42623          	sw	a0,-52(s0)
 
     int i = 0;
-4000221c:	fe042623          	sw	zero,-20(s0)
+40001dac:	fe042623          	sw	zero,-20(s0)
     char outbuf_inv[8]="";
-40002220:	fc042e23          	sw	zero,-36(s0)
-40002224:	fe042023          	sw	zero,-32(s0)
+40001db0:	fc042e23          	sw	zero,-36(s0)
+40001db4:	fe042023          	sw	zero,-32(s0)
     do{
     	outbuf_inv[i] = "0123456789abcdef"[n % 16];
-40002228:	fcc42783          	lw	a5,-52(s0)
-4000222c:	00f7f793          	andi	a5,a5,15
-40002230:	40004737          	lui	a4,0x40004
-40002234:	d1470713          	addi	a4,a4,-748 # 40003d14 <vga_simRes_h160_v120+0x24>
-40002238:	00f707b3          	add	a5,a4,a5
-4000223c:	0007c703          	lbu	a4,0(a5)
-40002240:	fec42783          	lw	a5,-20(s0)
-40002244:	ff040693          	addi	a3,s0,-16
-40002248:	00f687b3          	add	a5,a3,a5
-4000224c:	fee78623          	sb	a4,-20(a5)
+40001db8:	fcc42783          	lw	a5,-52(s0)
+40001dbc:	00f7f793          	andi	a5,a5,15
+40001dc0:	40003737          	lui	a4,0x40003
+40001dc4:	7ac70713          	addi	a4,a4,1964 # 400037ac <vga_simRes_h160_v120+0x24>
+40001dc8:	00f707b3          	add	a5,a4,a5
+40001dcc:	0007c703          	lbu	a4,0(a5)
+40001dd0:	fec42783          	lw	a5,-20(s0)
+40001dd4:	ff040693          	addi	a3,s0,-16
+40001dd8:	00f687b3          	add	a5,a3,a5
+40001ddc:	fee78623          	sb	a4,-20(a5)
         i++;
-40002250:	fec42783          	lw	a5,-20(s0)
-40002254:	00178793          	addi	a5,a5,1
-40002258:	fef42623          	sw	a5,-20(s0)
+40001de0:	fec42783          	lw	a5,-20(s0)
+40001de4:	00178793          	addi	a5,a5,1
+40001de8:	fef42623          	sw	a5,-20(s0)
         n = n/16;
-4000225c:	fcc42783          	lw	a5,-52(s0)
-40002260:	0047d793          	srli	a5,a5,0x4
-40002264:	fcf42623          	sw	a5,-52(s0)
+40001dec:	fcc42783          	lw	a5,-52(s0)
+40001df0:	0047d793          	srli	a5,a5,0x4
+40001df4:	fcf42623          	sw	a5,-52(s0)
     }while( n > 0);
-40002268:	fcc42783          	lw	a5,-52(s0)
-4000226c:	fa079ee3          	bnez	a5,40002228 <print16bit+0x20>
+40001df8:	fcc42783          	lw	a5,-52(s0)
+40001dfc:	fa079ee3          	bnez	a5,40001db8 <print16bit+0x20>
     if(i<8) {
-40002270:	fec42703          	lw	a4,-20(s0)
-40002274:	00700793          	li	a5,7
-40002278:	02e7ce63          	blt	a5,a4,400022b4 <print16bit+0xac>
+40001e00:	fec42703          	lw	a4,-20(s0)
+40001e04:	00700793          	li	a5,7
+40001e08:	02e7ce63          	blt	a5,a4,40001e44 <print16bit+0xac>
     	for(int j=7;j>=i;j--){
-4000227c:	00700793          	li	a5,7
-40002280:	fef42423          	sw	a5,-24(s0)
-40002284:	0240006f          	j	400022a8 <print16bit+0xa0>
+40001e0c:	00700793          	li	a5,7
+40001e10:	fef42423          	sw	a5,-24(s0)
+40001e14:	0240006f          	j	40001e38 <print16bit+0xa0>
     		outbuf_inv[j]="0"[0];
-40002288:	03000713          	li	a4,48
-4000228c:	fe842783          	lw	a5,-24(s0)
-40002290:	ff040693          	addi	a3,s0,-16
-40002294:	00f687b3          	add	a5,a3,a5
-40002298:	fee78623          	sb	a4,-20(a5)
+40001e18:	03000713          	li	a4,48
+40001e1c:	fe842783          	lw	a5,-24(s0)
+40001e20:	ff040693          	addi	a3,s0,-16
+40001e24:	00f687b3          	add	a5,a3,a5
+40001e28:	fee78623          	sb	a4,-20(a5)
     	for(int j=7;j>=i;j--){
-4000229c:	fe842783          	lw	a5,-24(s0)
-400022a0:	fff78793          	addi	a5,a5,-1
-400022a4:	fef42423          	sw	a5,-24(s0)
-400022a8:	fe842703          	lw	a4,-24(s0)
-400022ac:	fec42783          	lw	a5,-20(s0)
-400022b0:	fcf75ce3          	bge	a4,a5,40002288 <print16bit+0x80>
+40001e2c:	fe842783          	lw	a5,-24(s0)
+40001e30:	fff78793          	addi	a5,a5,-1
+40001e34:	fef42423          	sw	a5,-24(s0)
+40001e38:	fe842703          	lw	a4,-24(s0)
+40001e3c:	fec42783          	lw	a5,-20(s0)
+40001e40:	fcf75ce3          	bge	a4,a5,40001e18 <print16bit+0x80>
     	}
     }
     for(int j=3;j>=0;j--)
-400022b4:	00300793          	li	a5,3
-400022b8:	fef42223          	sw	a5,-28(s0)
-400022bc:	02c0006f          	j	400022e8 <print16bit+0xe0>
+40001e44:	00300793          	li	a5,3
+40001e48:	fef42223          	sw	a5,-28(s0)
+40001e4c:	02c0006f          	j	40001e78 <print16bit+0xe0>
     {
     	uart_write(UART,outbuf_inv[j]);
-400022c0:	fe442783          	lw	a5,-28(s0)
-400022c4:	ff040713          	addi	a4,s0,-16
-400022c8:	00f707b3          	add	a5,a4,a5
-400022cc:	fec7c783          	lbu	a5,-20(a5)
-400022d0:	00078593          	mv	a1,a5
-400022d4:	f0010537          	lui	a0,0xf0010
-400022d8:	d7dff0ef          	jal	ra,40002054 <uart_write>
+40001e50:	fe442783          	lw	a5,-28(s0)
+40001e54:	ff040713          	addi	a4,s0,-16
+40001e58:	00f707b3          	add	a5,a4,a5
+40001e5c:	fec7c783          	lbu	a5,-20(a5)
+40001e60:	00078593          	mv	a1,a5
+40001e64:	f0010537          	lui	a0,0xf0010
+40001e68:	d7dff0ef          	jal	ra,40001be4 <uart_write>
     for(int j=3;j>=0;j--)
-400022dc:	fe442783          	lw	a5,-28(s0)
-400022e0:	fff78793          	addi	a5,a5,-1
-400022e4:	fef42223          	sw	a5,-28(s0)
-400022e8:	fe442783          	lw	a5,-28(s0)
-400022ec:	fc07dae3          	bgez	a5,400022c0 <print16bit+0xb8>
+40001e6c:	fe442783          	lw	a5,-28(s0)
+40001e70:	fff78793          	addi	a5,a5,-1
+40001e74:	fef42223          	sw	a5,-28(s0)
+40001e78:	fe442783          	lw	a5,-28(s0)
+40001e7c:	fc07dae3          	bgez	a5,40001e50 <print16bit+0xb8>
     }
     print(" ");
-400022f0:	400047b7          	lui	a5,0x40004
-400022f4:	d1078513          	addi	a0,a5,-752 # 40003d10 <vga_simRes_h160_v120+0x20>
-400022f8:	eb9ff0ef          	jal	ra,400021b0 <print>
+40001e80:	400037b7          	lui	a5,0x40003
+40001e84:	7a878513          	addi	a0,a5,1960 # 400037a8 <vga_simRes_h160_v120+0x20>
+40001e88:	eb9ff0ef          	jal	ra,40001d40 <print>
 }
-400022fc:	00000013          	nop
-40002300:	03c12083          	lw	ra,60(sp)
-40002304:	03812403          	lw	s0,56(sp)
-40002308:	04010113          	addi	sp,sp,64
-4000230c:	00008067          	ret
+40001e8c:	00000013          	nop
+40001e90:	03c12083          	lw	ra,60(sp)
+40001e94:	03812403          	lw	s0,56(sp)
+40001e98:	04010113          	addi	sp,sp,64
+40001e9c:	00008067          	ret
 
-40002310 <print32bit>:
+40001ea0 <print32bit>:
 void print32bit(uint32_t n)
 {
-40002310:	fc010113          	addi	sp,sp,-64
-40002314:	02112e23          	sw	ra,60(sp)
-40002318:	02812c23          	sw	s0,56(sp)
-4000231c:	04010413          	addi	s0,sp,64
-40002320:	fca42623          	sw	a0,-52(s0)
+40001ea0:	fc010113          	addi	sp,sp,-64
+40001ea4:	02112e23          	sw	ra,60(sp)
+40001ea8:	02812c23          	sw	s0,56(sp)
+40001eac:	04010413          	addi	s0,sp,64
+40001eb0:	fca42623          	sw	a0,-52(s0)
 
     int i = 0;
-40002324:	fe042623          	sw	zero,-20(s0)
+40001eb4:	fe042623          	sw	zero,-20(s0)
     char outbuf_inv[8]="";
-40002328:	fc042e23          	sw	zero,-36(s0)
-4000232c:	fe042023          	sw	zero,-32(s0)
+40001eb8:	fc042e23          	sw	zero,-36(s0)
+40001ebc:	fe042023          	sw	zero,-32(s0)
     do{
     	outbuf_inv[i] = "0123456789abcdef"[n % 16];
-40002330:	fcc42783          	lw	a5,-52(s0)
-40002334:	00f7f793          	andi	a5,a5,15
-40002338:	40004737          	lui	a4,0x40004
-4000233c:	d1470713          	addi	a4,a4,-748 # 40003d14 <vga_simRes_h160_v120+0x24>
-40002340:	00f707b3          	add	a5,a4,a5
-40002344:	0007c703          	lbu	a4,0(a5)
-40002348:	fec42783          	lw	a5,-20(s0)
-4000234c:	ff040693          	addi	a3,s0,-16
-40002350:	00f687b3          	add	a5,a3,a5
-40002354:	fee78623          	sb	a4,-20(a5)
+40001ec0:	fcc42783          	lw	a5,-52(s0)
+40001ec4:	00f7f793          	andi	a5,a5,15
+40001ec8:	40003737          	lui	a4,0x40003
+40001ecc:	7ac70713          	addi	a4,a4,1964 # 400037ac <vga_simRes_h160_v120+0x24>
+40001ed0:	00f707b3          	add	a5,a4,a5
+40001ed4:	0007c703          	lbu	a4,0(a5)
+40001ed8:	fec42783          	lw	a5,-20(s0)
+40001edc:	ff040693          	addi	a3,s0,-16
+40001ee0:	00f687b3          	add	a5,a3,a5
+40001ee4:	fee78623          	sb	a4,-20(a5)
         i++;
-40002358:	fec42783          	lw	a5,-20(s0)
-4000235c:	00178793          	addi	a5,a5,1
-40002360:	fef42623          	sw	a5,-20(s0)
+40001ee8:	fec42783          	lw	a5,-20(s0)
+40001eec:	00178793          	addi	a5,a5,1
+40001ef0:	fef42623          	sw	a5,-20(s0)
         n = n/16;
-40002364:	fcc42783          	lw	a5,-52(s0)
-40002368:	0047d793          	srli	a5,a5,0x4
-4000236c:	fcf42623          	sw	a5,-52(s0)
+40001ef4:	fcc42783          	lw	a5,-52(s0)
+40001ef8:	0047d793          	srli	a5,a5,0x4
+40001efc:	fcf42623          	sw	a5,-52(s0)
     }while( n > 0);
-40002370:	fcc42783          	lw	a5,-52(s0)
-40002374:	fa079ee3          	bnez	a5,40002330 <print32bit+0x20>
+40001f00:	fcc42783          	lw	a5,-52(s0)
+40001f04:	fa079ee3          	bnez	a5,40001ec0 <print32bit+0x20>
     if(i<8) {
-40002378:	fec42703          	lw	a4,-20(s0)
-4000237c:	00700793          	li	a5,7
-40002380:	02e7ce63          	blt	a5,a4,400023bc <print32bit+0xac>
+40001f08:	fec42703          	lw	a4,-20(s0)
+40001f0c:	00700793          	li	a5,7
+40001f10:	02e7ce63          	blt	a5,a4,40001f4c <print32bit+0xac>
     	for(int j=7;j>=i;j--){
-40002384:	00700793          	li	a5,7
-40002388:	fef42423          	sw	a5,-24(s0)
-4000238c:	0240006f          	j	400023b0 <print32bit+0xa0>
+40001f14:	00700793          	li	a5,7
+40001f18:	fef42423          	sw	a5,-24(s0)
+40001f1c:	0240006f          	j	40001f40 <print32bit+0xa0>
     		outbuf_inv[j]="0"[0];
-40002390:	03000713          	li	a4,48
-40002394:	fe842783          	lw	a5,-24(s0)
-40002398:	ff040693          	addi	a3,s0,-16
-4000239c:	00f687b3          	add	a5,a3,a5
-400023a0:	fee78623          	sb	a4,-20(a5)
+40001f20:	03000713          	li	a4,48
+40001f24:	fe842783          	lw	a5,-24(s0)
+40001f28:	ff040693          	addi	a3,s0,-16
+40001f2c:	00f687b3          	add	a5,a3,a5
+40001f30:	fee78623          	sb	a4,-20(a5)
     	for(int j=7;j>=i;j--){
-400023a4:	fe842783          	lw	a5,-24(s0)
-400023a8:	fff78793          	addi	a5,a5,-1
-400023ac:	fef42423          	sw	a5,-24(s0)
-400023b0:	fe842703          	lw	a4,-24(s0)
-400023b4:	fec42783          	lw	a5,-20(s0)
-400023b8:	fcf75ce3          	bge	a4,a5,40002390 <print32bit+0x80>
+40001f34:	fe842783          	lw	a5,-24(s0)
+40001f38:	fff78793          	addi	a5,a5,-1
+40001f3c:	fef42423          	sw	a5,-24(s0)
+40001f40:	fe842703          	lw	a4,-24(s0)
+40001f44:	fec42783          	lw	a5,-20(s0)
+40001f48:	fcf75ce3          	bge	a4,a5,40001f20 <print32bit+0x80>
     	}
     }
     for(int j=7;j>=0;j--)
-400023bc:	00700793          	li	a5,7
-400023c0:	fef42223          	sw	a5,-28(s0)
-400023c4:	02c0006f          	j	400023f0 <print32bit+0xe0>
+40001f4c:	00700793          	li	a5,7
+40001f50:	fef42223          	sw	a5,-28(s0)
+40001f54:	02c0006f          	j	40001f80 <print32bit+0xe0>
     {
     	uart_write(UART,outbuf_inv[j]);
-400023c8:	fe442783          	lw	a5,-28(s0)
-400023cc:	ff040713          	addi	a4,s0,-16
-400023d0:	00f707b3          	add	a5,a4,a5
-400023d4:	fec7c783          	lbu	a5,-20(a5)
-400023d8:	00078593          	mv	a1,a5
-400023dc:	f0010537          	lui	a0,0xf0010
-400023e0:	c75ff0ef          	jal	ra,40002054 <uart_write>
+40001f58:	fe442783          	lw	a5,-28(s0)
+40001f5c:	ff040713          	addi	a4,s0,-16
+40001f60:	00f707b3          	add	a5,a4,a5
+40001f64:	fec7c783          	lbu	a5,-20(a5)
+40001f68:	00078593          	mv	a1,a5
+40001f6c:	f0010537          	lui	a0,0xf0010
+40001f70:	c75ff0ef          	jal	ra,40001be4 <uart_write>
     for(int j=7;j>=0;j--)
-400023e4:	fe442783          	lw	a5,-28(s0)
-400023e8:	fff78793          	addi	a5,a5,-1
-400023ec:	fef42223          	sw	a5,-28(s0)
-400023f0:	fe442783          	lw	a5,-28(s0)
-400023f4:	fc07dae3          	bgez	a5,400023c8 <print32bit+0xb8>
+40001f74:	fe442783          	lw	a5,-28(s0)
+40001f78:	fff78793          	addi	a5,a5,-1
+40001f7c:	fef42223          	sw	a5,-28(s0)
+40001f80:	fe442783          	lw	a5,-28(s0)
+40001f84:	fc07dae3          	bgez	a5,40001f58 <print32bit+0xb8>
     }
     print(" ");
-400023f8:	400047b7          	lui	a5,0x40004
-400023fc:	d1078513          	addi	a0,a5,-752 # 40003d10 <vga_simRes_h160_v120+0x20>
-40002400:	db1ff0ef          	jal	ra,400021b0 <print>
+40001f88:	400037b7          	lui	a5,0x40003
+40001f8c:	7a878513          	addi	a0,a5,1960 # 400037a8 <vga_simRes_h160_v120+0x20>
+40001f90:	db1ff0ef          	jal	ra,40001d40 <print>
 }
-40002404:	00000013          	nop
-40002408:	03c12083          	lw	ra,60(sp)
-4000240c:	03812403          	lw	s0,56(sp)
-40002410:	04010113          	addi	sp,sp,64
-40002414:	00008067          	ret
+40001f94:	00000013          	nop
+40001f98:	03c12083          	lw	ra,60(sp)
+40001f9c:	03812403          	lw	s0,56(sp)
+40001fa0:	04010113          	addi	sp,sp,64
+40001fa4:	00008067          	ret
 
-40002418 <print64bit>:
+40001fa8 <print64bit>:
 
 void print64bit(char *message,uint32_t *num)
 {
-40002418:	fe010113          	addi	sp,sp,-32
-4000241c:	00112e23          	sw	ra,28(sp)
-40002420:	00812c23          	sw	s0,24(sp)
-40002424:	02010413          	addi	s0,sp,32
-40002428:	fea42623          	sw	a0,-20(s0)
-4000242c:	feb42423          	sw	a1,-24(s0)
+40001fa8:	fe010113          	addi	sp,sp,-32
+40001fac:	00112e23          	sw	ra,28(sp)
+40001fb0:	00812c23          	sw	s0,24(sp)
+40001fb4:	02010413          	addi	s0,sp,32
+40001fb8:	fea42623          	sw	a0,-20(s0)
+40001fbc:	feb42423          	sw	a1,-24(s0)
 	print("\r\t");
-40002430:	400047b7          	lui	a5,0x40004
-40002434:	d2878513          	addi	a0,a5,-728 # 40003d28 <vga_simRes_h160_v120+0x38>
-40002438:	d79ff0ef          	jal	ra,400021b0 <print>
+40001fc0:	400037b7          	lui	a5,0x40003
+40001fc4:	7c078513          	addi	a0,a5,1984 # 400037c0 <vga_simRes_h160_v120+0x38>
+40001fc8:	d79ff0ef          	jal	ra,40001d40 <print>
 	print(message);
-4000243c:	fec42503          	lw	a0,-20(s0)
-40002440:	d71ff0ef          	jal	ra,400021b0 <print>
+40001fcc:	fec42503          	lw	a0,-20(s0)
+40001fd0:	d71ff0ef          	jal	ra,40001d40 <print>
 	print32bit(num[1]);
-40002444:	fe842783          	lw	a5,-24(s0)
-40002448:	00478793          	addi	a5,a5,4
-4000244c:	0007a783          	lw	a5,0(a5)
-40002450:	00078513          	mv	a0,a5
-40002454:	ebdff0ef          	jal	ra,40002310 <print32bit>
+40001fd4:	fe842783          	lw	a5,-24(s0)
+40001fd8:	00478793          	addi	a5,a5,4
+40001fdc:	0007a783          	lw	a5,0(a5)
+40001fe0:	00078513          	mv	a0,a5
+40001fe4:	ebdff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[0]);
-40002458:	fe842783          	lw	a5,-24(s0)
-4000245c:	0007a783          	lw	a5,0(a5)
-40002460:	00078513          	mv	a0,a5
-40002464:	eadff0ef          	jal	ra,40002310 <print32bit>
+40001fe8:	fe842783          	lw	a5,-24(s0)
+40001fec:	0007a783          	lw	a5,0(a5)
+40001ff0:	00078513          	mv	a0,a5
+40001ff4:	eadff0ef          	jal	ra,40001ea0 <print32bit>
 	print("\r\n");
-40002468:	400047b7          	lui	a5,0x40004
-4000246c:	d2c78513          	addi	a0,a5,-724 # 40003d2c <vga_simRes_h160_v120+0x3c>
-40002470:	d41ff0ef          	jal	ra,400021b0 <print>
+40001ff8:	400037b7          	lui	a5,0x40003
+40001ffc:	7c478513          	addi	a0,a5,1988 # 400037c4 <vga_simRes_h160_v120+0x3c>
+40002000:	d41ff0ef          	jal	ra,40001d40 <print>
 }
-40002474:	00000013          	nop
-40002478:	01c12083          	lw	ra,28(sp)
-4000247c:	01812403          	lw	s0,24(sp)
-40002480:	02010113          	addi	sp,sp,32
-40002484:	00008067          	ret
+40002004:	00000013          	nop
+40002008:	01c12083          	lw	ra,28(sp)
+4000200c:	01812403          	lw	s0,24(sp)
+40002010:	02010113          	addi	sp,sp,32
+40002014:	00008067          	ret
 
-40002488 <print128bit>:
+40002018 <print128bit>:
 void print128bit(char *message, uint32_t *num)
 {
-40002488:	fe010113          	addi	sp,sp,-32
-4000248c:	00112e23          	sw	ra,28(sp)
-40002490:	00812c23          	sw	s0,24(sp)
-40002494:	02010413          	addi	s0,sp,32
-40002498:	fea42623          	sw	a0,-20(s0)
-4000249c:	feb42423          	sw	a1,-24(s0)
+40002018:	fe010113          	addi	sp,sp,-32
+4000201c:	00112e23          	sw	ra,28(sp)
+40002020:	00812c23          	sw	s0,24(sp)
+40002024:	02010413          	addi	s0,sp,32
+40002028:	fea42623          	sw	a0,-20(s0)
+4000202c:	feb42423          	sw	a1,-24(s0)
 	print("\r\t");
-400024a0:	400047b7          	lui	a5,0x40004
-400024a4:	d2878513          	addi	a0,a5,-728 # 40003d28 <vga_simRes_h160_v120+0x38>
-400024a8:	d09ff0ef          	jal	ra,400021b0 <print>
+40002030:	400037b7          	lui	a5,0x40003
+40002034:	7c078513          	addi	a0,a5,1984 # 400037c0 <vga_simRes_h160_v120+0x38>
+40002038:	d09ff0ef          	jal	ra,40001d40 <print>
 	print(message);
-400024ac:	fec42503          	lw	a0,-20(s0)
-400024b0:	d01ff0ef          	jal	ra,400021b0 <print>
+4000203c:	fec42503          	lw	a0,-20(s0)
+40002040:	d01ff0ef          	jal	ra,40001d40 <print>
 	print32bit(num[3]);
-400024b4:	fe842783          	lw	a5,-24(s0)
-400024b8:	00c78793          	addi	a5,a5,12
-400024bc:	0007a783          	lw	a5,0(a5)
-400024c0:	00078513          	mv	a0,a5
-400024c4:	e4dff0ef          	jal	ra,40002310 <print32bit>
+40002044:	fe842783          	lw	a5,-24(s0)
+40002048:	00c78793          	addi	a5,a5,12
+4000204c:	0007a783          	lw	a5,0(a5)
+40002050:	00078513          	mv	a0,a5
+40002054:	e4dff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[2]);
-400024c8:	fe842783          	lw	a5,-24(s0)
-400024cc:	00878793          	addi	a5,a5,8
-400024d0:	0007a783          	lw	a5,0(a5)
-400024d4:	00078513          	mv	a0,a5
-400024d8:	e39ff0ef          	jal	ra,40002310 <print32bit>
+40002058:	fe842783          	lw	a5,-24(s0)
+4000205c:	00878793          	addi	a5,a5,8
+40002060:	0007a783          	lw	a5,0(a5)
+40002064:	00078513          	mv	a0,a5
+40002068:	e39ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[1]);
-400024dc:	fe842783          	lw	a5,-24(s0)
-400024e0:	00478793          	addi	a5,a5,4
-400024e4:	0007a783          	lw	a5,0(a5)
-400024e8:	00078513          	mv	a0,a5
-400024ec:	e25ff0ef          	jal	ra,40002310 <print32bit>
+4000206c:	fe842783          	lw	a5,-24(s0)
+40002070:	00478793          	addi	a5,a5,4
+40002074:	0007a783          	lw	a5,0(a5)
+40002078:	00078513          	mv	a0,a5
+4000207c:	e25ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[0]);
-400024f0:	fe842783          	lw	a5,-24(s0)
-400024f4:	0007a783          	lw	a5,0(a5)
-400024f8:	00078513          	mv	a0,a5
-400024fc:	e15ff0ef          	jal	ra,40002310 <print32bit>
+40002080:	fe842783          	lw	a5,-24(s0)
+40002084:	0007a783          	lw	a5,0(a5)
+40002088:	00078513          	mv	a0,a5
+4000208c:	e15ff0ef          	jal	ra,40001ea0 <print32bit>
 	print("\r\n");
-40002500:	400047b7          	lui	a5,0x40004
-40002504:	d2c78513          	addi	a0,a5,-724 # 40003d2c <vga_simRes_h160_v120+0x3c>
-40002508:	ca9ff0ef          	jal	ra,400021b0 <print>
+40002090:	400037b7          	lui	a5,0x40003
+40002094:	7c478513          	addi	a0,a5,1988 # 400037c4 <vga_simRes_h160_v120+0x3c>
+40002098:	ca9ff0ef          	jal	ra,40001d40 <print>
 }
-4000250c:	00000013          	nop
-40002510:	01c12083          	lw	ra,28(sp)
-40002514:	01812403          	lw	s0,24(sp)
-40002518:	02010113          	addi	sp,sp,32
-4000251c:	00008067          	ret
+4000209c:	00000013          	nop
+400020a0:	01c12083          	lw	ra,28(sp)
+400020a4:	01812403          	lw	s0,24(sp)
+400020a8:	02010113          	addi	sp,sp,32
+400020ac:	00008067          	ret
 
-40002520 <print80bit>:
+400020b0 <print80bit>:
 void print80bit(char *message,uint32_t *num)
 {
-40002520:	fe010113          	addi	sp,sp,-32
-40002524:	00112e23          	sw	ra,28(sp)
-40002528:	00812c23          	sw	s0,24(sp)
-4000252c:	02010413          	addi	s0,sp,32
-40002530:	fea42623          	sw	a0,-20(s0)
-40002534:	feb42423          	sw	a1,-24(s0)
+400020b0:	fe010113          	addi	sp,sp,-32
+400020b4:	00112e23          	sw	ra,28(sp)
+400020b8:	00812c23          	sw	s0,24(sp)
+400020bc:	02010413          	addi	s0,sp,32
+400020c0:	fea42623          	sw	a0,-20(s0)
+400020c4:	feb42423          	sw	a1,-24(s0)
 	print("\r\t");
-40002538:	400047b7          	lui	a5,0x40004
-4000253c:	d2878513          	addi	a0,a5,-728 # 40003d28 <vga_simRes_h160_v120+0x38>
-40002540:	c71ff0ef          	jal	ra,400021b0 <print>
+400020c8:	400037b7          	lui	a5,0x40003
+400020cc:	7c078513          	addi	a0,a5,1984 # 400037c0 <vga_simRes_h160_v120+0x38>
+400020d0:	c71ff0ef          	jal	ra,40001d40 <print>
 	print(message);
-40002544:	fec42503          	lw	a0,-20(s0)
-40002548:	c69ff0ef          	jal	ra,400021b0 <print>
+400020d4:	fec42503          	lw	a0,-20(s0)
+400020d8:	c69ff0ef          	jal	ra,40001d40 <print>
 	print32bit(num[2]);
-4000254c:	fe842783          	lw	a5,-24(s0)
-40002550:	00878793          	addi	a5,a5,8
-40002554:	0007a783          	lw	a5,0(a5)
-40002558:	00078513          	mv	a0,a5
-4000255c:	db5ff0ef          	jal	ra,40002310 <print32bit>
+400020dc:	fe842783          	lw	a5,-24(s0)
+400020e0:	00878793          	addi	a5,a5,8
+400020e4:	0007a783          	lw	a5,0(a5)
+400020e8:	00078513          	mv	a0,a5
+400020ec:	db5ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[1]);
-40002560:	fe842783          	lw	a5,-24(s0)
-40002564:	00478793          	addi	a5,a5,4
-40002568:	0007a783          	lw	a5,0(a5)
-4000256c:	00078513          	mv	a0,a5
-40002570:	da1ff0ef          	jal	ra,40002310 <print32bit>
+400020f0:	fe842783          	lw	a5,-24(s0)
+400020f4:	00478793          	addi	a5,a5,4
+400020f8:	0007a783          	lw	a5,0(a5)
+400020fc:	00078513          	mv	a0,a5
+40002100:	da1ff0ef          	jal	ra,40001ea0 <print32bit>
 	print16bit(num[0]);
-40002574:	fe842783          	lw	a5,-24(s0)
-40002578:	0007a783          	lw	a5,0(a5)
-4000257c:	00078513          	mv	a0,a5
-40002580:	c89ff0ef          	jal	ra,40002208 <print16bit>
+40002104:	fe842783          	lw	a5,-24(s0)
+40002108:	0007a783          	lw	a5,0(a5)
+4000210c:	00078513          	mv	a0,a5
+40002110:	c89ff0ef          	jal	ra,40001d98 <print16bit>
 	print("\r\n");
-40002584:	400047b7          	lui	a5,0x40004
-40002588:	d2c78513          	addi	a0,a5,-724 # 40003d2c <vga_simRes_h160_v120+0x3c>
-4000258c:	c25ff0ef          	jal	ra,400021b0 <print>
+40002114:	400037b7          	lui	a5,0x40003
+40002118:	7c478513          	addi	a0,a5,1988 # 400037c4 <vga_simRes_h160_v120+0x3c>
+4000211c:	c25ff0ef          	jal	ra,40001d40 <print>
 }
-40002590:	00000013          	nop
-40002594:	01c12083          	lw	ra,28(sp)
-40002598:	01812403          	lw	s0,24(sp)
-4000259c:	02010113          	addi	sp,sp,32
-400025a0:	00008067          	ret
+40002120:	00000013          	nop
+40002124:	01c12083          	lw	ra,28(sp)
+40002128:	01812403          	lw	s0,24(sp)
+4000212c:	02010113          	addi	sp,sp,32
+40002130:	00008067          	ret
 
-400025a4 <print256bit>:
+40002134 <print256bit>:
 void print256bit(char *message, uint32_t *num)
 {
-400025a4:	fe010113          	addi	sp,sp,-32
-400025a8:	00112e23          	sw	ra,28(sp)
-400025ac:	00812c23          	sw	s0,24(sp)
-400025b0:	02010413          	addi	s0,sp,32
-400025b4:	fea42623          	sw	a0,-20(s0)
-400025b8:	feb42423          	sw	a1,-24(s0)
+40002134:	fe010113          	addi	sp,sp,-32
+40002138:	00112e23          	sw	ra,28(sp)
+4000213c:	00812c23          	sw	s0,24(sp)
+40002140:	02010413          	addi	s0,sp,32
+40002144:	fea42623          	sw	a0,-20(s0)
+40002148:	feb42423          	sw	a1,-24(s0)
 	print("\r\t");
-400025bc:	400047b7          	lui	a5,0x40004
-400025c0:	d2878513          	addi	a0,a5,-728 # 40003d28 <vga_simRes_h160_v120+0x38>
-400025c4:	bedff0ef          	jal	ra,400021b0 <print>
+4000214c:	400037b7          	lui	a5,0x40003
+40002150:	7c078513          	addi	a0,a5,1984 # 400037c0 <vga_simRes_h160_v120+0x38>
+40002154:	bedff0ef          	jal	ra,40001d40 <print>
 	print(message);
-400025c8:	fec42503          	lw	a0,-20(s0)
-400025cc:	be5ff0ef          	jal	ra,400021b0 <print>
+40002158:	fec42503          	lw	a0,-20(s0)
+4000215c:	be5ff0ef          	jal	ra,40001d40 <print>
 	print32bit(num[7]);
-400025d0:	fe842783          	lw	a5,-24(s0)
-400025d4:	01c78793          	addi	a5,a5,28
-400025d8:	0007a783          	lw	a5,0(a5)
-400025dc:	00078513          	mv	a0,a5
-400025e0:	d31ff0ef          	jal	ra,40002310 <print32bit>
+40002160:	fe842783          	lw	a5,-24(s0)
+40002164:	01c78793          	addi	a5,a5,28
+40002168:	0007a783          	lw	a5,0(a5)
+4000216c:	00078513          	mv	a0,a5
+40002170:	d31ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[6]);
-400025e4:	fe842783          	lw	a5,-24(s0)
-400025e8:	01878793          	addi	a5,a5,24
-400025ec:	0007a783          	lw	a5,0(a5)
-400025f0:	00078513          	mv	a0,a5
-400025f4:	d1dff0ef          	jal	ra,40002310 <print32bit>
+40002174:	fe842783          	lw	a5,-24(s0)
+40002178:	01878793          	addi	a5,a5,24
+4000217c:	0007a783          	lw	a5,0(a5)
+40002180:	00078513          	mv	a0,a5
+40002184:	d1dff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[5]);
-400025f8:	fe842783          	lw	a5,-24(s0)
-400025fc:	01478793          	addi	a5,a5,20
-40002600:	0007a783          	lw	a5,0(a5)
-40002604:	00078513          	mv	a0,a5
-40002608:	d09ff0ef          	jal	ra,40002310 <print32bit>
+40002188:	fe842783          	lw	a5,-24(s0)
+4000218c:	01478793          	addi	a5,a5,20
+40002190:	0007a783          	lw	a5,0(a5)
+40002194:	00078513          	mv	a0,a5
+40002198:	d09ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[4]);
-4000260c:	fe842783          	lw	a5,-24(s0)
-40002610:	01078793          	addi	a5,a5,16
-40002614:	0007a783          	lw	a5,0(a5)
-40002618:	00078513          	mv	a0,a5
-4000261c:	cf5ff0ef          	jal	ra,40002310 <print32bit>
+4000219c:	fe842783          	lw	a5,-24(s0)
+400021a0:	01078793          	addi	a5,a5,16
+400021a4:	0007a783          	lw	a5,0(a5)
+400021a8:	00078513          	mv	a0,a5
+400021ac:	cf5ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[3]);
-40002620:	fe842783          	lw	a5,-24(s0)
-40002624:	00c78793          	addi	a5,a5,12
-40002628:	0007a783          	lw	a5,0(a5)
-4000262c:	00078513          	mv	a0,a5
-40002630:	ce1ff0ef          	jal	ra,40002310 <print32bit>
+400021b0:	fe842783          	lw	a5,-24(s0)
+400021b4:	00c78793          	addi	a5,a5,12
+400021b8:	0007a783          	lw	a5,0(a5)
+400021bc:	00078513          	mv	a0,a5
+400021c0:	ce1ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[2]);
-40002634:	fe842783          	lw	a5,-24(s0)
-40002638:	00878793          	addi	a5,a5,8
-4000263c:	0007a783          	lw	a5,0(a5)
-40002640:	00078513          	mv	a0,a5
-40002644:	ccdff0ef          	jal	ra,40002310 <print32bit>
+400021c4:	fe842783          	lw	a5,-24(s0)
+400021c8:	00878793          	addi	a5,a5,8
+400021cc:	0007a783          	lw	a5,0(a5)
+400021d0:	00078513          	mv	a0,a5
+400021d4:	ccdff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[1]);
-40002648:	fe842783          	lw	a5,-24(s0)
-4000264c:	00478793          	addi	a5,a5,4
-40002650:	0007a783          	lw	a5,0(a5)
-40002654:	00078513          	mv	a0,a5
-40002658:	cb9ff0ef          	jal	ra,40002310 <print32bit>
+400021d8:	fe842783          	lw	a5,-24(s0)
+400021dc:	00478793          	addi	a5,a5,4
+400021e0:	0007a783          	lw	a5,0(a5)
+400021e4:	00078513          	mv	a0,a5
+400021e8:	cb9ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[0]);
-4000265c:	fe842783          	lw	a5,-24(s0)
-40002660:	0007a783          	lw	a5,0(a5)
-40002664:	00078513          	mv	a0,a5
-40002668:	ca9ff0ef          	jal	ra,40002310 <print32bit>
+400021ec:	fe842783          	lw	a5,-24(s0)
+400021f0:	0007a783          	lw	a5,0(a5)
+400021f4:	00078513          	mv	a0,a5
+400021f8:	ca9ff0ef          	jal	ra,40001ea0 <print32bit>
 	print("\r\n");
-4000266c:	400047b7          	lui	a5,0x40004
-40002670:	d2c78513          	addi	a0,a5,-724 # 40003d2c <vga_simRes_h160_v120+0x3c>
-40002674:	b3dff0ef          	jal	ra,400021b0 <print>
+400021fc:	400037b7          	lui	a5,0x40003
+40002200:	7c478513          	addi	a0,a5,1988 # 400037c4 <vga_simRes_h160_v120+0x3c>
+40002204:	b3dff0ef          	jal	ra,40001d40 <print>
 }
-40002678:	00000013          	nop
-4000267c:	01c12083          	lw	ra,28(sp)
-40002680:	01812403          	lw	s0,24(sp)
-40002684:	02010113          	addi	sp,sp,32
-40002688:	00008067          	ret
+40002208:	00000013          	nop
+4000220c:	01c12083          	lw	ra,28(sp)
+40002210:	01812403          	lw	s0,24(sp)
+40002214:	02010113          	addi	sp,sp,32
+40002218:	00008067          	ret
 
-4000268c <print512bit>:
+4000221c <print512bit>:
 void print512bit (char *message, uint32_t *num)
 {
-4000268c:	fe010113          	addi	sp,sp,-32
-40002690:	00112e23          	sw	ra,28(sp)
-40002694:	00812c23          	sw	s0,24(sp)
-40002698:	02010413          	addi	s0,sp,32
-4000269c:	fea42623          	sw	a0,-20(s0)
-400026a0:	feb42423          	sw	a1,-24(s0)
+4000221c:	fe010113          	addi	sp,sp,-32
+40002220:	00112e23          	sw	ra,28(sp)
+40002224:	00812c23          	sw	s0,24(sp)
+40002228:	02010413          	addi	s0,sp,32
+4000222c:	fea42623          	sw	a0,-20(s0)
+40002230:	feb42423          	sw	a1,-24(s0)
 	print("\r\t");
-400026a4:	400047b7          	lui	a5,0x40004
-400026a8:	d2878513          	addi	a0,a5,-728 # 40003d28 <vga_simRes_h160_v120+0x38>
-400026ac:	b05ff0ef          	jal	ra,400021b0 <print>
+40002234:	400037b7          	lui	a5,0x40003
+40002238:	7c078513          	addi	a0,a5,1984 # 400037c0 <vga_simRes_h160_v120+0x38>
+4000223c:	b05ff0ef          	jal	ra,40001d40 <print>
 	print(message);
-400026b0:	fec42503          	lw	a0,-20(s0)
-400026b4:	afdff0ef          	jal	ra,400021b0 <print>
+40002240:	fec42503          	lw	a0,-20(s0)
+40002244:	afdff0ef          	jal	ra,40001d40 <print>
 	print32bit(num[15]);
-400026b8:	fe842783          	lw	a5,-24(s0)
-400026bc:	03c78793          	addi	a5,a5,60
-400026c0:	0007a783          	lw	a5,0(a5)
-400026c4:	00078513          	mv	a0,a5
-400026c8:	c49ff0ef          	jal	ra,40002310 <print32bit>
+40002248:	fe842783          	lw	a5,-24(s0)
+4000224c:	03c78793          	addi	a5,a5,60
+40002250:	0007a783          	lw	a5,0(a5)
+40002254:	00078513          	mv	a0,a5
+40002258:	c49ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[14]);
-400026cc:	fe842783          	lw	a5,-24(s0)
-400026d0:	03878793          	addi	a5,a5,56
-400026d4:	0007a783          	lw	a5,0(a5)
-400026d8:	00078513          	mv	a0,a5
-400026dc:	c35ff0ef          	jal	ra,40002310 <print32bit>
+4000225c:	fe842783          	lw	a5,-24(s0)
+40002260:	03878793          	addi	a5,a5,56
+40002264:	0007a783          	lw	a5,0(a5)
+40002268:	00078513          	mv	a0,a5
+4000226c:	c35ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[13]);
-400026e0:	fe842783          	lw	a5,-24(s0)
-400026e4:	03478793          	addi	a5,a5,52
-400026e8:	0007a783          	lw	a5,0(a5)
-400026ec:	00078513          	mv	a0,a5
-400026f0:	c21ff0ef          	jal	ra,40002310 <print32bit>
+40002270:	fe842783          	lw	a5,-24(s0)
+40002274:	03478793          	addi	a5,a5,52
+40002278:	0007a783          	lw	a5,0(a5)
+4000227c:	00078513          	mv	a0,a5
+40002280:	c21ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[12]);
-400026f4:	fe842783          	lw	a5,-24(s0)
-400026f8:	03078793          	addi	a5,a5,48
-400026fc:	0007a783          	lw	a5,0(a5)
-40002700:	00078513          	mv	a0,a5
-40002704:	c0dff0ef          	jal	ra,40002310 <print32bit>
+40002284:	fe842783          	lw	a5,-24(s0)
+40002288:	03078793          	addi	a5,a5,48
+4000228c:	0007a783          	lw	a5,0(a5)
+40002290:	00078513          	mv	a0,a5
+40002294:	c0dff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[11]);
-40002708:	fe842783          	lw	a5,-24(s0)
-4000270c:	02c78793          	addi	a5,a5,44
-40002710:	0007a783          	lw	a5,0(a5)
-40002714:	00078513          	mv	a0,a5
-40002718:	bf9ff0ef          	jal	ra,40002310 <print32bit>
+40002298:	fe842783          	lw	a5,-24(s0)
+4000229c:	02c78793          	addi	a5,a5,44
+400022a0:	0007a783          	lw	a5,0(a5)
+400022a4:	00078513          	mv	a0,a5
+400022a8:	bf9ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[10]);
-4000271c:	fe842783          	lw	a5,-24(s0)
-40002720:	02878793          	addi	a5,a5,40
-40002724:	0007a783          	lw	a5,0(a5)
-40002728:	00078513          	mv	a0,a5
-4000272c:	be5ff0ef          	jal	ra,40002310 <print32bit>
+400022ac:	fe842783          	lw	a5,-24(s0)
+400022b0:	02878793          	addi	a5,a5,40
+400022b4:	0007a783          	lw	a5,0(a5)
+400022b8:	00078513          	mv	a0,a5
+400022bc:	be5ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[9]);
-40002730:	fe842783          	lw	a5,-24(s0)
-40002734:	02478793          	addi	a5,a5,36
-40002738:	0007a783          	lw	a5,0(a5)
-4000273c:	00078513          	mv	a0,a5
-40002740:	bd1ff0ef          	jal	ra,40002310 <print32bit>
+400022c0:	fe842783          	lw	a5,-24(s0)
+400022c4:	02478793          	addi	a5,a5,36
+400022c8:	0007a783          	lw	a5,0(a5)
+400022cc:	00078513          	mv	a0,a5
+400022d0:	bd1ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[8]);
-40002744:	fe842783          	lw	a5,-24(s0)
-40002748:	02078793          	addi	a5,a5,32
-4000274c:	0007a783          	lw	a5,0(a5)
-40002750:	00078513          	mv	a0,a5
-40002754:	bbdff0ef          	jal	ra,40002310 <print32bit>
+400022d4:	fe842783          	lw	a5,-24(s0)
+400022d8:	02078793          	addi	a5,a5,32
+400022dc:	0007a783          	lw	a5,0(a5)
+400022e0:	00078513          	mv	a0,a5
+400022e4:	bbdff0ef          	jal	ra,40001ea0 <print32bit>
 	print("\r\n");
-40002758:	400047b7          	lui	a5,0x40004
-4000275c:	d2c78513          	addi	a0,a5,-724 # 40003d2c <vga_simRes_h160_v120+0x3c>
-40002760:	a51ff0ef          	jal	ra,400021b0 <print>
+400022e8:	400037b7          	lui	a5,0x40003
+400022ec:	7c478513          	addi	a0,a5,1988 # 400037c4 <vga_simRes_h160_v120+0x3c>
+400022f0:	a51ff0ef          	jal	ra,40001d40 <print>
 	print("\r\t                   ");
-40002764:	400047b7          	lui	a5,0x40004
-40002768:	d3078513          	addi	a0,a5,-720 # 40003d30 <vga_simRes_h160_v120+0x40>
-4000276c:	a45ff0ef          	jal	ra,400021b0 <print>
+400022f4:	400037b7          	lui	a5,0x40003
+400022f8:	7c878513          	addi	a0,a5,1992 # 400037c8 <vga_simRes_h160_v120+0x40>
+400022fc:	a45ff0ef          	jal	ra,40001d40 <print>
 	print32bit(num[7]);
-40002770:	fe842783          	lw	a5,-24(s0)
-40002774:	01c78793          	addi	a5,a5,28
-40002778:	0007a783          	lw	a5,0(a5)
-4000277c:	00078513          	mv	a0,a5
-40002780:	b91ff0ef          	jal	ra,40002310 <print32bit>
+40002300:	fe842783          	lw	a5,-24(s0)
+40002304:	01c78793          	addi	a5,a5,28
+40002308:	0007a783          	lw	a5,0(a5)
+4000230c:	00078513          	mv	a0,a5
+40002310:	b91ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[6]);
-40002784:	fe842783          	lw	a5,-24(s0)
-40002788:	01878793          	addi	a5,a5,24
-4000278c:	0007a783          	lw	a5,0(a5)
-40002790:	00078513          	mv	a0,a5
-40002794:	b7dff0ef          	jal	ra,40002310 <print32bit>
+40002314:	fe842783          	lw	a5,-24(s0)
+40002318:	01878793          	addi	a5,a5,24
+4000231c:	0007a783          	lw	a5,0(a5)
+40002320:	00078513          	mv	a0,a5
+40002324:	b7dff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[5]);
-40002798:	fe842783          	lw	a5,-24(s0)
-4000279c:	01478793          	addi	a5,a5,20
-400027a0:	0007a783          	lw	a5,0(a5)
-400027a4:	00078513          	mv	a0,a5
-400027a8:	b69ff0ef          	jal	ra,40002310 <print32bit>
+40002328:	fe842783          	lw	a5,-24(s0)
+4000232c:	01478793          	addi	a5,a5,20
+40002330:	0007a783          	lw	a5,0(a5)
+40002334:	00078513          	mv	a0,a5
+40002338:	b69ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[4]);
-400027ac:	fe842783          	lw	a5,-24(s0)
-400027b0:	01078793          	addi	a5,a5,16
-400027b4:	0007a783          	lw	a5,0(a5)
-400027b8:	00078513          	mv	a0,a5
-400027bc:	b55ff0ef          	jal	ra,40002310 <print32bit>
+4000233c:	fe842783          	lw	a5,-24(s0)
+40002340:	01078793          	addi	a5,a5,16
+40002344:	0007a783          	lw	a5,0(a5)
+40002348:	00078513          	mv	a0,a5
+4000234c:	b55ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[3]);
-400027c0:	fe842783          	lw	a5,-24(s0)
-400027c4:	00c78793          	addi	a5,a5,12
-400027c8:	0007a783          	lw	a5,0(a5)
-400027cc:	00078513          	mv	a0,a5
-400027d0:	b41ff0ef          	jal	ra,40002310 <print32bit>
+40002350:	fe842783          	lw	a5,-24(s0)
+40002354:	00c78793          	addi	a5,a5,12
+40002358:	0007a783          	lw	a5,0(a5)
+4000235c:	00078513          	mv	a0,a5
+40002360:	b41ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[2]);
-400027d4:	fe842783          	lw	a5,-24(s0)
-400027d8:	00878793          	addi	a5,a5,8
-400027dc:	0007a783          	lw	a5,0(a5)
-400027e0:	00078513          	mv	a0,a5
-400027e4:	b2dff0ef          	jal	ra,40002310 <print32bit>
+40002364:	fe842783          	lw	a5,-24(s0)
+40002368:	00878793          	addi	a5,a5,8
+4000236c:	0007a783          	lw	a5,0(a5)
+40002370:	00078513          	mv	a0,a5
+40002374:	b2dff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[1]);
-400027e8:	fe842783          	lw	a5,-24(s0)
-400027ec:	00478793          	addi	a5,a5,4
-400027f0:	0007a783          	lw	a5,0(a5)
-400027f4:	00078513          	mv	a0,a5
-400027f8:	b19ff0ef          	jal	ra,40002310 <print32bit>
+40002378:	fe842783          	lw	a5,-24(s0)
+4000237c:	00478793          	addi	a5,a5,4
+40002380:	0007a783          	lw	a5,0(a5)
+40002384:	00078513          	mv	a0,a5
+40002388:	b19ff0ef          	jal	ra,40001ea0 <print32bit>
 	print32bit(num[0]);
-400027fc:	fe842783          	lw	a5,-24(s0)
-40002800:	0007a783          	lw	a5,0(a5)
-40002804:	00078513          	mv	a0,a5
-40002808:	b09ff0ef          	jal	ra,40002310 <print32bit>
+4000238c:	fe842783          	lw	a5,-24(s0)
+40002390:	0007a783          	lw	a5,0(a5)
+40002394:	00078513          	mv	a0,a5
+40002398:	b09ff0ef          	jal	ra,40001ea0 <print32bit>
 	print("\r\n");
-4000280c:	400047b7          	lui	a5,0x40004
-40002810:	d2c78513          	addi	a0,a5,-724 # 40003d2c <vga_simRes_h160_v120+0x3c>
-40002814:	99dff0ef          	jal	ra,400021b0 <print>
+4000239c:	400037b7          	lui	a5,0x40003
+400023a0:	7c478513          	addi	a0,a5,1988 # 400037c4 <vga_simRes_h160_v120+0x3c>
+400023a4:	99dff0ef          	jal	ra,40001d40 <print>
 }
-40002818:	00000013          	nop
-4000281c:	01c12083          	lw	ra,28(sp)
-40002820:	01812403          	lw	s0,24(sp)
-40002824:	02010113          	addi	sp,sp,32
-40002828:	00008067          	ret
+400023a8:	00000013          	nop
+400023ac:	01c12083          	lw	ra,28(sp)
+400023b0:	01812403          	lw	s0,24(sp)
+400023b4:	02010113          	addi	sp,sp,32
+400023b8:	00008067          	ret
 
-4000282c <timer_init>:
+400023bc <timer_init>:
 static void timer_init(Timer_Reg *reg){
-4000282c:	fe010113          	addi	sp,sp,-32
-40002830:	00812e23          	sw	s0,28(sp)
-40002834:	02010413          	addi	s0,sp,32
-40002838:	fea42623          	sw	a0,-20(s0)
+400023bc:	fe010113          	addi	sp,sp,-32
+400023c0:	00812e23          	sw	s0,28(sp)
+400023c4:	02010413          	addi	s0,sp,32
+400023c8:	fea42623          	sw	a0,-20(s0)
 	reg->CLEARS_TICKS  = 0;
-4000283c:	fec42783          	lw	a5,-20(s0)
-40002840:	0007a023          	sw	zero,0(a5)
+400023cc:	fec42783          	lw	a5,-20(s0)
+400023d0:	0007a023          	sw	zero,0(a5)
 	reg->VALUE = 0;
-40002844:	fec42783          	lw	a5,-20(s0)
-40002848:	0007a423          	sw	zero,8(a5)
+400023d4:	fec42783          	lw	a5,-20(s0)
+400023d8:	0007a423          	sw	zero,8(a5)
 }
-4000284c:	00000013          	nop
-40002850:	01c12403          	lw	s0,28(sp)
-40002854:	02010113          	addi	sp,sp,32
-40002858:	00008067          	ret
+400023dc:	00000013          	nop
+400023e0:	01c12403          	lw	s0,28(sp)
+400023e4:	02010113          	addi	sp,sp,32
+400023e8:	00008067          	ret
 
-4000285c <prescaler_init>:
+400023ec <prescaler_init>:
 static void prescaler_init(Prescaler_Reg* reg){
-4000285c:	fe010113          	addi	sp,sp,-32
-40002860:	00812e23          	sw	s0,28(sp)
-40002864:	02010413          	addi	s0,sp,32
-40002868:	fea42623          	sw	a0,-20(s0)
+400023ec:	fe010113          	addi	sp,sp,-32
+400023f0:	00812e23          	sw	s0,28(sp)
+400023f4:	02010413          	addi	s0,sp,32
+400023f8:	fea42623          	sw	a0,-20(s0)
 }
-4000286c:	00000013          	nop
-40002870:	01c12403          	lw	s0,28(sp)
-40002874:	02010113          	addi	sp,sp,32
-40002878:	00008067          	ret
+400023fc:	00000013          	nop
+40002400:	01c12403          	lw	s0,28(sp)
+40002404:	02010113          	addi	sp,sp,32
+40002408:	00008067          	ret
 
-4000287c <interruptCtrl_init>:
+4000240c <interruptCtrl_init>:
 static void interruptCtrl_init(InterruptCtrl_Reg* reg){
-4000287c:	fe010113          	addi	sp,sp,-32
-40002880:	00812e23          	sw	s0,28(sp)
-40002884:	02010413          	addi	s0,sp,32
-40002888:	fea42623          	sw	a0,-20(s0)
+4000240c:	fe010113          	addi	sp,sp,-32
+40002410:	00812e23          	sw	s0,28(sp)
+40002414:	02010413          	addi	s0,sp,32
+40002418:	fea42623          	sw	a0,-20(s0)
 	reg->MASKS = 0;
-4000288c:	fec42783          	lw	a5,-20(s0)
-40002890:	0007a223          	sw	zero,4(a5)
+4000241c:	fec42783          	lw	a5,-20(s0)
+40002420:	0007a223          	sw	zero,4(a5)
 	reg->PENDINGS = 0xFFFFFFFF;
-40002894:	fec42783          	lw	a5,-20(s0)
-40002898:	fff00713          	li	a4,-1
-4000289c:	00e7a023          	sw	a4,0(a5)
+40002424:	fec42783          	lw	a5,-20(s0)
+40002428:	fff00713          	li	a4,-1
+4000242c:	00e7a023          	sw	a4,0(a5)
 }
-400028a0:	00000013          	nop
-400028a4:	01c12403          	lw	s0,28(sp)
-400028a8:	02010113          	addi	sp,sp,32
-400028ac:	00008067          	ret
+40002430:	00000013          	nop
+40002434:	01c12403          	lw	s0,28(sp)
+40002438:	02010113          	addi	sp,sp,32
+4000243c:	00008067          	ret
 
-400028b0 <uart_writeAvailability>:
+40002440 <uart_writeAvailability>:
 static uint32_t uart_writeAvailability(Uart_Reg *reg){
-400028b0:	fe010113          	addi	sp,sp,-32
-400028b4:	00812e23          	sw	s0,28(sp)
-400028b8:	02010413          	addi	s0,sp,32
-400028bc:	fea42623          	sw	a0,-20(s0)
+40002440:	fe010113          	addi	sp,sp,-32
+40002444:	00812e23          	sw	s0,28(sp)
+40002448:	02010413          	addi	s0,sp,32
+4000244c:	fea42623          	sw	a0,-20(s0)
 	return (reg->STATUS >> 16) & 0xFF;
-400028c0:	fec42783          	lw	a5,-20(s0)
-400028c4:	0047a783          	lw	a5,4(a5)
-400028c8:	0107d793          	srli	a5,a5,0x10
-400028cc:	0ff7f793          	zext.b	a5,a5
+40002450:	fec42783          	lw	a5,-20(s0)
+40002454:	0047a783          	lw	a5,4(a5)
+40002458:	0107d793          	srli	a5,a5,0x10
+4000245c:	0ff7f793          	zext.b	a5,a5
 }
-400028d0:	00078513          	mv	a0,a5
-400028d4:	01c12403          	lw	s0,28(sp)
-400028d8:	02010113          	addi	sp,sp,32
-400028dc:	00008067          	ret
+40002460:	00078513          	mv	a0,a5
+40002464:	01c12403          	lw	s0,28(sp)
+40002468:	02010113          	addi	sp,sp,32
+4000246c:	00008067          	ret
 
-400028e0 <uart_readOccupancy>:
+40002470 <uart_readOccupancy>:
 static uint32_t uart_readOccupancy(Uart_Reg *reg){
-400028e0:	fe010113          	addi	sp,sp,-32
-400028e4:	00812e23          	sw	s0,28(sp)
-400028e8:	02010413          	addi	s0,sp,32
-400028ec:	fea42623          	sw	a0,-20(s0)
+40002470:	fe010113          	addi	sp,sp,-32
+40002474:	00812e23          	sw	s0,28(sp)
+40002478:	02010413          	addi	s0,sp,32
+4000247c:	fea42623          	sw	a0,-20(s0)
 	return reg->STATUS >> 24;
-400028f0:	fec42783          	lw	a5,-20(s0)
-400028f4:	0047a783          	lw	a5,4(a5)
-400028f8:	0187d793          	srli	a5,a5,0x18
+40002480:	fec42783          	lw	a5,-20(s0)
+40002484:	0047a783          	lw	a5,4(a5)
+40002488:	0187d793          	srli	a5,a5,0x18
 }
-400028fc:	00078513          	mv	a0,a5
-40002900:	01c12403          	lw	s0,28(sp)
-40002904:	02010113          	addi	sp,sp,32
-40002908:	00008067          	ret
+4000248c:	00078513          	mv	a0,a5
+40002490:	01c12403          	lw	s0,28(sp)
+40002494:	02010113          	addi	sp,sp,32
+40002498:	00008067          	ret
 
-4000290c <uart_write>:
+4000249c <uart_write>:
 static void uart_write(Uart_Reg *reg, uint32_t data){
-4000290c:	fe010113          	addi	sp,sp,-32
-40002910:	00112e23          	sw	ra,28(sp)
-40002914:	00812c23          	sw	s0,24(sp)
-40002918:	02010413          	addi	s0,sp,32
-4000291c:	fea42623          	sw	a0,-20(s0)
-40002920:	feb42423          	sw	a1,-24(s0)
+4000249c:	fe010113          	addi	sp,sp,-32
+400024a0:	00112e23          	sw	ra,28(sp)
+400024a4:	00812c23          	sw	s0,24(sp)
+400024a8:	02010413          	addi	s0,sp,32
+400024ac:	fea42623          	sw	a0,-20(s0)
+400024b0:	feb42423          	sw	a1,-24(s0)
 	while(uart_writeAvailability(reg) == 0);
-40002924:	00000013          	nop
-40002928:	fec42503          	lw	a0,-20(s0)
-4000292c:	f85ff0ef          	jal	ra,400028b0 <uart_writeAvailability>
-40002930:	00050793          	mv	a5,a0
-40002934:	fe078ae3          	beqz	a5,40002928 <uart_write+0x1c>
+400024b4:	00000013          	nop
+400024b8:	fec42503          	lw	a0,-20(s0)
+400024bc:	f85ff0ef          	jal	ra,40002440 <uart_writeAvailability>
+400024c0:	00050793          	mv	a5,a0
+400024c4:	fe078ae3          	beqz	a5,400024b8 <uart_write+0x1c>
 	reg->DATA = data;
-40002938:	fec42783          	lw	a5,-20(s0)
-4000293c:	fe842703          	lw	a4,-24(s0)
-40002940:	00e7a023          	sw	a4,0(a5)
+400024c8:	fec42783          	lw	a5,-20(s0)
+400024cc:	fe842703          	lw	a4,-24(s0)
+400024d0:	00e7a023          	sw	a4,0(a5)
 }
-40002944:	00000013          	nop
-40002948:	01c12083          	lw	ra,28(sp)
-4000294c:	01812403          	lw	s0,24(sp)
-40002950:	02010113          	addi	sp,sp,32
-40002954:	00008067          	ret
+400024d4:	00000013          	nop
+400024d8:	01c12083          	lw	ra,28(sp)
+400024dc:	01812403          	lw	s0,24(sp)
+400024e0:	02010113          	addi	sp,sp,32
+400024e4:	00008067          	ret
 
-40002958 <uart_applyConfig>:
+400024e8 <uart_applyConfig>:
 static void uart_applyConfig(Uart_Reg *reg, Uart_Config *config){
-40002958:	fe010113          	addi	sp,sp,-32
-4000295c:	00812e23          	sw	s0,28(sp)
-40002960:	02010413          	addi	s0,sp,32
-40002964:	fea42623          	sw	a0,-20(s0)
-40002968:	feb42423          	sw	a1,-24(s0)
+400024e8:	fe010113          	addi	sp,sp,-32
+400024ec:	00812e23          	sw	s0,28(sp)
+400024f0:	02010413          	addi	s0,sp,32
+400024f4:	fea42623          	sw	a0,-20(s0)
+400024f8:	feb42423          	sw	a1,-24(s0)
 	reg->CLOCK_DIVIDER = config->clockDivider;
-4000296c:	fe842783          	lw	a5,-24(s0)
-40002970:	00c7a703          	lw	a4,12(a5)
-40002974:	fec42783          	lw	a5,-20(s0)
-40002978:	00e7a423          	sw	a4,8(a5)
+400024fc:	fe842783          	lw	a5,-24(s0)
+40002500:	00c7a703          	lw	a4,12(a5)
+40002504:	fec42783          	lw	a5,-20(s0)
+40002508:	00e7a423          	sw	a4,8(a5)
 	reg->FRAME_CONFIG = ((config->dataLength-1) << 0) | (config->parity << 8) | (config->stop << 16);
-4000297c:	fe842783          	lw	a5,-24(s0)
-40002980:	0007a783          	lw	a5,0(a5)
-40002984:	fff78713          	addi	a4,a5,-1
-40002988:	fe842783          	lw	a5,-24(s0)
-4000298c:	0047a783          	lw	a5,4(a5)
-40002990:	00879793          	slli	a5,a5,0x8
-40002994:	00f76733          	or	a4,a4,a5
-40002998:	fe842783          	lw	a5,-24(s0)
-4000299c:	0087a783          	lw	a5,8(a5)
-400029a0:	01079793          	slli	a5,a5,0x10
-400029a4:	00f76733          	or	a4,a4,a5
-400029a8:	fec42783          	lw	a5,-20(s0)
-400029ac:	00e7a623          	sw	a4,12(a5)
+4000250c:	fe842783          	lw	a5,-24(s0)
+40002510:	0007a783          	lw	a5,0(a5)
+40002514:	fff78713          	addi	a4,a5,-1
+40002518:	fe842783          	lw	a5,-24(s0)
+4000251c:	0047a783          	lw	a5,4(a5)
+40002520:	00879793          	slli	a5,a5,0x8
+40002524:	00f76733          	or	a4,a4,a5
+40002528:	fe842783          	lw	a5,-24(s0)
+4000252c:	0087a783          	lw	a5,8(a5)
+40002530:	01079793          	slli	a5,a5,0x10
+40002534:	00f76733          	or	a4,a4,a5
+40002538:	fec42783          	lw	a5,-20(s0)
+4000253c:	00e7a623          	sw	a4,12(a5)
 }
-400029b0:	00000013          	nop
-400029b4:	01c12403          	lw	s0,28(sp)
-400029b8:	02010113          	addi	sp,sp,32
-400029bc:	00008067          	ret
+40002540:	00000013          	nop
+40002544:	01c12403          	lw	s0,28(sp)
+40002548:	02010113          	addi	sp,sp,32
+4000254c:	00008067          	ret
 
-400029c0 <vga_isBusy>:
+40002550 <vga_isBusy>:
 static uint32_t vga_isBusy(Vga_Reg *reg){
-400029c0:	fe010113          	addi	sp,sp,-32
-400029c4:	00812e23          	sw	s0,28(sp)
-400029c8:	02010413          	addi	s0,sp,32
-400029cc:	fea42623          	sw	a0,-20(s0)
+40002550:	fe010113          	addi	sp,sp,-32
+40002554:	00812e23          	sw	s0,28(sp)
+40002558:	02010413          	addi	s0,sp,32
+4000255c:	fea42623          	sw	a0,-20(s0)
 	return (reg->STATUS & 2) != 0;
-400029d0:	fec42783          	lw	a5,-20(s0)
-400029d4:	0007a783          	lw	a5,0(a5)
-400029d8:	0027f793          	andi	a5,a5,2
-400029dc:	00f037b3          	snez	a5,a5
-400029e0:	0ff7f793          	zext.b	a5,a5
+40002560:	fec42783          	lw	a5,-20(s0)
+40002564:	0007a783          	lw	a5,0(a5)
+40002568:	0027f793          	andi	a5,a5,2
+4000256c:	00f037b3          	snez	a5,a5
+40002570:	0ff7f793          	zext.b	a5,a5
 }
-400029e4:	00078513          	mv	a0,a5
-400029e8:	01c12403          	lw	s0,28(sp)
-400029ec:	02010113          	addi	sp,sp,32
-400029f0:	00008067          	ret
+40002574:	00078513          	mv	a0,a5
+40002578:	01c12403          	lw	s0,28(sp)
+4000257c:	02010113          	addi	sp,sp,32
+40002580:	00008067          	ret
 
-400029f4 <vga_run>:
+40002584 <vga_run>:
 static void vga_run(Vga_Reg *reg){
-400029f4:	fe010113          	addi	sp,sp,-32
-400029f8:	00812e23          	sw	s0,28(sp)
-400029fc:	02010413          	addi	s0,sp,32
-40002a00:	fea42623          	sw	a0,-20(s0)
+40002584:	fe010113          	addi	sp,sp,-32
+40002588:	00812e23          	sw	s0,28(sp)
+4000258c:	02010413          	addi	s0,sp,32
+40002590:	fea42623          	sw	a0,-20(s0)
 	reg->STATUS  = 1;
-40002a04:	fec42783          	lw	a5,-20(s0)
-40002a08:	00100713          	li	a4,1
-40002a0c:	00e7a023          	sw	a4,0(a5)
+40002594:	fec42783          	lw	a5,-20(s0)
+40002598:	00100713          	li	a4,1
+4000259c:	00e7a023          	sw	a4,0(a5)
 }
-40002a10:	00000013          	nop
-40002a14:	01c12403          	lw	s0,28(sp)
-40002a18:	02010113          	addi	sp,sp,32
-40002a1c:	00008067          	ret
+400025a0:	00000013          	nop
+400025a4:	01c12403          	lw	s0,28(sp)
+400025a8:	02010113          	addi	sp,sp,32
+400025ac:	00008067          	ret
 
-40002a20 <vga_stop>:
+400025b0 <vga_stop>:
 static void vga_stop(Vga_Reg *reg){
-40002a20:	fe010113          	addi	sp,sp,-32
-40002a24:	00112e23          	sw	ra,28(sp)
-40002a28:	00812c23          	sw	s0,24(sp)
-40002a2c:	02010413          	addi	s0,sp,32
-40002a30:	fea42623          	sw	a0,-20(s0)
+400025b0:	fe010113          	addi	sp,sp,-32
+400025b4:	00112e23          	sw	ra,28(sp)
+400025b8:	00812c23          	sw	s0,24(sp)
+400025bc:	02010413          	addi	s0,sp,32
+400025c0:	fea42623          	sw	a0,-20(s0)
 	reg->STATUS  = 0;
-40002a34:	fec42783          	lw	a5,-20(s0)
-40002a38:	0007a023          	sw	zero,0(a5)
+400025c4:	fec42783          	lw	a5,-20(s0)
+400025c8:	0007a023          	sw	zero,0(a5)
 	while(vga_isBusy(reg));
-40002a3c:	00000013          	nop
-40002a40:	fec42503          	lw	a0,-20(s0)
-40002a44:	f7dff0ef          	jal	ra,400029c0 <vga_isBusy>
-40002a48:	00050793          	mv	a5,a0
-40002a4c:	fe079ae3          	bnez	a5,40002a40 <vga_stop+0x20>
+400025cc:	00000013          	nop
+400025d0:	fec42503          	lw	a0,-20(s0)
+400025d4:	f7dff0ef          	jal	ra,40002550 <vga_isBusy>
+400025d8:	00050793          	mv	a5,a0
+400025dc:	fe079ae3          	bnez	a5,400025d0 <vga_stop+0x20>
 }
-40002a50:	00000013          	nop
-40002a54:	00000013          	nop
-40002a58:	01c12083          	lw	ra,28(sp)
-40002a5c:	01812403          	lw	s0,24(sp)
-40002a60:	02010113          	addi	sp,sp,32
-40002a64:	00008067          	ret
+400025e0:	00000013          	nop
+400025e4:	00000013          	nop
+400025e8:	01c12083          	lw	ra,28(sp)
+400025ec:	01812403          	lw	s0,24(sp)
+400025f0:	02010113          	addi	sp,sp,32
+400025f4:	00008067          	ret
 
-40002a68 <poly_write>:
+400025f8 <poly_write>:
 #include "briey.h"
 void poly_write(uint32_t iData, uint32_t iAddress)
 {
-40002a68:	fe010113          	addi	sp,sp,-32
-40002a6c:	00812e23          	sw	s0,28(sp)
-40002a70:	02010413          	addi	s0,sp,32
-40002a74:	fea42623          	sw	a0,-20(s0)
-40002a78:	feb42423          	sw	a1,-24(s0)
+400025f8:	fe010113          	addi	sp,sp,-32
+400025fc:	00812e23          	sw	s0,28(sp)
+40002600:	02010413          	addi	s0,sp,32
+40002604:	fea42623          	sw	a0,-20(s0)
+40002608:	feb42423          	sw	a1,-24(s0)
 	POLY_BASE->ADDRESS			= iAddress;
-40002a7c:	f00037b7          	lui	a5,0xf0003
-40002a80:	fe842703          	lw	a4,-24(s0)
-40002a84:	00e7a423          	sw	a4,8(a5) # f0003008 <_stack_start+0x700026c8>
+4000260c:	f00037b7          	lui	a5,0xf0003
+40002610:	fe842703          	lw	a4,-24(s0)
+40002614:	00e7a423          	sw	a4,8(a5) # f0003008 <_stack_start+0x700026c8>
 	POLY_BASE->WRITE_ENABLE 	= 1;
-40002a88:	f00037b7          	lui	a5,0xf0003
-40002a8c:	00100713          	li	a4,1
-40002a90:	00e7a223          	sw	a4,4(a5) # f0003004 <_stack_start+0x700026c4>
+40002618:	f00037b7          	lui	a5,0xf0003
+4000261c:	00100713          	li	a4,1
+40002620:	00e7a223          	sw	a4,4(a5) # f0003004 <_stack_start+0x700026c4>
 	POLY_BASE->IDATA			= iData;
-40002a94:	f00037b7          	lui	a5,0xf0003
-40002a98:	fec42703          	lw	a4,-20(s0)
-40002a9c:	00e7a623          	sw	a4,12(a5) # f000300c <_stack_start+0x700026cc>
+40002624:	f00037b7          	lui	a5,0xf0003
+40002628:	fec42703          	lw	a4,-20(s0)
+4000262c:	00e7a623          	sw	a4,12(a5) # f000300c <_stack_start+0x700026cc>
 	POLY_BASE->CHIP_SELECT		= 1;
-40002aa0:	f00037b7          	lui	a5,0xf0003
-40002aa4:	00100713          	li	a4,1
-40002aa8:	00e7a023          	sw	a4,0(a5) # f0003000 <_stack_start+0x700026c0>
+40002630:	f00037b7          	lui	a5,0xf0003
+40002634:	00100713          	li	a4,1
+40002638:	00e7a023          	sw	a4,0(a5) # f0003000 <_stack_start+0x700026c0>
 	POLY_BASE->CHIP_SELECT		= 0;
-40002aac:	f00037b7          	lui	a5,0xf0003
-40002ab0:	0007a023          	sw	zero,0(a5) # f0003000 <_stack_start+0x700026c0>
+4000263c:	f00037b7          	lui	a5,0xf0003
+40002640:	0007a023          	sw	zero,0(a5) # f0003000 <_stack_start+0x700026c0>
 }
-40002ab4:	00000013          	nop
-40002ab8:	01c12403          	lw	s0,28(sp)
-40002abc:	02010113          	addi	sp,sp,32
-40002ac0:	00008067          	ret
+40002644:	00000013          	nop
+40002648:	01c12403          	lw	s0,28(sp)
+4000264c:	02010113          	addi	sp,sp,32
+40002650:	00008067          	ret
 
-40002ac4 <poly_read>:
+40002654 <poly_read>:
 uint32_t poly_read(uint32_t iAddress)
 {
-40002ac4:	fd010113          	addi	sp,sp,-48
-40002ac8:	02812623          	sw	s0,44(sp)
-40002acc:	03010413          	addi	s0,sp,48
-40002ad0:	fca42e23          	sw	a0,-36(s0)
+40002654:	fd010113          	addi	sp,sp,-48
+40002658:	02812623          	sw	s0,44(sp)
+4000265c:	03010413          	addi	s0,sp,48
+40002660:	fca42e23          	sw	a0,-36(s0)
 	POLY_BASE->ADDRESS		= iAddress;
-40002ad4:	f00037b7          	lui	a5,0xf0003
-40002ad8:	fdc42703          	lw	a4,-36(s0)
-40002adc:	00e7a423          	sw	a4,8(a5) # f0003008 <_stack_start+0x700026c8>
+40002664:	f00037b7          	lui	a5,0xf0003
+40002668:	fdc42703          	lw	a4,-36(s0)
+4000266c:	00e7a423          	sw	a4,8(a5) # f0003008 <_stack_start+0x700026c8>
 	POLY_BASE->WRITE_ENABLE	= 0;
-40002ae0:	f00037b7          	lui	a5,0xf0003
-40002ae4:	0007a223          	sw	zero,4(a5) # f0003004 <_stack_start+0x700026c4>
+40002670:	f00037b7          	lui	a5,0xf0003
+40002674:	0007a223          	sw	zero,4(a5) # f0003004 <_stack_start+0x700026c4>
 	POLY_BASE->CHIP_SELECT	= 1;
-40002ae8:	f00037b7          	lui	a5,0xf0003
-40002aec:	00100713          	li	a4,1
-40002af0:	00e7a023          	sw	a4,0(a5) # f0003000 <_stack_start+0x700026c0>
+40002678:	f00037b7          	lui	a5,0xf0003
+4000267c:	00100713          	li	a4,1
+40002680:	00e7a023          	sw	a4,0(a5) # f0003000 <_stack_start+0x700026c0>
 	uint32_t res 			= POLY_BASE->ODATA;
-40002af4:	f00037b7          	lui	a5,0xf0003
-40002af8:	0107a783          	lw	a5,16(a5) # f0003010 <_stack_start+0x700026d0>
-40002afc:	fef42623          	sw	a5,-20(s0)
+40002684:	f00037b7          	lui	a5,0xf0003
+40002688:	0107a783          	lw	a5,16(a5) # f0003010 <_stack_start+0x700026d0>
+4000268c:	fef42623          	sw	a5,-20(s0)
 	POLY_BASE->CHIP_SELECT	= 0;
-40002b00:	f00037b7          	lui	a5,0xf0003
-40002b04:	0007a023          	sw	zero,0(a5) # f0003000 <_stack_start+0x700026c0>
+40002690:	f00037b7          	lui	a5,0xf0003
+40002694:	0007a023          	sw	zero,0(a5) # f0003000 <_stack_start+0x700026c0>
 	return res;
-40002b08:	fec42783          	lw	a5,-20(s0)
+40002698:	fec42783          	lw	a5,-20(s0)
 }
-40002b0c:	00078513          	mv	a0,a5
-40002b10:	02c12403          	lw	s0,44(sp)
-40002b14:	03010113          	addi	sp,sp,48
-40002b18:	00008067          	ret
+4000269c:	00078513          	mv	a0,a5
+400026a0:	02c12403          	lw	s0,44(sp)
+400026a4:	03010113          	addi	sp,sp,48
+400026a8:	00008067          	ret
 
-40002b1c <poly_init>:
+400026ac <poly_init>:
 //1. write 256-bit to key
 //2. reset block
 //3. write 1 to ctrl_reg
 //4. wait ready
 void poly_init(uint32_t *key)
 {
-40002b1c:	fe010113          	addi	sp,sp,-32
-40002b20:	00112e23          	sw	ra,28(sp)
-40002b24:	00812c23          	sw	s0,24(sp)
-40002b28:	02010413          	addi	s0,sp,32
-40002b2c:	fea42623          	sw	a0,-20(s0)
+400026ac:	fe010113          	addi	sp,sp,-32
+400026b0:	00112e23          	sw	ra,28(sp)
+400026b4:	00812c23          	sw	s0,24(sp)
+400026b8:	02010413          	addi	s0,sp,32
+400026bc:	fea42623          	sw	a0,-20(s0)
 	poly_write(key[7],POLY_ADDR_KEY_BASE);
-40002b30:	fec42783          	lw	a5,-20(s0)
-40002b34:	01c78793          	addi	a5,a5,28
-40002b38:	0007a783          	lw	a5,0(a5)
-40002b3c:	01000593          	li	a1,16
-40002b40:	00078513          	mv	a0,a5
-40002b44:	f25ff0ef          	jal	ra,40002a68 <poly_write>
+400026c0:	fec42783          	lw	a5,-20(s0)
+400026c4:	01c78793          	addi	a5,a5,28
+400026c8:	0007a783          	lw	a5,0(a5)
+400026cc:	01000593          	li	a1,16
+400026d0:	00078513          	mv	a0,a5
+400026d4:	f25ff0ef          	jal	ra,400025f8 <poly_write>
 	poly_write(key[6],POLY_ADDR_KEY_BASE + 1);
-40002b48:	fec42783          	lw	a5,-20(s0)
-40002b4c:	01878793          	addi	a5,a5,24
-40002b50:	0007a783          	lw	a5,0(a5)
-40002b54:	01100593          	li	a1,17
-40002b58:	00078513          	mv	a0,a5
-40002b5c:	f0dff0ef          	jal	ra,40002a68 <poly_write>
+400026d8:	fec42783          	lw	a5,-20(s0)
+400026dc:	01878793          	addi	a5,a5,24
+400026e0:	0007a783          	lw	a5,0(a5)
+400026e4:	01100593          	li	a1,17
+400026e8:	00078513          	mv	a0,a5
+400026ec:	f0dff0ef          	jal	ra,400025f8 <poly_write>
 	poly_write(key[5],POLY_ADDR_KEY_BASE + 2);
-40002b60:	fec42783          	lw	a5,-20(s0)
-40002b64:	01478793          	addi	a5,a5,20
-40002b68:	0007a783          	lw	a5,0(a5)
-40002b6c:	01200593          	li	a1,18
-40002b70:	00078513          	mv	a0,a5
-40002b74:	ef5ff0ef          	jal	ra,40002a68 <poly_write>
+400026f0:	fec42783          	lw	a5,-20(s0)
+400026f4:	01478793          	addi	a5,a5,20
+400026f8:	0007a783          	lw	a5,0(a5)
+400026fc:	01200593          	li	a1,18
+40002700:	00078513          	mv	a0,a5
+40002704:	ef5ff0ef          	jal	ra,400025f8 <poly_write>
 	poly_write(key[4],POLY_ADDR_KEY_BASE + 3);
-40002b78:	fec42783          	lw	a5,-20(s0)
-40002b7c:	01078793          	addi	a5,a5,16
-40002b80:	0007a783          	lw	a5,0(a5)
-40002b84:	01300593          	li	a1,19
-40002b88:	00078513          	mv	a0,a5
-40002b8c:	eddff0ef          	jal	ra,40002a68 <poly_write>
+40002708:	fec42783          	lw	a5,-20(s0)
+4000270c:	01078793          	addi	a5,a5,16
+40002710:	0007a783          	lw	a5,0(a5)
+40002714:	01300593          	li	a1,19
+40002718:	00078513          	mv	a0,a5
+4000271c:	eddff0ef          	jal	ra,400025f8 <poly_write>
 	poly_write(key[3],POLY_ADDR_KEY_BASE + 4);
-40002b90:	fec42783          	lw	a5,-20(s0)
-40002b94:	00c78793          	addi	a5,a5,12
-40002b98:	0007a783          	lw	a5,0(a5)
-40002b9c:	01400593          	li	a1,20
-40002ba0:	00078513          	mv	a0,a5
-40002ba4:	ec5ff0ef          	jal	ra,40002a68 <poly_write>
+40002720:	fec42783          	lw	a5,-20(s0)
+40002724:	00c78793          	addi	a5,a5,12
+40002728:	0007a783          	lw	a5,0(a5)
+4000272c:	01400593          	li	a1,20
+40002730:	00078513          	mv	a0,a5
+40002734:	ec5ff0ef          	jal	ra,400025f8 <poly_write>
 	poly_write(key[2],POLY_ADDR_KEY_BASE + 5);
-40002ba8:	fec42783          	lw	a5,-20(s0)
-40002bac:	00878793          	addi	a5,a5,8
-40002bb0:	0007a783          	lw	a5,0(a5)
-40002bb4:	01500593          	li	a1,21
-40002bb8:	00078513          	mv	a0,a5
-40002bbc:	eadff0ef          	jal	ra,40002a68 <poly_write>
+40002738:	fec42783          	lw	a5,-20(s0)
+4000273c:	00878793          	addi	a5,a5,8
+40002740:	0007a783          	lw	a5,0(a5)
+40002744:	01500593          	li	a1,21
+40002748:	00078513          	mv	a0,a5
+4000274c:	eadff0ef          	jal	ra,400025f8 <poly_write>
 	poly_write(key[1],POLY_ADDR_KEY_BASE + 6);
-40002bc0:	fec42783          	lw	a5,-20(s0)
-40002bc4:	00478793          	addi	a5,a5,4
-40002bc8:	0007a783          	lw	a5,0(a5)
-40002bcc:	01600593          	li	a1,22
-40002bd0:	00078513          	mv	a0,a5
-40002bd4:	e95ff0ef          	jal	ra,40002a68 <poly_write>
+40002750:	fec42783          	lw	a5,-20(s0)
+40002754:	00478793          	addi	a5,a5,4
+40002758:	0007a783          	lw	a5,0(a5)
+4000275c:	01600593          	li	a1,22
+40002760:	00078513          	mv	a0,a5
+40002764:	e95ff0ef          	jal	ra,400025f8 <poly_write>
 	poly_write(key[0],POLY_ADDR_KEY_BASE + 7);
-40002bd8:	fec42783          	lw	a5,-20(s0)
-40002bdc:	0007a783          	lw	a5,0(a5)
-40002be0:	01700593          	li	a1,23
-40002be4:	00078513          	mv	a0,a5
-40002be8:	e81ff0ef          	jal	ra,40002a68 <poly_write>
+40002768:	fec42783          	lw	a5,-20(s0)
+4000276c:	0007a783          	lw	a5,0(a5)
+40002770:	01700593          	li	a1,23
+40002774:	00078513          	mv	a0,a5
+40002778:	e81ff0ef          	jal	ra,400025f8 <poly_write>
 
 	poly_write(0x0,POLY_ADDR_BLOCK_BASE);
-40002bec:	02000593          	li	a1,32
-40002bf0:	00000513          	li	a0,0
-40002bf4:	e75ff0ef          	jal	ra,40002a68 <poly_write>
+4000277c:	02000593          	li	a1,32
+40002780:	00000513          	li	a0,0
+40002784:	e75ff0ef          	jal	ra,400025f8 <poly_write>
 	poly_write(0x0,POLY_ADDR_BLOCK_BASE + 1);
-40002bf8:	02100593          	li	a1,33
-40002bfc:	00000513          	li	a0,0
-40002c00:	e69ff0ef          	jal	ra,40002a68 <poly_write>
+40002788:	02100593          	li	a1,33
+4000278c:	00000513          	li	a0,0
+40002790:	e69ff0ef          	jal	ra,400025f8 <poly_write>
 	poly_write(0x0,POLY_ADDR_BLOCK_BASE + 2);
-40002c04:	02200593          	li	a1,34
-40002c08:	00000513          	li	a0,0
-40002c0c:	e5dff0ef          	jal	ra,40002a68 <poly_write>
+40002794:	02200593          	li	a1,34
+40002798:	00000513          	li	a0,0
+4000279c:	e5dff0ef          	jal	ra,400025f8 <poly_write>
 	poly_write(0x0,POLY_ADDR_BLOCK_BASE + 3);
-40002c10:	02300593          	li	a1,35
-40002c14:	00000513          	li	a0,0
-40002c18:	e51ff0ef          	jal	ra,40002a68 <poly_write>
+400027a0:	02300593          	li	a1,35
+400027a4:	00000513          	li	a0,0
+400027a8:	e51ff0ef          	jal	ra,400025f8 <poly_write>
 
 	poly_write(CONST_INIT,POLY_ADDR_CTRL);
-40002c1c:	00800593          	li	a1,8
-40002c20:	00100513          	li	a0,1
-40002c24:	e45ff0ef          	jal	ra,40002a68 <poly_write>
+400027ac:	00800593          	li	a1,8
+400027b0:	00100513          	li	a0,1
+400027b4:	e45ff0ef          	jal	ra,400025f8 <poly_write>
 	while(poly_read(POLY_ADDR_STATUS)==0);
-40002c28:	00000013          	nop
-40002c2c:	00900513          	li	a0,9
-40002c30:	e95ff0ef          	jal	ra,40002ac4 <poly_read>
-40002c34:	00050793          	mv	a5,a0
-40002c38:	fe078ae3          	beqz	a5,40002c2c <poly_init+0x110>
+400027b8:	00000013          	nop
+400027bc:	00900513          	li	a0,9
+400027c0:	e95ff0ef          	jal	ra,40002654 <poly_read>
+400027c4:	00050793          	mv	a5,a0
+400027c8:	fe078ae3          	beqz	a5,400027bc <poly_init+0x110>
 }
-40002c3c:	00000013          	nop
-40002c40:	00000013          	nop
-40002c44:	01c12083          	lw	ra,28(sp)
-40002c48:	01812403          	lw	s0,24(sp)
-40002c4c:	02010113          	addi	sp,sp,32
-40002c50:	00008067          	ret
+400027cc:	00000013          	nop
+400027d0:	00000013          	nop
+400027d4:	01c12083          	lw	ra,28(sp)
+400027d8:	01812403          	lw	s0,24(sp)
+400027dc:	02010113          	addi	sp,sp,32
+400027e0:	00008067          	ret
 
-40002c54 <poly_write_block>:
+400027e4 <poly_write_block>:
 //1. write data to block
 //2. set number of bytes of block
 //3. write 2 to ctrl_reg
 //4. wait ready
 void poly_write_block(uint32_t block_length,uint32_t *block)
 {
-40002c54:	fe010113          	addi	sp,sp,-32
-40002c58:	00112e23          	sw	ra,28(sp)
-40002c5c:	00812c23          	sw	s0,24(sp)
-40002c60:	02010413          	addi	s0,sp,32
-40002c64:	fea42623          	sw	a0,-20(s0)
-40002c68:	feb42423          	sw	a1,-24(s0)
+400027e4:	fe010113          	addi	sp,sp,-32
+400027e8:	00112e23          	sw	ra,28(sp)
+400027ec:	00812c23          	sw	s0,24(sp)
+400027f0:	02010413          	addi	s0,sp,32
+400027f4:	fea42623          	sw	a0,-20(s0)
+400027f8:	feb42423          	sw	a1,-24(s0)
 	//16 bytes block input
 	poly_write(block[3],POLY_ADDR_BLOCK_BASE);
-40002c6c:	fe842783          	lw	a5,-24(s0)
-40002c70:	00c78793          	addi	a5,a5,12
-40002c74:	0007a783          	lw	a5,0(a5)
-40002c78:	02000593          	li	a1,32
-40002c7c:	00078513          	mv	a0,a5
-40002c80:	de9ff0ef          	jal	ra,40002a68 <poly_write>
+400027fc:	fe842783          	lw	a5,-24(s0)
+40002800:	00c78793          	addi	a5,a5,12
+40002804:	0007a783          	lw	a5,0(a5)
+40002808:	02000593          	li	a1,32
+4000280c:	00078513          	mv	a0,a5
+40002810:	de9ff0ef          	jal	ra,400025f8 <poly_write>
 	poly_write(block[2],POLY_ADDR_BLOCK_BASE + 1);
-40002c84:	fe842783          	lw	a5,-24(s0)
-40002c88:	00878793          	addi	a5,a5,8
-40002c8c:	0007a783          	lw	a5,0(a5)
-40002c90:	02100593          	li	a1,33
-40002c94:	00078513          	mv	a0,a5
-40002c98:	dd1ff0ef          	jal	ra,40002a68 <poly_write>
+40002814:	fe842783          	lw	a5,-24(s0)
+40002818:	00878793          	addi	a5,a5,8
+4000281c:	0007a783          	lw	a5,0(a5)
+40002820:	02100593          	li	a1,33
+40002824:	00078513          	mv	a0,a5
+40002828:	dd1ff0ef          	jal	ra,400025f8 <poly_write>
 	poly_write(block[1],POLY_ADDR_BLOCK_BASE + 2);
-40002c9c:	fe842783          	lw	a5,-24(s0)
-40002ca0:	00478793          	addi	a5,a5,4
-40002ca4:	0007a783          	lw	a5,0(a5)
-40002ca8:	02200593          	li	a1,34
-40002cac:	00078513          	mv	a0,a5
-40002cb0:	db9ff0ef          	jal	ra,40002a68 <poly_write>
+4000282c:	fe842783          	lw	a5,-24(s0)
+40002830:	00478793          	addi	a5,a5,4
+40002834:	0007a783          	lw	a5,0(a5)
+40002838:	02200593          	li	a1,34
+4000283c:	00078513          	mv	a0,a5
+40002840:	db9ff0ef          	jal	ra,400025f8 <poly_write>
 	poly_write(block[0],POLY_ADDR_BLOCK_BASE + 3);
-40002cb4:	fe842783          	lw	a5,-24(s0)
-40002cb8:	0007a783          	lw	a5,0(a5)
-40002cbc:	02300593          	li	a1,35
-40002cc0:	00078513          	mv	a0,a5
-40002cc4:	da5ff0ef          	jal	ra,40002a68 <poly_write>
+40002844:	fe842783          	lw	a5,-24(s0)
+40002848:	0007a783          	lw	a5,0(a5)
+4000284c:	02300593          	li	a1,35
+40002850:	00078513          	mv	a0,a5
+40002854:	da5ff0ef          	jal	ra,400025f8 <poly_write>
 
 	//Set number of bytes
 	poly_write(block_length,POLY_ADDR_BLOCKLEN);
-40002cc8:	00a00593          	li	a1,10
-40002ccc:	fec42503          	lw	a0,-20(s0)
-40002cd0:	d99ff0ef          	jal	ra,40002a68 <poly_write>
+40002858:	00a00593          	li	a1,10
+4000285c:	fec42503          	lw	a0,-20(s0)
+40002860:	d99ff0ef          	jal	ra,400025f8 <poly_write>
 
 	//write next to ctrl_reg
 	poly_write(CONST_NEXT,POLY_ADDR_CTRL);
-40002cd4:	00800593          	li	a1,8
-40002cd8:	00200513          	li	a0,2
-40002cdc:	d8dff0ef          	jal	ra,40002a68 <poly_write>
+40002864:	00800593          	li	a1,8
+40002868:	00200513          	li	a0,2
+4000286c:	d8dff0ef          	jal	ra,400025f8 <poly_write>
 
 	//wait ready
 	while(poly_read(POLY_ADDR_STATUS)==0);
-40002ce0:	00000013          	nop
-40002ce4:	00900513          	li	a0,9
-40002ce8:	dddff0ef          	jal	ra,40002ac4 <poly_read>
-40002cec:	00050793          	mv	a5,a0
-40002cf0:	fe078ae3          	beqz	a5,40002ce4 <poly_write_block+0x90>
+40002870:	00000013          	nop
+40002874:	00900513          	li	a0,9
+40002878:	dddff0ef          	jal	ra,40002654 <poly_read>
+4000287c:	00050793          	mv	a5,a0
+40002880:	fe078ae3          	beqz	a5,40002874 <poly_write_block+0x90>
 
 }
-40002cf4:	00000013          	nop
-40002cf8:	00000013          	nop
-40002cfc:	01c12083          	lw	ra,28(sp)
-40002d00:	01812403          	lw	s0,24(sp)
-40002d04:	02010113          	addi	sp,sp,32
-40002d08:	00008067          	ret
+40002884:	00000013          	nop
+40002888:	00000013          	nop
+4000288c:	01c12083          	lw	ra,28(sp)
+40002890:	01812403          	lw	s0,24(sp)
+40002894:	02010113          	addi	sp,sp,32
+40002898:	00008067          	ret
 
-40002d0c <get_MAC>:
+4000289c <get_MAC>:
 
 //get_MAC (result) function:
 //1.write 4 to ctrl_reg
 //2.wait ready
 void get_MAC(uint32_t *MAC)
 {
-40002d0c:	fe010113          	addi	sp,sp,-32
-40002d10:	00112e23          	sw	ra,28(sp)
-40002d14:	00812c23          	sw	s0,24(sp)
-40002d18:	00912a23          	sw	s1,20(sp)
-40002d1c:	02010413          	addi	s0,sp,32
-40002d20:	fea42623          	sw	a0,-20(s0)
+4000289c:	fe010113          	addi	sp,sp,-32
+400028a0:	00112e23          	sw	ra,28(sp)
+400028a4:	00812c23          	sw	s0,24(sp)
+400028a8:	00912a23          	sw	s1,20(sp)
+400028ac:	02010413          	addi	s0,sp,32
+400028b0:	fea42623          	sw	a0,-20(s0)
 	poly_write(CONST_FINISH,POLY_ADDR_CTRL);
-40002d24:	00800593          	li	a1,8
-40002d28:	00400513          	li	a0,4
-40002d2c:	d3dff0ef          	jal	ra,40002a68 <poly_write>
+400028b4:	00800593          	li	a1,8
+400028b8:	00400513          	li	a0,4
+400028bc:	d3dff0ef          	jal	ra,400025f8 <poly_write>
 	while(poly_read(POLY_ADDR_STATUS)==0);
-40002d30:	00000013          	nop
-40002d34:	00900513          	li	a0,9
-40002d38:	d8dff0ef          	jal	ra,40002ac4 <poly_read>
-40002d3c:	00050793          	mv	a5,a0
-40002d40:	fe078ae3          	beqz	a5,40002d34 <get_MAC+0x28>
+400028c0:	00000013          	nop
+400028c4:	00900513          	li	a0,9
+400028c8:	d8dff0ef          	jal	ra,40002654 <poly_read>
+400028cc:	00050793          	mv	a5,a0
+400028d0:	fe078ae3          	beqz	a5,400028c4 <get_MAC+0x28>
 	MAC[3] = poly_read(POLY_ADDR_RESULT_BASE);
-40002d44:	fec42783          	lw	a5,-20(s0)
-40002d48:	00c78493          	addi	s1,a5,12
-40002d4c:	03000513          	li	a0,48
-40002d50:	d75ff0ef          	jal	ra,40002ac4 <poly_read>
-40002d54:	00050793          	mv	a5,a0
-40002d58:	00f4a023          	sw	a5,0(s1)
+400028d4:	fec42783          	lw	a5,-20(s0)
+400028d8:	00c78493          	addi	s1,a5,12
+400028dc:	03000513          	li	a0,48
+400028e0:	d75ff0ef          	jal	ra,40002654 <poly_read>
+400028e4:	00050793          	mv	a5,a0
+400028e8:	00f4a023          	sw	a5,0(s1)
 	MAC[2] = poly_read(POLY_ADDR_RESULT_BASE + 1);
-40002d5c:	fec42783          	lw	a5,-20(s0)
-40002d60:	00878493          	addi	s1,a5,8
-40002d64:	03100513          	li	a0,49
-40002d68:	d5dff0ef          	jal	ra,40002ac4 <poly_read>
-40002d6c:	00050793          	mv	a5,a0
-40002d70:	00f4a023          	sw	a5,0(s1)
+400028ec:	fec42783          	lw	a5,-20(s0)
+400028f0:	00878493          	addi	s1,a5,8
+400028f4:	03100513          	li	a0,49
+400028f8:	d5dff0ef          	jal	ra,40002654 <poly_read>
+400028fc:	00050793          	mv	a5,a0
+40002900:	00f4a023          	sw	a5,0(s1)
 	MAC[1] = poly_read(POLY_ADDR_RESULT_BASE + 2);
-40002d74:	fec42783          	lw	a5,-20(s0)
-40002d78:	00478493          	addi	s1,a5,4
-40002d7c:	03200513          	li	a0,50
-40002d80:	d45ff0ef          	jal	ra,40002ac4 <poly_read>
-40002d84:	00050793          	mv	a5,a0
-40002d88:	00f4a023          	sw	a5,0(s1)
+40002904:	fec42783          	lw	a5,-20(s0)
+40002908:	00478493          	addi	s1,a5,4
+4000290c:	03200513          	li	a0,50
+40002910:	d45ff0ef          	jal	ra,40002654 <poly_read>
+40002914:	00050793          	mv	a5,a0
+40002918:	00f4a023          	sw	a5,0(s1)
 	MAC[0] = poly_read(POLY_ADDR_RESULT_BASE + 3);
-40002d8c:	03300513          	li	a0,51
-40002d90:	d35ff0ef          	jal	ra,40002ac4 <poly_read>
-40002d94:	00050713          	mv	a4,a0
-40002d98:	fec42783          	lw	a5,-20(s0)
-40002d9c:	00e7a023          	sw	a4,0(a5)
+4000291c:	03300513          	li	a0,51
+40002920:	d35ff0ef          	jal	ra,40002654 <poly_read>
+40002924:	00050713          	mv	a4,a0
+40002928:	fec42783          	lw	a5,-20(s0)
+4000292c:	00e7a023          	sw	a4,0(a5)
 }
-40002da0:	00000013          	nop
-40002da4:	01c12083          	lw	ra,28(sp)
-40002da8:	01812403          	lw	s0,24(sp)
-40002dac:	01412483          	lw	s1,20(sp)
-40002db0:	02010113          	addi	sp,sp,32
-40002db4:	00008067          	ret
+40002930:	00000013          	nop
+40002934:	01c12083          	lw	ra,28(sp)
+40002938:	01812403          	lw	s0,24(sp)
+4000293c:	01412483          	lw	s1,20(sp)
+40002940:	02010113          	addi	sp,sp,32
+40002944:	00008067          	ret
 
-40002db8 <poly_test_N_bytes>:
+40002948 <poly_test_N_bytes>:
 void poly_test_N_bytes(uint32_t block_length,uint32_t *key, uint32_t *block, uint32_t *res)
 {
-40002db8:	fe010113          	addi	sp,sp,-32
-40002dbc:	00112e23          	sw	ra,28(sp)
-40002dc0:	00812c23          	sw	s0,24(sp)
-40002dc4:	02010413          	addi	s0,sp,32
-40002dc8:	fea42623          	sw	a0,-20(s0)
-40002dcc:	feb42423          	sw	a1,-24(s0)
-40002dd0:	fec42223          	sw	a2,-28(s0)
-40002dd4:	fed42023          	sw	a3,-32(s0)
+40002948:	fe010113          	addi	sp,sp,-32
+4000294c:	00112e23          	sw	ra,28(sp)
+40002950:	00812c23          	sw	s0,24(sp)
+40002954:	02010413          	addi	s0,sp,32
+40002958:	fea42623          	sw	a0,-20(s0)
+4000295c:	feb42423          	sw	a1,-24(s0)
+40002960:	fec42223          	sw	a2,-28(s0)
+40002964:	fed42023          	sw	a3,-32(s0)
 
 	poly_init(key);
-40002dd8:	fe842503          	lw	a0,-24(s0)
-40002ddc:	d41ff0ef          	jal	ra,40002b1c <poly_init>
+40002968:	fe842503          	lw	a0,-24(s0)
+4000296c:	d41ff0ef          	jal	ra,400026ac <poly_init>
 	poly_write_block(block_length,block);
-40002de0:	fe442583          	lw	a1,-28(s0)
-40002de4:	fec42503          	lw	a0,-20(s0)
-40002de8:	e6dff0ef          	jal	ra,40002c54 <poly_write_block>
+40002970:	fe442583          	lw	a1,-28(s0)
+40002974:	fec42503          	lw	a0,-20(s0)
+40002978:	e6dff0ef          	jal	ra,400027e4 <poly_write_block>
 	get_MAC(res);
-40002dec:	fe042503          	lw	a0,-32(s0)
-40002df0:	f1dff0ef          	jal	ra,40002d0c <get_MAC>
+4000297c:	fe042503          	lw	a0,-32(s0)
+40002980:	f1dff0ef          	jal	ra,4000289c <get_MAC>
 
 	print("\r\n");
-40002df4:	400047b7          	lui	a5,0x40004
-40002df8:	da878513          	addi	a0,a5,-600 # 40003da8 <vga_simRes_h160_v120+0x20>
-40002dfc:	bb4ff0ef          	jal	ra,400021b0 <print>
+40002984:	400047b7          	lui	a5,0x40004
+40002988:	84078513          	addi	a0,a5,-1984 # 40003840 <vga_simRes_h160_v120+0x20>
+4000298c:	bb4ff0ef          	jal	ra,40001d40 <print>
 	print128bit("\r\tPLAIN_TEXT (128-bit) : ", block);
-40002e00:	fe442583          	lw	a1,-28(s0)
-40002e04:	400047b7          	lui	a5,0x40004
-40002e08:	dac78513          	addi	a0,a5,-596 # 40003dac <vga_simRes_h160_v120+0x24>
-40002e0c:	e7cff0ef          	jal	ra,40002488 <print128bit>
+40002990:	fe442583          	lw	a1,-28(s0)
+40002994:	400047b7          	lui	a5,0x40004
+40002998:	84478513          	addi	a0,a5,-1980 # 40003844 <vga_simRes_h160_v120+0x24>
+4000299c:	e7cff0ef          	jal	ra,40002018 <print128bit>
 	print256bit("KEY (256-bit): ", key);
-40002e10:	fe842583          	lw	a1,-24(s0)
-40002e14:	400047b7          	lui	a5,0x40004
-40002e18:	dc878513          	addi	a0,a5,-568 # 40003dc8 <vga_simRes_h160_v120+0x40>
-40002e1c:	f88ff0ef          	jal	ra,400025a4 <print256bit>
+400029a0:	fe842583          	lw	a1,-24(s0)
+400029a4:	400047b7          	lui	a5,0x40004
+400029a8:	86078513          	addi	a0,a5,-1952 # 40003860 <vga_simRes_h160_v120+0x40>
+400029ac:	f88ff0ef          	jal	ra,40002134 <print256bit>
 	print128bit("RESULT (128-bit) : ", res);
-40002e20:	fe042583          	lw	a1,-32(s0)
-40002e24:	400047b7          	lui	a5,0x40004
-40002e28:	dd878513          	addi	a0,a5,-552 # 40003dd8 <vga_simRes_h160_v120+0x50>
-40002e2c:	e5cff0ef          	jal	ra,40002488 <print128bit>
+400029b0:	fe042583          	lw	a1,-32(s0)
+400029b4:	400047b7          	lui	a5,0x40004
+400029b8:	87078513          	addi	a0,a5,-1936 # 40003870 <vga_simRes_h160_v120+0x50>
+400029bc:	e5cff0ef          	jal	ra,40002018 <print128bit>
 
 }
-40002e30:	00000013          	nop
-40002e34:	01c12083          	lw	ra,28(sp)
-40002e38:	01812403          	lw	s0,24(sp)
-40002e3c:	02010113          	addi	sp,sp,32
-40002e40:	00008067          	ret
+400029c0:	00000013          	nop
+400029c4:	01c12083          	lw	ra,28(sp)
+400029c8:	01812403          	lw	s0,24(sp)
+400029cc:	02010113          	addi	sp,sp,32
+400029d0:	00008067          	ret
 
-40002e44 <poly_test_rfc8439>:
+400029d4 <poly_test_rfc8439>:
 
 void poly_test_rfc8439()
 {
-40002e44:	f9010113          	addi	sp,sp,-112
-40002e48:	06112623          	sw	ra,108(sp)
-40002e4c:	06812423          	sw	s0,104(sp)
-40002e50:	07010413          	addi	s0,sp,112
+400029d4:	f9010113          	addi	sp,sp,-112
+400029d8:	06112623          	sw	ra,108(sp)
+400029dc:	06812423          	sw	s0,104(sp)
+400029e0:	07010413          	addi	s0,sp,112
 	uint32_t rfc8439_key[8];
 	uint32_t rfc8439_block2[4];
 	uint32_t rfc8439_block1[4];
 	uint32_t rfc8439_block0[4];
 
 	rfc8439_key[7]= 0x85d6be78;
-40002e54:	85d6c7b7          	lui	a5,0x85d6c
-40002e58:	e7878793          	addi	a5,a5,-392 # 85d6be78 <_stack_start+0x5d6b538>
-40002e5c:	fef42623          	sw	a5,-20(s0)
+400029e4:	85d6c7b7          	lui	a5,0x85d6c
+400029e8:	e7878793          	addi	a5,a5,-392 # 85d6be78 <_stack_start+0x5d6b538>
+400029ec:	fef42623          	sw	a5,-20(s0)
 	rfc8439_key[6]= 0x57556d33;
-40002e60:	575577b7          	lui	a5,0x57557
-40002e64:	d3378793          	addi	a5,a5,-717 # 57556d33 <__global_pointer$+0x175526d3>
-40002e68:	fef42423          	sw	a5,-24(s0)
+400029f0:	575577b7          	lui	a5,0x57557
+400029f4:	d3378793          	addi	a5,a5,-717 # 57556d33 <__global_pointer$+0x17552c3b>
+400029f8:	fef42423          	sw	a5,-24(s0)
 	rfc8439_key[5]= 0x7f4452fe;
-40002e6c:	7f4457b7          	lui	a5,0x7f445
-40002e70:	2fe78793          	addi	a5,a5,766 # 7f4452fe <__global_pointer$+0x3f440c9e>
-40002e74:	fef42223          	sw	a5,-28(s0)
+400029fc:	7f4457b7          	lui	a5,0x7f445
+40002a00:	2fe78793          	addi	a5,a5,766 # 7f4452fe <__global_pointer$+0x3f441206>
+40002a04:	fef42223          	sw	a5,-28(s0)
 	rfc8439_key[4]= 0x42d506a8;
-40002e78:	42d507b7          	lui	a5,0x42d50
-40002e7c:	6a878793          	addi	a5,a5,1704 # 42d506a8 <__global_pointer$+0x2d4c048>
-40002e80:	fef42023          	sw	a5,-32(s0)
+40002a08:	42d507b7          	lui	a5,0x42d50
+40002a0c:	6a878793          	addi	a5,a5,1704 # 42d506a8 <__global_pointer$+0x2d4c5b0>
+40002a10:	fef42023          	sw	a5,-32(s0)
 	rfc8439_key[3]= 0x0103808a;
-40002e84:	010387b7          	lui	a5,0x1038
-40002e88:	08a78793          	addi	a5,a5,138 # 103808a <_stack_size+0x103788a>
-40002e8c:	fcf42e23          	sw	a5,-36(s0)
+40002a14:	010387b7          	lui	a5,0x1038
+40002a18:	08a78793          	addi	a5,a5,138 # 103808a <_stack_size+0x103788a>
+40002a1c:	fcf42e23          	sw	a5,-36(s0)
 	rfc8439_key[2]= 0xfb0db2fd;
-40002e90:	fb0db7b7          	lui	a5,0xfb0db
-40002e94:	2fd78793          	addi	a5,a5,765 # fb0db2fd <_stack_start+0x7b0da9bd>
-40002e98:	fcf42c23          	sw	a5,-40(s0)
+40002a20:	fb0db7b7          	lui	a5,0xfb0db
+40002a24:	2fd78793          	addi	a5,a5,765 # fb0db2fd <_stack_start+0x7b0da9bd>
+40002a28:	fcf42c23          	sw	a5,-40(s0)
 	rfc8439_key[1]= 0x4abff6af;
-40002e9c:	4abff7b7          	lui	a5,0x4abff
-40002ea0:	6af78793          	addi	a5,a5,1711 # 4abff6af <__global_pointer$+0xabfb04f>
-40002ea4:	fcf42a23          	sw	a5,-44(s0)
+40002a2c:	4abff7b7          	lui	a5,0x4abff
+40002a30:	6af78793          	addi	a5,a5,1711 # 4abff6af <__global_pointer$+0xabfb5b7>
+40002a34:	fcf42a23          	sw	a5,-44(s0)
 	rfc8439_key[0]= 0x4149f51b;
-40002ea8:	4149f7b7          	lui	a5,0x4149f
-40002eac:	51b78793          	addi	a5,a5,1307 # 4149f51b <__global_pointer$+0x149aebb>
-40002eb0:	fcf42823          	sw	a5,-48(s0)
+40002a38:	4149f7b7          	lui	a5,0x4149f
+40002a3c:	51b78793          	addi	a5,a5,1307 # 4149f51b <__global_pointer$+0x149b423>
+40002a40:	fcf42823          	sw	a5,-48(s0)
 
 	rfc8439_block2[3]= 0x43727970;
-40002eb4:	437287b7          	lui	a5,0x43728
-40002eb8:	97078793          	addi	a5,a5,-1680 # 43727970 <__global_pointer$+0x3723310>
-40002ebc:	fcf42623          	sw	a5,-52(s0)
+40002a44:	437287b7          	lui	a5,0x43728
+40002a48:	97078793          	addi	a5,a5,-1680 # 43727970 <__global_pointer$+0x3723878>
+40002a4c:	fcf42623          	sw	a5,-52(s0)
 	rfc8439_block2[2]= 0x746f6772;
-40002ec0:	746f67b7          	lui	a5,0x746f6
-40002ec4:	77278793          	addi	a5,a5,1906 # 746f6772 <__global_pointer$+0x346f2112>
-40002ec8:	fcf42423          	sw	a5,-56(s0)
+40002a50:	746f67b7          	lui	a5,0x746f6
+40002a54:	77278793          	addi	a5,a5,1906 # 746f6772 <__global_pointer$+0x346f267a>
+40002a58:	fcf42423          	sw	a5,-56(s0)
 	rfc8439_block2[1]= 0x61706869;
-40002ecc:	617077b7          	lui	a5,0x61707
-40002ed0:	86978793          	addi	a5,a5,-1943 # 61706869 <__global_pointer$+0x21702209>
-40002ed4:	fcf42223          	sw	a5,-60(s0)
+40002a5c:	617077b7          	lui	a5,0x61707
+40002a60:	86978793          	addi	a5,a5,-1943 # 61706869 <__global_pointer$+0x21702771>
+40002a64:	fcf42223          	sw	a5,-60(s0)
 	rfc8439_block2[0]= 0x6320466f;
-40002ed8:	632047b7          	lui	a5,0x63204
-40002edc:	66f78793          	addi	a5,a5,1647 # 6320466f <__global_pointer$+0x2320000f>
-40002ee0:	fcf42023          	sw	a5,-64(s0)
+40002a68:	632047b7          	lui	a5,0x63204
+40002a6c:	66f78793          	addi	a5,a5,1647 # 6320466f <__global_pointer$+0x23200577>
+40002a70:	fcf42023          	sw	a5,-64(s0)
 
 	rfc8439_block1[3]= 0x72756d20;
-40002ee4:	727577b7          	lui	a5,0x72757
-40002ee8:	d2078793          	addi	a5,a5,-736 # 72756d20 <__global_pointer$+0x327526c0>
-40002eec:	faf42e23          	sw	a5,-68(s0)
+40002a74:	727577b7          	lui	a5,0x72757
+40002a78:	d2078793          	addi	a5,a5,-736 # 72756d20 <__global_pointer$+0x32752c28>
+40002a7c:	faf42e23          	sw	a5,-68(s0)
 	rfc8439_block1[2]= 0x52657365;
-40002ef0:	526577b7          	lui	a5,0x52657
-40002ef4:	36578793          	addi	a5,a5,869 # 52657365 <__global_pointer$+0x12652d05>
-40002ef8:	faf42c23          	sw	a5,-72(s0)
+40002a80:	526577b7          	lui	a5,0x52657
+40002a84:	36578793          	addi	a5,a5,869 # 52657365 <__global_pointer$+0x1265326d>
+40002a88:	faf42c23          	sw	a5,-72(s0)
 	rfc8439_block1[1]= 0x61726368;
-40002efc:	617267b7          	lui	a5,0x61726
-40002f00:	36878793          	addi	a5,a5,872 # 61726368 <__global_pointer$+0x21721d08>
-40002f04:	faf42a23          	sw	a5,-76(s0)
+40002a8c:	617267b7          	lui	a5,0x61726
+40002a90:	36878793          	addi	a5,a5,872 # 61726368 <__global_pointer$+0x21722270>
+40002a94:	faf42a23          	sw	a5,-76(s0)
 	rfc8439_block1[0]= 0x2047726f;
-40002f08:	204777b7          	lui	a5,0x20477
-40002f0c:	26f78793          	addi	a5,a5,623 # 2047726f <_stack_size+0x20476a6f>
-40002f10:	faf42823          	sw	a5,-80(s0)
+40002a98:	204777b7          	lui	a5,0x20477
+40002a9c:	26f78793          	addi	a5,a5,623 # 2047726f <_stack_size+0x20476a6f>
+40002aa0:	faf42823          	sw	a5,-80(s0)
 
 	rfc8439_block0[3]= 0x75700000;
-40002f14:	757007b7          	lui	a5,0x75700
-40002f18:	faf42623          	sw	a5,-84(s0)
+40002aa4:	757007b7          	lui	a5,0x75700
+40002aa8:	faf42623          	sw	a5,-84(s0)
 	rfc8439_block0[2]= 0x00000000;
-40002f1c:	fa042423          	sw	zero,-88(s0)
+40002aac:	fa042423          	sw	zero,-88(s0)
 	rfc8439_block0[1]= 0x00000000;
-40002f20:	fa042223          	sw	zero,-92(s0)
+40002ab0:	fa042223          	sw	zero,-92(s0)
 	rfc8439_block0[0]= 0x00000000;
-40002f24:	fa042023          	sw	zero,-96(s0)
+40002ab4:	fa042023          	sw	zero,-96(s0)
 
 	uint32_t rfc8439_res[4] = {0x00, 0x00, 0x00,0x00};
-40002f28:	f8042823          	sw	zero,-112(s0)
-40002f2c:	f8042a23          	sw	zero,-108(s0)
-40002f30:	f8042c23          	sw	zero,-104(s0)
-40002f34:	f8042e23          	sw	zero,-100(s0)
+40002ab8:	f8042823          	sw	zero,-112(s0)
+40002abc:	f8042a23          	sw	zero,-108(s0)
+40002ac0:	f8042c23          	sw	zero,-104(s0)
+40002ac4:	f8042e23          	sw	zero,-100(s0)
 
 	//PROCESSING
 	poly_init(rfc8439_key);
-40002f38:	fd040793          	addi	a5,s0,-48
-40002f3c:	00078513          	mv	a0,a5
-40002f40:	bddff0ef          	jal	ra,40002b1c <poly_init>
+40002ac8:	fd040793          	addi	a5,s0,-48
+40002acc:	00078513          	mv	a0,a5
+40002ad0:	bddff0ef          	jal	ra,400026ac <poly_init>
 	poly_write_block(0x10,rfc8439_block2);
-40002f44:	fc040793          	addi	a5,s0,-64
-40002f48:	00078593          	mv	a1,a5
-40002f4c:	01000513          	li	a0,16
-40002f50:	d05ff0ef          	jal	ra,40002c54 <poly_write_block>
+40002ad4:	fc040793          	addi	a5,s0,-64
+40002ad8:	00078593          	mv	a1,a5
+40002adc:	01000513          	li	a0,16
+40002ae0:	d05ff0ef          	jal	ra,400027e4 <poly_write_block>
 	poly_write_block(0x10,rfc8439_block1);
-40002f54:	fb040793          	addi	a5,s0,-80
-40002f58:	00078593          	mv	a1,a5
-40002f5c:	01000513          	li	a0,16
-40002f60:	cf5ff0ef          	jal	ra,40002c54 <poly_write_block>
+40002ae4:	fb040793          	addi	a5,s0,-80
+40002ae8:	00078593          	mv	a1,a5
+40002aec:	01000513          	li	a0,16
+40002af0:	cf5ff0ef          	jal	ra,400027e4 <poly_write_block>
 	poly_write_block(0x2,rfc8439_block0);
-40002f64:	fa040793          	addi	a5,s0,-96
-40002f68:	00078593          	mv	a1,a5
-40002f6c:	00200513          	li	a0,2
-40002f70:	ce5ff0ef          	jal	ra,40002c54 <poly_write_block>
+40002af4:	fa040793          	addi	a5,s0,-96
+40002af8:	00078593          	mv	a1,a5
+40002afc:	00200513          	li	a0,2
+40002b00:	ce5ff0ef          	jal	ra,400027e4 <poly_write_block>
 
 	//OUTPUT
 	get_MAC(rfc8439_res);
-40002f74:	f9040793          	addi	a5,s0,-112
-40002f78:	00078513          	mv	a0,a5
-40002f7c:	d91ff0ef          	jal	ra,40002d0c <get_MAC>
+40002b04:	f9040793          	addi	a5,s0,-112
+40002b08:	00078513          	mv	a0,a5
+40002b0c:	d91ff0ef          	jal	ra,4000289c <get_MAC>
 
 	//print
 	print128bit("\r\tPLAIN_TEXT (272-bit) : ", rfc8439_block2);
-40002f80:	fc040793          	addi	a5,s0,-64
-40002f84:	00078593          	mv	a1,a5
-40002f88:	400047b7          	lui	a5,0x40004
-40002f8c:	dec78513          	addi	a0,a5,-532 # 40003dec <vga_simRes_h160_v120+0x64>
-40002f90:	cf8ff0ef          	jal	ra,40002488 <print128bit>
+40002b10:	fc040793          	addi	a5,s0,-64
+40002b14:	00078593          	mv	a1,a5
+40002b18:	400047b7          	lui	a5,0x40004
+40002b1c:	88478513          	addi	a0,a5,-1916 # 40003884 <vga_simRes_h160_v120+0x64>
+40002b20:	cf8ff0ef          	jal	ra,40002018 <print128bit>
 	print128bit("\r\t                       ", rfc8439_block1);
-40002f94:	fb040793          	addi	a5,s0,-80
-40002f98:	00078593          	mv	a1,a5
-40002f9c:	400047b7          	lui	a5,0x40004
-40002fa0:	e0878513          	addi	a0,a5,-504 # 40003e08 <vga_simRes_h160_v120+0x80>
-40002fa4:	ce4ff0ef          	jal	ra,40002488 <print128bit>
+40002b24:	fb040793          	addi	a5,s0,-80
+40002b28:	00078593          	mv	a1,a5
+40002b2c:	400047b7          	lui	a5,0x40004
+40002b30:	8a078513          	addi	a0,a5,-1888 # 400038a0 <vga_simRes_h160_v120+0x80>
+40002b34:	ce4ff0ef          	jal	ra,40002018 <print128bit>
 	print("\r\t                       ");
-40002fa8:	400047b7          	lui	a5,0x40004
-40002fac:	e0878513          	addi	a0,a5,-504 # 40003e08 <vga_simRes_h160_v120+0x80>
-40002fb0:	a00ff0ef          	jal	ra,400021b0 <print>
+40002b38:	400047b7          	lui	a5,0x40004
+40002b3c:	8a078513          	addi	a0,a5,-1888 # 400038a0 <vga_simRes_h160_v120+0x80>
+40002b40:	a00ff0ef          	jal	ra,40001d40 <print>
 	print16bit(0x7570);
-40002fb4:	000077b7          	lui	a5,0x7
-40002fb8:	57078513          	addi	a0,a5,1392 # 7570 <_stack_size+0x6d70>
-40002fbc:	a4cff0ef          	jal	ra,40002208 <print16bit>
+40002b44:	000077b7          	lui	a5,0x7
+40002b48:	57078513          	addi	a0,a5,1392 # 7570 <_stack_size+0x6d70>
+40002b4c:	a4cff0ef          	jal	ra,40001d98 <print16bit>
 	print("\r\n");
-40002fc0:	400047b7          	lui	a5,0x40004
-40002fc4:	da878513          	addi	a0,a5,-600 # 40003da8 <vga_simRes_h160_v120+0x20>
-40002fc8:	9e8ff0ef          	jal	ra,400021b0 <print>
+40002b50:	400047b7          	lui	a5,0x40004
+40002b54:	84078513          	addi	a0,a5,-1984 # 40003840 <vga_simRes_h160_v120+0x20>
+40002b58:	9e8ff0ef          	jal	ra,40001d40 <print>
 
 
 	print256bit("KEY (256-bit): ", rfc8439_key);
-40002fcc:	fd040793          	addi	a5,s0,-48
-40002fd0:	00078593          	mv	a1,a5
-40002fd4:	400047b7          	lui	a5,0x40004
-40002fd8:	dc878513          	addi	a0,a5,-568 # 40003dc8 <vga_simRes_h160_v120+0x40>
-40002fdc:	dc8ff0ef          	jal	ra,400025a4 <print256bit>
+40002b5c:	fd040793          	addi	a5,s0,-48
+40002b60:	00078593          	mv	a1,a5
+40002b64:	400047b7          	lui	a5,0x40004
+40002b68:	86078513          	addi	a0,a5,-1952 # 40003860 <vga_simRes_h160_v120+0x40>
+40002b6c:	dc8ff0ef          	jal	ra,40002134 <print256bit>
 
 	print128bit("RESULT (128-bit) : ", rfc8439_res);
-40002fe0:	f9040793          	addi	a5,s0,-112
-40002fe4:	00078593          	mv	a1,a5
-40002fe8:	400047b7          	lui	a5,0x40004
-40002fec:	dd878513          	addi	a0,a5,-552 # 40003dd8 <vga_simRes_h160_v120+0x50>
-40002ff0:	c98ff0ef          	jal	ra,40002488 <print128bit>
+40002b70:	f9040793          	addi	a5,s0,-112
+40002b74:	00078593          	mv	a1,a5
+40002b78:	400047b7          	lui	a5,0x40004
+40002b7c:	87078513          	addi	a0,a5,-1936 # 40003870 <vga_simRes_h160_v120+0x50>
+40002b80:	c98ff0ef          	jal	ra,40002018 <print128bit>
 }
-40002ff4:	00000013          	nop
-40002ff8:	06c12083          	lw	ra,108(sp)
-40002ffc:	06812403          	lw	s0,104(sp)
-40003000:	07010113          	addi	sp,sp,112
-40003004:	00008067          	ret
+40002b84:	00000013          	nop
+40002b88:	06c12083          	lw	ra,108(sp)
+40002b8c:	06812403          	lw	s0,104(sp)
+40002b90:	07010113          	addi	sp,sp,112
+40002b94:	00008067          	ret
 
-40003008 <poly_test_long>:
+40002b98 <poly_test_long>:
 
 void poly_test_long()
 {
-40003008:	f9010113          	addi	sp,sp,-112
-4000300c:	06112623          	sw	ra,108(sp)
-40003010:	06812423          	sw	s0,104(sp)
-40003014:	07010413          	addi	s0,sp,112
+40002b98:	f9010113          	addi	sp,sp,-112
+40002b9c:	06112623          	sw	ra,108(sp)
+40002ba0:	06812423          	sw	s0,104(sp)
+40002ba4:	07010413          	addi	s0,sp,112
 	uint32_t long_key[8];
 	uint32_t long_block[4];
 	uint32_t long_block_final[4];
 	uint32_t long_res[4] = {0x00, 0x00, 0x00,0x00};
-40003018:	f8042e23          	sw	zero,-100(s0)
-4000301c:	fa042023          	sw	zero,-96(s0)
-40003020:	fa042223          	sw	zero,-92(s0)
-40003024:	fa042423          	sw	zero,-88(s0)
+40002ba8:	f8042e23          	sw	zero,-100(s0)
+40002bac:	fa042023          	sw	zero,-96(s0)
+40002bb0:	fa042223          	sw	zero,-92(s0)
+40002bb4:	fa042423          	sw	zero,-88(s0)
 
 	long_key[7]= 0xf3000000;
-40003028:	f30007b7          	lui	a5,0xf3000
-4000302c:	fef42423          	sw	a5,-24(s0)
+40002bb8:	f30007b7          	lui	a5,0xf3000
+40002bbc:	fef42423          	sw	a5,-24(s0)
 	long_key[6]= 0x00000000;
-40003030:	fe042223          	sw	zero,-28(s0)
+40002bc0:	fe042223          	sw	zero,-28(s0)
 	long_key[5]= 0x00000000;
-40003034:	fe042023          	sw	zero,-32(s0)
+40002bc4:	fe042023          	sw	zero,-32(s0)
 	long_key[4]= 0x0000003f;
-40003038:	03f00793          	li	a5,63
-4000303c:	fcf42e23          	sw	a5,-36(s0)
+40002bc8:	03f00793          	li	a5,63
+40002bcc:	fcf42e23          	sw	a5,-36(s0)
 	long_key[3]= 0x3f000000;
-40003040:	3f0007b7          	lui	a5,0x3f000
-40003044:	fcf42c23          	sw	a5,-40(s0)
+40002bd0:	3f0007b7          	lui	a5,0x3f000
+40002bd4:	fcf42c23          	sw	a5,-40(s0)
 	long_key[2]= 0x00000000;
-40003048:	fc042a23          	sw	zero,-44(s0)
+40002bd8:	fc042a23          	sw	zero,-44(s0)
 	long_key[1]= 0x00000000;
-4000304c:	fc042823          	sw	zero,-48(s0)
+40002bdc:	fc042823          	sw	zero,-48(s0)
 	long_key[0]= 0x000000f3;
-40003050:	0f300793          	li	a5,243
-40003054:	fcf42623          	sw	a5,-52(s0)
+40002be0:	0f300793          	li	a5,243
+40002be4:	fcf42623          	sw	a5,-52(s0)
 
 	long_block[3]= 0xffffffff;
-40003058:	fff00793          	li	a5,-1
-4000305c:	fcf42423          	sw	a5,-56(s0)
+40002be8:	fff00793          	li	a5,-1
+40002bec:	fcf42423          	sw	a5,-56(s0)
 	long_block[2]= 0xffffffff;
-40003060:	fff00793          	li	a5,-1
-40003064:	fcf42223          	sw	a5,-60(s0)
+40002bf0:	fff00793          	li	a5,-1
+40002bf4:	fcf42223          	sw	a5,-60(s0)
 	long_block[1]= 0xffffffff;
-40003068:	fff00793          	li	a5,-1
-4000306c:	fcf42023          	sw	a5,-64(s0)
+40002bf8:	fff00793          	li	a5,-1
+40002bfc:	fcf42023          	sw	a5,-64(s0)
 	long_block[0]= 0xffffffff;
-40003070:	fff00793          	li	a5,-1
-40003074:	faf42e23          	sw	a5,-68(s0)
+40002c00:	fff00793          	li	a5,-1
+40002c04:	faf42e23          	sw	a5,-68(s0)
 
 	long_block_final[3]= 0x01000000;
-40003078:	010007b7          	lui	a5,0x1000
-4000307c:	faf42c23          	sw	a5,-72(s0)
+40002c08:	010007b7          	lui	a5,0x1000
+40002c0c:	faf42c23          	sw	a5,-72(s0)
 	long_block_final[2]= 0x00000000;
-40003080:	fa042a23          	sw	zero,-76(s0)
+40002c10:	fa042a23          	sw	zero,-76(s0)
 	long_block_final[1]= 0x00000000;
-40003084:	fa042823          	sw	zero,-80(s0)
+40002c14:	fa042823          	sw	zero,-80(s0)
 	long_block_final[0]= 0x00000000;
-40003088:	fa042623          	sw	zero,-84(s0)
+40002c18:	fa042623          	sw	zero,-84(s0)
 
 	//PROCESS
 	poly_init(long_key);
-4000308c:	fcc40793          	addi	a5,s0,-52
-40003090:	00078513          	mv	a0,a5
-40003094:	a89ff0ef          	jal	ra,40002b1c <poly_init>
+40002c1c:	fcc40793          	addi	a5,s0,-52
+40002c20:	00078513          	mv	a0,a5
+40002c24:	a89ff0ef          	jal	ra,400026ac <poly_init>
 	//write 64x128 bit block
 	for(int i=0;i<64;i++)
-40003098:	fe042623          	sw	zero,-20(s0)
-4000309c:	0200006f          	j	400030bc <poly_test_long+0xb4>
+40002c28:	fe042623          	sw	zero,-20(s0)
+40002c2c:	0200006f          	j	40002c4c <poly_test_long+0xb4>
 	{
 		poly_write_block(0x10,long_block);
-400030a0:	fbc40793          	addi	a5,s0,-68
-400030a4:	00078593          	mv	a1,a5
-400030a8:	01000513          	li	a0,16
-400030ac:	ba9ff0ef          	jal	ra,40002c54 <poly_write_block>
+40002c30:	fbc40793          	addi	a5,s0,-68
+40002c34:	00078593          	mv	a1,a5
+40002c38:	01000513          	li	a0,16
+40002c3c:	ba9ff0ef          	jal	ra,400027e4 <poly_write_block>
 	for(int i=0;i<64;i++)
-400030b0:	fec42783          	lw	a5,-20(s0)
-400030b4:	00178793          	addi	a5,a5,1 # 1000001 <_stack_size+0xfff801>
-400030b8:	fef42623          	sw	a5,-20(s0)
-400030bc:	fec42703          	lw	a4,-20(s0)
-400030c0:	03f00793          	li	a5,63
-400030c4:	fce7dee3          	bge	a5,a4,400030a0 <poly_test_long+0x98>
+40002c40:	fec42783          	lw	a5,-20(s0)
+40002c44:	00178793          	addi	a5,a5,1 # 1000001 <_stack_size+0xfff801>
+40002c48:	fef42623          	sw	a5,-20(s0)
+40002c4c:	fec42703          	lw	a4,-20(s0)
+40002c50:	03f00793          	li	a5,63
+40002c54:	fce7dee3          	bge	a5,a4,40002c30 <poly_test_long+0x98>
 	}
 	//write final block
 	poly_write_block(0x1,long_block_final);
-400030c8:	fac40793          	addi	a5,s0,-84
-400030cc:	00078593          	mv	a1,a5
-400030d0:	00100513          	li	a0,1
-400030d4:	b81ff0ef          	jal	ra,40002c54 <poly_write_block>
+40002c58:	fac40793          	addi	a5,s0,-84
+40002c5c:	00078593          	mv	a1,a5
+40002c60:	00100513          	li	a0,1
+40002c64:	b81ff0ef          	jal	ra,400027e4 <poly_write_block>
 
 	//get result
 	get_MAC(long_res);
-400030d8:	f9c40793          	addi	a5,s0,-100
-400030dc:	00078513          	mv	a0,a5
-400030e0:	c2dff0ef          	jal	ra,40002d0c <get_MAC>
+40002c68:	f9c40793          	addi	a5,s0,-100
+40002c6c:	00078513          	mv	a0,a5
+40002c70:	c2dff0ef          	jal	ra,4000289c <get_MAC>
 
 	//print
 	print256bit("PLAIN_TEXT (8200-bit) : 0xff..ff01\r\n\tKEY (256-bit): ", long_key);
-400030e4:	fcc40793          	addi	a5,s0,-52
-400030e8:	00078593          	mv	a1,a5
-400030ec:	400047b7          	lui	a5,0x40004
-400030f0:	e2478513          	addi	a0,a5,-476 # 40003e24 <vga_simRes_h160_v120+0x9c>
-400030f4:	cb0ff0ef          	jal	ra,400025a4 <print256bit>
+40002c74:	fcc40793          	addi	a5,s0,-52
+40002c78:	00078593          	mv	a1,a5
+40002c7c:	400047b7          	lui	a5,0x40004
+40002c80:	8bc78513          	addi	a0,a5,-1860 # 400038bc <vga_simRes_h160_v120+0x9c>
+40002c84:	cb0ff0ef          	jal	ra,40002134 <print256bit>
 	print128bit("RESULT (128-bit) : ", long_res);
-400030f8:	f9c40793          	addi	a5,s0,-100
-400030fc:	00078593          	mv	a1,a5
-40003100:	400047b7          	lui	a5,0x40004
-40003104:	dd878513          	addi	a0,a5,-552 # 40003dd8 <vga_simRes_h160_v120+0x50>
-40003108:	b80ff0ef          	jal	ra,40002488 <print128bit>
+40002c88:	f9c40793          	addi	a5,s0,-100
+40002c8c:	00078593          	mv	a1,a5
+40002c90:	400047b7          	lui	a5,0x40004
+40002c94:	87078513          	addi	a0,a5,-1936 # 40003870 <vga_simRes_h160_v120+0x50>
+40002c98:	b80ff0ef          	jal	ra,40002018 <print128bit>
 
 }
-4000310c:	00000013          	nop
-40003110:	06c12083          	lw	ra,108(sp)
-40003114:	06812403          	lw	s0,104(sp)
-40003118:	07010113          	addi	sp,sp,112
-4000311c:	00008067          	ret
+40002c9c:	00000013          	nop
+40002ca0:	06c12083          	lw	ra,108(sp)
+40002ca4:	06812403          	lw	s0,104(sp)
+40002ca8:	07010113          	addi	sp,sp,112
+40002cac:	00008067          	ret

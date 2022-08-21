@@ -1,6 +1,6 @@
 
 
-module PRESENT_WRAPPER(
+module present(
 
         output	reg	[31:0]	odat,   
 

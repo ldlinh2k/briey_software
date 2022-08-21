@@ -20,7 +20,7 @@ class Apb3PresentCtrl(apb3Config : Apb3Config) extends Component {
       val apb = slave(Apb3(Apb3PresentCtrl.getApb3Config))
   }
 
-  val present_module = new PRESENT_WRAPPER
+  val present_module = new present
   val apbCtrl = Apb3SlaveFactory(io.apb)
 
   apbCtrl.driveAndRead(present_module.io.iChipselect_n, address=0)

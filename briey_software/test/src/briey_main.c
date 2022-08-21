@@ -217,6 +217,7 @@ int main() {
 	present_key[0] = 0x5553;
 	//expec: 08e11c56 b6d5a592
 
+
 	present_hash(present_key,present_block,present_res);
 	return 0;	
 }

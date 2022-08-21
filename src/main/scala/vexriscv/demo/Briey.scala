@@ -4,7 +4,6 @@ package vexriscv.demo
 import vexriscv.plugin._
 import vexriscv.periph.prince._
 import vexriscv.periph.present._
-import vexriscv.periph.dm_present._
 import vexriscv.periph.chacha._
 import vexriscv.periph.poly1305._
 
@@ -289,12 +288,6 @@ class Briey(config: BrieyConfig) extends Component{
         dataWidth = 32
       )
     )  
-    val apbDMPresentBridge = new Apb3DMPresentCtrl(
-        apb3Config = Apb3Config(
-        addressWidth = 20,
-        dataWidth = 32
-      )
-    )  
     val apbChachaBridge = new Apb3ChachaCtrl(
         apb3Config = Apb3Config(
         addressWidth = 20,
@@ -409,8 +402,7 @@ class Briey(config: BrieyConfig) extends Component{
         gpioACtrl.io.apb          -> (0x00000, 4 kB),
         gpioBCtrl.io.apb          -> (0x01000, 4 kB),
         apbPrinceBridge.io.apb    -> (0x02000, 1 kB),  
-        apbPresentBridge.io.apb   -> (0x02400, 1 kB),  
-        apbDMPresentBridge.io.apb -> (0x02800, 1 kB),
+        apbPresentBridge.io.apb   -> (0x02400, 2 kB),  
         apbChachaBridge.io.apb    -> (0x02C00, 1 kB),   
         apbPoly1305Bridge.io.apb  -> (0x03000, 1 kB),
         uartCtrl.io.apb           -> (0x10000, 4 kB),

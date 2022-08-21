@@ -2,7 +2,7 @@ package vexriscv.periph.present
 
 import spinal.core._
 import spinal.lib._
-class PRESENT_WRAPPER() extends BlackBox {
+class present() extends BlackBox {
    val io = new Bundle {
   
      val clk = in Bool()
