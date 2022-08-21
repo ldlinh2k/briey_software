@@ -5,16 +5,8 @@
 `include "/home/linh/KLTN/VexRiscv/src/main/scala/vexriscv/periph/Verilog_code/prince/prince.v"
 `include "/home/linh/KLTN/VexRiscv/src/main/scala/vexriscv/periph/Verilog_code/prince/prince_core.v"
 
-`include "/home/linh/KLTN/VexRiscv/src/main/scala/vexriscv/periph/Verilog_code/present/INV_PBOX.v"
-`include "/home/linh/KLTN/VexRiscv/src/main/scala/vexriscv/periph/Verilog_code/present/INV_SBOX.v"
-`include "/home/linh/KLTN/VexRiscv/src/main/scala/vexriscv/periph/Verilog_code/present/PBOX.v"
-`include "/home/linh/KLTN/VexRiscv/src/main/scala/vexriscv/periph/Verilog_code/present/PRESENT_CORE.v"
-`include "/home/linh/KLTN/VexRiscv/src/main/scala/vexriscv/periph/Verilog_code/present/PRESENT_ENCRYPT.v"
-`include "/home/linh/KLTN/VexRiscv/src/main/scala/vexriscv/periph/Verilog_code/present/PRESENT_DECRYPT.v"
 `include "/home/linh/KLTN/VexRiscv/src/main/scala/vexriscv/periph/Verilog_code/present/PRESENT_WRAPPER.v"
-`include "/home/linh/KLTN/VexRiscv/src/main/scala/vexriscv/periph/Verilog_code/present/SBOX.v"	
 	
-`include "/home/linh/KLTN/VexRiscv/src/main/scala/vexriscv/periph/Verilog_code/dm_present/DMPRESENT.v"
 `include "/home/linh/KLTN/VexRiscv/src/main/scala/vexriscv/periph/Verilog_code/dm_present/DMPRESENT_WRAPPER.v"
 
 `include "/home/linh/KLTN/VexRiscv/src/main/scala/vexriscv/periph/Verilog_code/chacha/chacha.v"

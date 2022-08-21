@@ -7,6 +7,7 @@
 #define PRESENT_ADDR_BLOCK_BASE 	0x04
 #define PRESENT_ADDR_RESULT_BASE 	0x06
 
+#define PRESENT_ADDR_RESULT_HASH_BASE 0x09
 #define PRESENT_OP_EN				0x0
 #define PRESENT_OP_DE				0x1
 typedef struct

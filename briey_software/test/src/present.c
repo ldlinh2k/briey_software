@@ -22,7 +22,7 @@ void present_cipher(unsigned char operation, uint32_t *key, uint32_t *block, uin
 
 	//EN_OR_DE
 	if(operation == PRESENT_OP_EN) present_write(PRESENT_OP_EN,PRESENT_ADDR_EN_OR_DE);
-	else present_write(PRESENT_OP_DE,PRESENT_ADDR_EN_OR_DE);
+	else if(operation == PRESENT_OP_DE) present_write(PRESENT_OP_DE,PRESENT_ADDR_EN_OR_DE);
 
 	//PLAIN_TEXT
 	present_write(block[1],PRESENT_ADDR_BLOCK_BASE +1);
@@ -35,10 +35,11 @@ void present_cipher(unsigned char operation, uint32_t *key, uint32_t *block, uin
 
 	//START
 	present_write(0x1,PRESENT_ADDR_START);
-    while(present_read(PRESENT_ADDR_RESULT_BASE) == 0);
 
-    res[1] = present_read(PRESENT_ADDR_RESULT_BASE +1);
-    res[0] =present_read(PRESENT_ADDR_RESULT_BASE);
+	while(present_read(PRESENT_ADDR_RESULT_BASE)==0);
+
+	res[1] = present_read(PRESENT_ADDR_RESULT_BASE +1);
+	res[0] =present_read(PRESENT_ADDR_RESULT_BASE);
 
 
     //print result to terminal
@@ -51,4 +52,28 @@ void present_cipher(unsigned char operation, uint32_t *key, uint32_t *block, uin
 	print80bit("KEY (80-bit) : ", key);
 	print64bit("RESULT (64-bit) : ", res);
 	//print("\r\n============================================================================\r\n");
+}
+void present_hash(uint32_t *key, uint32_t *block, uint32_t *res) {
+	//PLAIN_TEXT
+		present_write(block[1],PRESENT_ADDR_BLOCK_BASE +1);
+		present_write(block[0],PRESENT_ADDR_BLOCK_BASE);
+
+		//KEY
+		present_write(key[2],PRESENT_ADDR_KEY_BASE +2);
+		present_write(key[1],PRESENT_ADDR_KEY_BASE +1);
+		present_write(key[0],PRESENT_ADDR_KEY_BASE);
+
+		//START
+		present_write(0x1,PRESENT_ADDR_START);
+
+		while(present_read(PRESENT_ADDR_RESULT_HASH_BASE)==0);
+
+		res[1] = present_read(PRESENT_ADDR_RESULT_HASH_BASE +1);
+		res[0] =present_read(PRESENT_ADDR_RESULT_HASH_BASE);
+
+		print("\r\t===========================DM_PRESENT HASH==================================\r\n");
+		print("\r\n");
+		print64bit("\r\tPLAIN_TEXT (64-bit) : ", block);
+		print80bit("KEY (80-bit) : ", key);
+		print64bit("RESULT (64-bit) : ", res);
 }
