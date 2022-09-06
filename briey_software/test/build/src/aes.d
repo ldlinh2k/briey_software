@@ -7,4 +7,4 @@ build/src/aes.o: src/aes.c libs/briey.h libs/timer.h \
  /opt/riscv/riscv64-unknown-elf/include/sys/_intsup.h \
  /opt/riscv/riscv64-unknown-elf/include/sys/_stdint.h libs/prescaler.h \
  libs/interrupt.h libs/uart.h libs/vga.h libs/gpio.h libs/prince.h \
- libs/aes.h libs/present.h
+ libs/present.h libs/chacha.h libs/poly1305.h libs/aes.h

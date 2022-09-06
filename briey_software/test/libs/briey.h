@@ -18,6 +18,7 @@
 #include "present.h"
 #include "chacha.h"
 #include "poly1305.h"
+#include "aes.h"
 
 #define CORE_HZ 50000000
 
@@ -27,6 +28,7 @@
 #define PRESENT_BASE  	((Present_Reg*)(0xF0002400))
 #define CHACHA_BASE  	((Chacha_Reg*)(0xF0002C00))
 #define POLY_BASE  		((Poly_Reg*)(0xF0003000))
+#define AES_BASE  		((Aes_Reg*)(0xF0003400))
 #define UART      		((Uart_Reg*)(0xF0010000))
 #define VGA_BASE      	((Vga_Reg*)(0xF0030000))
 
