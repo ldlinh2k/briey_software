@@ -213,7 +213,7 @@ LOAD /opt/riscv/bin/../lib/gcc/riscv64-unknown-elf/10.2.0/libgcc.a
                 0x0000000080000000                crtStart
                 0x0000000080000020                trap_entry
 
-.memory         0x0000000040000000     0x3850
+.memory         0x0000000040000000     0x3838
  *(.text)
  .text          0x0000000040000000      0x644 build/src/chacha.o
                 0x000000004000023c                chacha_write
@@ -232,118 +232,118 @@ LOAD /opt/riscv/bin/../lib/gcc/riscv64-unknown-elf/10.2.0/libgcc.a
                 0x0000000040001b4c                present_read
                 0x0000000040001bc8                present_cipher
                 0x0000000040001d54                present_hash
- .text          0x0000000040001e90      0x814 build/src/aes.o
+ .text          0x0000000040001e90      0x7fc build/src/aes.o
                 0x00000000400020cc                aes_write
                 0x000000004000213c                aes_read
                 0x00000000400021a8                aes_128_cipher
-                0x000000004000240c                aes_256_cipher
- .text          0x00000000400026a4      0x8b8 build/src/print_functions.o
-                0x00000000400028e0                print
-                0x0000000040002938                print16bit
-                0x0000000040002a40                print32bit
-                0x0000000040002b48                print64bit
-                0x0000000040002bb8                print128bit
-                0x0000000040002c50                print80bit
-                0x0000000040002cd4                print256bit
-                0x0000000040002dbc                print512bit
- .text          0x0000000040002f5c      0x8f4 build/src/poly1305.o
-                0x0000000040003198                poly_write
-                0x00000000400031f4                poly_read
-                0x000000004000324c                poly_init
-                0x0000000040003384                poly_write_block
-                0x000000004000343c                get_MAC
-                0x00000000400034e8                poly_test_N_bytes
-                0x0000000040003574                poly_test_rfc8439
-                0x0000000040003738                poly_test_long
-                0x0000000040003850                end = .
+                0x0000000040002400                aes_256_cipher
+ .text          0x000000004000268c      0x8b8 build/src/print_functions.o
+                0x00000000400028c8                print
+                0x0000000040002920                print16bit
+                0x0000000040002a28                print32bit
+                0x0000000040002b30                print64bit
+                0x0000000040002ba0                print128bit
+                0x0000000040002c38                print80bit
+                0x0000000040002cbc                print256bit
+                0x0000000040002da4                print512bit
+ .text          0x0000000040002f44      0x8f4 build/src/poly1305.o
+                0x0000000040003180                poly_write
+                0x00000000400031dc                poly_read
+                0x0000000040003234                poly_init
+                0x000000004000336c                poly_write_block
+                0x0000000040003424                get_MAC
+                0x00000000400034d0                poly_test_N_bytes
+                0x000000004000355c                poly_test_rfc8439
+                0x0000000040003720                poly_test_long
+                0x0000000040003838                end = .
 
-.rodata         0x0000000040003850     0x1191
+.rodata         0x0000000040003838     0x10e5
  *(.rdata)
  *(.rodata .rodata.*)
- .rodata        0x0000000040003850      0x108 build/src/chacha.o
- .rodata        0x0000000040003958      0x14b build/src/prince.o
- *fill*         0x0000000040003aa3        0x1 
- .rodata        0x0000000040003aa4      0x916 build/src/briey_main.o
- *fill*         0x00000000400043ba        0x2 
- .rodata        0x00000000400043bc      0x19d build/src/present.o
- *fill*         0x0000000040004559        0x3 
- .rodata        0x000000004000455c      0x2d9 build/src/aes.o
- *fill*         0x0000000040004835        0x3 
- .rodata        0x0000000040004838       0x96 build/src/print_functions.o
- *fill*         0x00000000400048ce        0x2 
- .rodata        0x00000000400048d0      0x111 build/src/poly1305.o
+ .rodata        0x0000000040003838      0x108 build/src/chacha.o
+ .rodata        0x0000000040003940      0x14b build/src/prince.o
+ *fill*         0x0000000040003a8b        0x1 
+ .rodata        0x0000000040003a8c      0x916 build/src/briey_main.o
+ *fill*         0x00000000400043a2        0x2 
+ .rodata        0x00000000400043a4      0x19d build/src/present.o
+ *fill*         0x0000000040004541        0x3 
+ .rodata        0x0000000040004544      0x22d build/src/aes.o
+ *fill*         0x0000000040004771        0x3 
+ .rodata        0x0000000040004774       0x96 build/src/print_functions.o
+ *fill*         0x000000004000480a        0x2 
+ .rodata        0x000000004000480c      0x111 build/src/poly1305.o
  *(.gnu.linkonce.r.*)
 
-.rela.dyn       0x00000000400049e4        0x0
- .rela.text     0x00000000400049e4        0x0 build/src/chacha.o
+.rela.dyn       0x0000000040004920        0x0
+ .rela.text     0x0000000040004920        0x0 build/src/chacha.o
 
-.ctors          0x00000000400049e1        0x3
-                0x00000000400049e4                . = ALIGN (0x4)
- *fill*         0x00000000400049e1        0x3 
-                0x00000000400049e4                _ctors_start = .
+.ctors          0x000000004000491d        0x3
+                0x0000000040004920                . = ALIGN (0x4)
+ *fill*         0x000000004000491d        0x3 
+                0x0000000040004920                _ctors_start = .
  *(.init_array*)
  *(SORT_BY_NAME(.ctors.*))
  *(.ctors)
-                0x00000000400049e4                . = ALIGN (0x4)
-                0x00000000400049e4                _ctors_end = .
+                0x0000000040004920                . = ALIGN (0x4)
+                0x0000000040004920                _ctors_end = .
 
-.data           0x00000000400049e4        0x4
+.data           0x0000000040004920        0x0
  *(.rdata)
  *(.rodata .rodata.*)
  *(.gnu.linkonce.r.*)
  *(.data .data.*)
- .data          0x00000000400049e4        0x0 build/src/chacha.o
- .data          0x00000000400049e4        0x0 build/src/prince.o
- .data          0x00000000400049e4        0x0 build/src/briey_main.o
- .data          0x00000000400049e4        0x0 build/src/present.o
- .data          0x00000000400049e4        0x0 build/src/aes.o
- .data          0x00000000400049e4        0x0 build/src/print_functions.o
- .data          0x00000000400049e4        0x0 build/src/poly1305.o
- .data          0x00000000400049e4        0x0 build/src/briey_crt.o
+ .data          0x0000000040004920        0x0 build/src/chacha.o
+ .data          0x0000000040004920        0x0 build/src/prince.o
+ .data          0x0000000040004920        0x0 build/src/briey_main.o
+ .data          0x0000000040004920        0x0 build/src/present.o
+ .data          0x0000000040004920        0x0 build/src/aes.o
+ .data          0x0000000040004920        0x0 build/src/print_functions.o
+ .data          0x0000000040004920        0x0 build/src/poly1305.o
+ .data          0x0000000040004920        0x0 build/src/briey_crt.o
  *(.gnu.linkonce.d.*)
-                0x00000000400049e8                . = ALIGN (0x8)
- *fill*         0x00000000400049e4        0x4 
-                0x00000000400051e8                PROVIDE (__global_pointer$ = (. + 0x800))
+                0x0000000040004920                . = ALIGN (0x8)
+ *fill*         0x0000000040004920        0x0 
+                0x0000000040005120                PROVIDE (__global_pointer$ = (. + 0x800))
  *(.sdata .sdata.*)
  *(.gnu.linkonce.s.*)
-                0x00000000400049e8                . = ALIGN (0x8)
+                0x0000000040004920                . = ALIGN (0x8)
  *(.srodata.cst16)
  *(.srodata.cst8)
  *(.srodata.cst4)
  *(.srodata.cst2)
  *(.srodata .srodata.*)
 
-.bss            0x00000000400049e8        0x0
-                0x00000000400049e8                . = ALIGN (0x4)
-                0x00000000400049e8                _bss_start = .
+.bss            0x0000000040004920        0x0
+                0x0000000040004920                . = ALIGN (0x4)
+                0x0000000040004920                _bss_start = .
  *(.sbss*)
  *(.gnu.linkonce.sb.*)
  *(.bss .bss.*)
- .bss           0x00000000400049e8        0x0 build/src/chacha.o
- .bss           0x00000000400049e8        0x0 build/src/prince.o
- .bss           0x00000000400049e8        0x0 build/src/briey_main.o
- .bss           0x00000000400049e8        0x0 build/src/present.o
- .bss           0x00000000400049e8        0x0 build/src/aes.o
- .bss           0x00000000400049e8        0x0 build/src/print_functions.o
- .bss           0x00000000400049e8        0x0 build/src/poly1305.o
- .bss           0x00000000400049e8        0x0 build/src/briey_crt.o
+ .bss           0x0000000040004920        0x0 build/src/chacha.o
+ .bss           0x0000000040004920        0x0 build/src/prince.o
+ .bss           0x0000000040004920        0x0 build/src/briey_main.o
+ .bss           0x0000000040004920        0x0 build/src/present.o
+ .bss           0x0000000040004920        0x0 build/src/aes.o
+ .bss           0x0000000040004920        0x0 build/src/print_functions.o
+ .bss           0x0000000040004920        0x0 build/src/poly1305.o
+ .bss           0x0000000040004920        0x0 build/src/briey_crt.o
  *(.gnu.linkonce.b.*)
  *(COMMON)
-                0x00000000400049e8                . = ALIGN (0x4)
-                0x00000000400049e8                _bss_end = .
+                0x0000000040004920                . = ALIGN (0x4)
+                0x0000000040004920                _bss_end = .
 
-.noinit         0x00000000400049e8        0x0
-                0x00000000400049e8                . = ALIGN (0x4)
+.noinit         0x0000000040004920        0x0
+                0x0000000040004920                . = ALIGN (0x4)
  *(.noinit .noinit.*)
-                0x00000000400049e8                . = ALIGN (0x4)
+                0x0000000040004920                . = ALIGN (0x4)
 
-._user_heap     0x00000000400049e8        0x0
-                0x00000000400049e8                . = ALIGN (0x8)
+._user_heap     0x0000000040004920        0x0
+                0x0000000040004920                . = ALIGN (0x8)
                 [!provide]                        PROVIDE (end = .)
                 [!provide]                        PROVIDE (_end = .)
                 [!provide]                        PROVIDE (_heap_start = .)
-                0x00000000400049e8                . = (. + _heap_size)
-                0x00000000400049e8                . = ALIGN (0x8)
+                0x0000000040004920                . = (. + _heap_size)
+                0x0000000040004920                . = ALIGN (0x8)
                 [!provide]                        PROVIDE (_heap_end = .)
 
 ._stack         0x000000008000013c      0x804
@@ -356,15 +356,15 @@ LOAD /opt/riscv/bin/../lib/gcc/riscv64-unknown-elf/10.2.0/libgcc.a
                 0x0000000080000940                PROVIDE (_stack_start = .)
 OUTPUT(build/briey.elf elf32-littleriscv)
 
-.debug_info     0x0000000000000000     0x31d0
+.debug_info     0x0000000000000000     0x31ac
  .debug_info    0x0000000000000000      0x65a build/src/chacha.o
  .debug_info    0x000000000000065a      0x671 build/src/prince.o
  .debug_info    0x0000000000000ccb      0x77e build/src/briey_main.o
  .debug_info    0x0000000000001449      0x6f4 build/src/present.o
- .debug_info    0x0000000000001b3d      0x73a build/src/aes.o
- .debug_info    0x0000000000002277      0x71f build/src/print_functions.o
- .debug_info    0x0000000000002996      0x814 build/src/poly1305.o
- .debug_info    0x00000000000031aa       0x26 build/src/briey_crt.o
+ .debug_info    0x0000000000001b3d      0x716 build/src/aes.o
+ .debug_info    0x0000000000002253      0x71f build/src/print_functions.o
+ .debug_info    0x0000000000002972      0x814 build/src/poly1305.o
+ .debug_info    0x0000000000003186       0x26 build/src/briey_crt.o
 
 .debug_abbrev   0x0000000000000000      0xc73
  .debug_abbrev  0x0000000000000000      0x1c3 build/src/chacha.o
@@ -455,15 +455,15 @@ OUTPUT(build/briey.elf elf32-littleriscv)
  .debug_macro   0x000000000000231e       0x64 build/src/print_functions.o
  .debug_macro   0x0000000000002382       0xdb build/src/poly1305.o
 
-.debug_line     0x0000000000000000     0x36ff
+.debug_line     0x0000000000000000     0x36f3
  .debug_line    0x0000000000000000      0x6d5 build/src/chacha.o
  .debug_line    0x00000000000006d5      0x52e build/src/prince.o
  .debug_line    0x0000000000000c03      0xab8 build/src/briey_main.o
  .debug_line    0x00000000000016bb      0x63c build/src/present.o
- .debug_line    0x0000000000001cf7      0x7bb build/src/aes.o
- .debug_line    0x00000000000024b2      0x862 build/src/print_functions.o
- .debug_line    0x0000000000002d14      0x815 build/src/poly1305.o
- .debug_line    0x0000000000003529      0x1d6 build/src/briey_crt.o
+ .debug_line    0x0000000000001cf7      0x7af build/src/aes.o
+ .debug_line    0x00000000000024a6      0x862 build/src/print_functions.o
+ .debug_line    0x0000000000002d08      0x815 build/src/poly1305.o
+ .debug_line    0x000000000000351d      0x1d6 build/src/briey_crt.o
 
 .debug_str      0x0000000000000000     0x7c7b
  .debug_str     0x0000000000000000     0x3c78 build/src/chacha.o
